@@ -1,18 +1,56 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {ClientListComponent} from './client-list/client-list.component';
+import {ClientDetailComponent} from './client-list/client-detail/client-detail.component';
+import {FormsModule} from "@angular/forms";
+import {PanelModule} from "primeng/panel";
+import {ButtonModule} from "primeng/button";
+import {TableModule} from "primeng/table";
+import {CalendarModule} from "primeng/calendar";
+import {InputTextModule} from "primeng/inputtext";
+import {CardModule} from "primeng/card";
+import {ToggleButtonModule} from "primeng/togglebutton";
+import {RippleModule} from "primeng/ripple";
+import {TooltipModule} from "primeng/tooltip";
+import {DialogModule} from "primeng/dialog";
+import {SelectButtonModule} from "primeng/selectbutton";
+import {TimelineModule} from "primeng/timeline";
+import {NgxSpinnerModule} from "ngx-spinner";
+import {HttpClientModule} from "@angular/common/http";
+import {LoginComponent} from "./login/login.component";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ClientListComponent,
+    ClientDetailComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    PanelModule,
+    ButtonModule,
+    TableModule,
+    CalendarModule,
+    FormsModule,
+    InputTextModule,
+    CardModule,
+    ToggleButtonModule,
+    RippleModule,
+    TooltipModule,
+    DialogModule,
+    SelectButtonModule,
+    TimelineModule,
+    NgxSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

@@ -14,13 +14,18 @@
             Clients
           </div>
           <div class="flex">
-            <button (click)="dt.exportCSV()" class="mr-2" icon="pi pi-file" pButton pRipple pTooltip="CSV" tooltipPosition="bottom" type="button"></button>
-            <button (click)="exportExcel()" class="p-button-success mr-2" icon="pi pi-file-excel" pButton pRipple pTooltip="XLS" tooltipPosition="bottom" type="button"></button>
-            <button (click)="dt.exportCSV({selectionOnly:true})" class="p-button-info ml-auto" icon="pi pi-filter" pButton pRipple pTooltip="Selection Only" tooltipPosition="bottom"
+<!--            <button (click)="dt.exportCSV()" class="mr-2" icon="pi pi-file" pButton pRipple pTooltip="CSV" tooltipPosition="bottom" type="button"></button>-->
+            <button (click)="exportExcel()" class="p-button-success mr-2" icon="pi pi-file-excel" pButton pRipple pTooltip="XLS" tooltipPosition="bottom"
                     type="button"></button>
+<!--            <button (click)="dt.exportCSV({selectionOnly:true})" class="p-button-info ml-auto" icon="pi pi-filter" pButton pRipple-->
+<!--                    pTooltip="Selection Only" tooltipPosition="bottom"-->
+<!--                    type="button"></button>-->
+
           </div>
         </div>
       </ng-template>
+      <
+
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 3rem">
@@ -32,20 +37,23 @@
           <th>Status</th>
           <th>Payment</th>
           <th>Outlet</th>
-          <th>Location</th>
-          <th>Number</th>
-          <th>Email</th>
+<!--          <th>Location</th>-->
+<!--          <th>Number</th>-->
+<!--          <th>Email</th>-->
           <th>Orders</th>
           <th>Total Orders</th>
-          <th>Zomato</th>
-          <th>Sale POC</th>
-          <th>Support POC</th>
+<!--          <th>Zomato</th>-->
+          <th>Total Rider</th>
+          <th>Active Rider</th>
+          <th>Not Active Rider</th>
+          <th>Sale & Support POC Name</th>
+          <th>Sale & Support POC Number</th>
+          <th>Sale & Support POC Type</th>
           <th>Action</th>
 
         </tr>
         <tr>
-          <th>
-          </th>
+          <th></th>
           <th>
             <p-columnFilter display="menu" field="brand_created_on" type="date"></p-columnFilter>
           </th>
@@ -62,30 +70,34 @@
           <th>
             <p-columnFilter display="menu" field="outlet_name" type="text"></p-columnFilter>
           </th>
-          <th>
-            <p-columnFilter display="menu" field="outlet_identity" type="text"></p-columnFilter>
-          </th>
-          <th>
-
-          </th>
-          <th></th>
+<!--          <th>-->
+<!--            <p-columnFilter display="menu" field="outlet_identity" type="text"></p-columnFilter>-->
+<!--          </th>-->
+<!--          <th>-->
+<!--          </th>-->
+<!--          <th>-->
+<!--          </th>-->
           <th>
             <p-columnFilter display="menu" field="current_month_orders" type="numeric"></p-columnFilter>
           </th>
           <th>
             <p-columnFilter display="menu" field="total_orders" type="numeric"></p-columnFilter>
           </th>
-          <th>
-            <p-columnFilter display="menu" field="zomato_integration" type="date"></p-columnFilter>
+<!--          <th>-->
+<!--            <p-columnFilter display="menu" field="zomato_integration" type="date"></p-columnFilter>-->
 
-          </th>
+<!--          </th>-->
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
           <th></th>
           <th></th>
           <th></th>
         </tr>
       </ng-template>
       <ng-template let-expanded="expanded" let-i=index let-product pTemplate="body">
-        <tr>
+        <tr [pEditableRow]="product">
           <td class="flex justify-content-between flex-nowrap align-items-center">
             <p-tableCheckbox [value]="product"></p-tableCheckbox>
             <button (click)="getOnBoardingData(product)" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" [pRowToggler]="product" class="p-button-text p-button-rounded p-button-plain ml-2"
@@ -97,16 +109,18 @@
           <td>
             {{product?.brand_time}}
           </td>
-          <td>
-            <a [routerLink]="['/client/' + product.brand_id]">
-              {{product.brand_name }}
+<!--          <td>-->
+<!--            <a [routerLink]="['/client/' + product.brand_id]">-->
+<!--              {{product.company}}-->
 
-            </a>
+<!--            </a>-->
+<!--          </td>-->
+          <td [routerLink]="['/client/' + product.id]">
+            {{product.company}}
           </td>
 
           <td>
-
-            <p-toggleButton (onChange)="toggleBrand(product.is_deactivate, product.brand_id)"
+            <p-toggleButton (onChange)="toggleBrand(product.is_deactivate, product.id)"
                             [(ngModel)]="product.is_deactivate" iconPos="right" offIcon="pi pi-check" onIcon="pi pi-times"></p-toggleButton>
 
           </td>
@@ -118,47 +132,77 @@
               <button class="p-button-rounded p-button-danger" icon="pi pi-times" pButton type="button"></button>
             </ng-container>
           </td>
+
           <td>{{product.outlet_name }}</td>
-          <td>{{product.outlet_identity }}</td>
-          <td>
-            {{product.phone}}
-          </td>
-          <td>
-            {{product.email}}
-          </td>
+<!--          <td>{{product.outlet_identity }}</td>-->
+<!--          <td>-->
+<!--            {{product.mobile_number}}-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            {{product.email}}-->
+<!--          </td>-->
           <td>{{product.current_month_orders }}</td>
           <td class="p-message-error">{{product.total_orders }}</td>
-          <td>
-            <ng-container *ngIf="product.zomato_integration">
-              {{product.zomato_integration | date : 'dd/MM/YYYY'}}
-            </ng-container>
+<!--          <td>-->
+<!--            <ng-container *ngIf="product.zomato_integration">-->
+<!--              {{product.zomato_integration | date : 'dd/MM/YYYY'}}-->
+<!--            </ng-container>-->
 
-          </td>
-          <td>
-            <ng-container *ngIf="product.sale_poc_name;else noSalePoc">
-              {{product.sale_poc_name }}
-            </ng-container>
-            <ng-template #noSalePoc>
-              <button (click)="assignSalePOC(product.id, product)" class="p-button-outlined p-button-success mr-2" pButton pRipple>Assign Me</button>
-            </ng-template>
+<!--          </td>-->
+          <td>{{product.riders}}</td>
+          <td>{{product.active_riders}}</td>
+          <td>{{product.not_active_riders}}</td>
+<!--          <td>-->
+<!--            <ng-container *ngIf="product.sale_poc_name; else noSalePoc">-->
+<!--              {{product.sale_poc_name }}-->
+<!--            </ng-container>-->
+<!--            <ng-template #noSalePoc>-->
+<!--              <button (click)="assignSalePOC(product.id, product)" class="p-button-outlined p-button-success mr-2" pButton pRipple>Assign Me</button>-->
+<!--            </ng-template>-->
+<!--          </td>-->
+          <td pEditableColumn>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="product.poc_name">
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{product.poc_name}}
+              </ng-template>
+            </p-cellEditor>
           </td>
 
-          <td>
-            <ng-container *ngIf="product.support_poc_name;else noSupportPoc">
-              {{product.support_poc_name }}
-            </ng-container>
-            <ng-template #noSupportPoc>
-              <button (click)="assignSupportPOC(product.id, product)" class="p-button-outlined p-button-success mr-2" pButton pRipple>Assign Me</button>
-            </ng-template>
+<!--          <td>-->
+<!--            <ng-container *ngIf="product.support_poc_name; else noSupportPoc">-->
+<!--              {{product.support_poc_name }}-->
+<!--            </ng-container>-->
+<!--            <ng-template #noSupportPoc>-->
+<!--              <button (click)="assignSupportPOC(product.id, product)" class="p-button-outlined p-button-success mr-2" pButton pRipple>Assign Me</button>-->
+<!--            </ng-template>-->
+<!--          </td>-->
+          <td pEditableColumn>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="product.poc_mobile_number">
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{product.poc_mobile_number}}
+              </ng-template>
+            </p-cellEditor>
           </td>
+        <td>
+          <p-dropdown [options]="cities" [(ngModel)]="product.poc_type" [placeholder]="product.poc_type" optionLabel="name"
+                      [showClear]="true"></p-dropdown>
+        </td>
           <td class="d-flex justify-content-between flex-nowrap">
-            <button (click)="showDialog(product)" [disabled]="!product.sale_poc_name" class="p-button-rounded p-button-success mr-2" icon="pi pi-plus-circle" pButton
+            <button pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(product)" class="p-button-rounded p-button-success mr-2"></button>
+
+            <button (click)="showDialog(product)" [disabled]="!product.poc_name" class="p-button-rounded p-button-success mr-2" icon="pi pi-plus-circle" pButton
                     pRipple></button>
-            <a [href]="'https://web.whatsapp.com/send?text=hi&phone='+product?.phone?.replace('+', '')" target="_blank">
-              <button
-                class="p-button-rounded p-button-success mr-2" icon="pi pi-external-link" pButton pRipple
-              > </button>
-            </a>
+<!--            <a [href]="'https://web.whatsapp.com/send?text=hi&phone='+product?.mobile_number?.replace('+', '')" target="_blank">-->
+<!--              <button-->
+<!--                class="p-button-rounded p-button-success mr-2" icon="pi pi-external-link" pButton pRipple-->
+<!--              > </button>-->
+<!--            </a>-->
           </td>
         </tr>
       </ng-template>
@@ -223,7 +267,7 @@
         </div>
       </div>
 
-      <div class="col-12">
+      <div class="col-12 my-3">
         <div class="p-inputgroup">
           <button icon="pi pi-comment" pButton pRipple styleClass="p-button-success" type="button"></button>
           <input [(ngModel)]="comment" minlength="10" pInputText placeholder="Comment" required type="text" name="comment">

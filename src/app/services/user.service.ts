@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, Subject} from 'rxjs';
+import {Subject} from 'rxjs';
 import {StorageService} from './storage.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {Router} from '@angular/router';
@@ -47,7 +47,7 @@ export class UserService extends HttpService<any> {
   async getUser(): Promise<any> {
     return this.query({
       __me__bool: true, __include: ['retail_brand'],
-      __only: ['id', 'name', 'email', 'retail_brand', 'currency'],
+      __only: ['id', 'name', 'email'],
     });
   }
 

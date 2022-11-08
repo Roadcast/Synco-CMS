@@ -11,11 +11,13 @@ import * as FileSaver from 'file-saver';
 })
 export class ClientListComponent implements OnInit {
 
+  cities: any;
   selectedRow: any;
   rangeDates: Date[] | undefined;
   data: any[] = [];
   outlets: any[] = [];
   display: boolean = false;
+  selectedCity1: any;
   exportColumns = [
     {title: 'Boarding Date', dataKey: 'brand_created_on'},
     {title: 'Company', dataKey: 'brand_name'},
@@ -34,7 +36,12 @@ export class ClientListComponent implements OnInit {
   status: string | null = 'Completed';
   agentName: string = '';
   comment: string = ''
-  constructor(private http: ApiService, private bgDownloader: BackgroundDownloaderService, private cd: ChangeDetectorRef) { }
+  constructor(private http: ApiService, private bgDownloader: BackgroundDownloaderService, private cd: ChangeDetectorRef) {
+    this.cities = [
+      {name: 'SALES'},
+      {name: 'SUPPORT'}
+    ];
+  }
 
   ngOnInit(): void {
     this.getClients().then();
@@ -65,8 +72,7 @@ export class ClientListComponent implements OnInit {
   }
 
   async toggleBrand(status: boolean, brandId: string) {
-    try {
-      (await this.http.update(brandId, {is_deactivate: status}, {}, 'partner/status/update'))
+    try {(await this.http.update(brandId, {is_deactivate: status}, {}, 'partner/status/update'))
       this.data.forEach(d => {
         if (d.brand_id === brandId) {
           d.is_deactivate = status;
@@ -113,6 +119,7 @@ export class ClientListComponent implements OnInit {
         action: this.action,
         comment: this.comment,
         brand_id: this.selectedRow.id,
+        company_id: this.selectedRow.id,
       }, {}, 'partner/on_boarding/status');
       this.display = false;
       this.agentName = '';
@@ -138,4 +145,19 @@ export class ClientListComponent implements OnInit {
     this.cd.detectChanges();
   }
 
+  async onRowEditSave(product: any) {
+    if (product.poc_id){
+      const id = product.poc_id;
+      const type = product.poc_type.name ? product.poc_type.name : product.poc_type;
+      (await this.http.update(id, {name: product.poc_name, mobile_number: product.poc_mobile_number, type: type},{},  'partner/on_boarding/update'));
+    } else {
+      const type = product.poc_type.name ? product.poc_type.name : product.poc_type;
+      await this.http.create({
+        name: product.poc_name,
+        mobile_number: product.poc_mobile_number,
+        type: type
+      }, {}, 'partner/on_boarding/update')
+    }
+
+  }
 }

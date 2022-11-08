@@ -1,8 +1,8 @@
 import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {catchError} from 'rxjs/operators';
-import {environment} from '../environments/environment';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {environment} from "../environments/environment";
 
 export type IRestTransform = (response: HttpResponse<any>) => any;
 

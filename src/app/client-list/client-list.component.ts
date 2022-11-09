@@ -3,7 +3,6 @@ import {ApiService} from "../services/api.service";
 import {BackgroundDownloaderService} from "../services/background-downloader.service";
 // @ts-ignore
 import * as FileSaver from 'file-saver';
-
 @Component({
   selector: 'app-client-list',
   templateUrl: './client-list.component.html',
@@ -18,6 +17,9 @@ export class ClientListComponent implements OnInit {
   outlets: any[] = [];
   display: boolean = false;
   selectedCity1: any;
+  displayBasic: boolean | undefined;
+  openpocmodel: boolean | undefined;
+
   exportColumns = [
     {title: 'Boarding Date', dataKey: 'brand_created_on'},
     {title: 'Company', dataKey: 'brand_name'},
@@ -36,6 +38,16 @@ export class ClientListComponent implements OnInit {
   status: string | null = 'Completed';
   agentName: string = '';
   comment: string = ''
+  orderCount: any = [];
+  supportData: any;
+  saleData: any;
+   created: any;
+  name: any;
+  number: any;
+  type: any;
+  query: any;
+  saleId: any;
+  supportId: any;
   constructor(private http: ApiService, private bgDownloader: BackgroundDownloaderService, private cd: ChangeDetectorRef) {
     this.cities = [
       {name: 'SALES'},
@@ -45,16 +57,25 @@ export class ClientListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getClients().then();
+    this.getSaleSupportData().then();
+  }
+  async getSaleSupportData() {
+    const getsupportValue = (await this.http.query({type: 'SUPPORT'}, 'auth/partner/poc'));
+    this.supportData = getsupportValue[0].data;
+    const getsaleValue = (await this.http.query({type: 'SALES'}, 'auth/partner/poc'));
+    this.saleData = getsaleValue[0].data;
   }
 
   async getClients() {
-    this.data = (await this.http.query({}, 'partner/outlets')).data;
-    this.data.forEach(d => {
-      d.brand_created_on = new Date(d.brand_created_on);
-      if (d.zomato_integration) {
-        d.zomato_integration = new Date(d.zomato_integration);
-      }
-    })
+    this.data = (await this.http.get('', {}, 'auth/partner/outlets')).data;
+  }
+
+
+  async showBasicDialog() {
+    this.displayBasic = true;
+   const count = (await this.http.query({__company_wise__report:true}, 'reporting/order_count_report')).data;
+   this.orderCount.push(count);
+
   }
 
   async download() {
@@ -64,7 +85,7 @@ export class ClientListComponent implements OnInit {
 
     try {
       this.bgDownloader.taskId = (await this.http.query({__retail_shop_id__in: this.outlets.map(o => o.outlet_id),
-        __start_date__equal: this.rangeDates[0].toJSON(), __end_date__equal: this.rangeDates[1].toJSON()}, 'partner/outlets/report')).data;
+        __start_date__equal: this.rangeDates[0].toJSON(), __end_date__equal: this.rangeDates[1].toJSON()}, 'auth/partner/outlets/report')).data;
       await this.bgDownloader.start();
     } catch (e) {
 
@@ -72,7 +93,7 @@ export class ClientListComponent implements OnInit {
   }
 
   async toggleBrand(status: boolean, brandId: string) {
-    try {(await this.http.update(brandId, {is_deactivate: status}, {}, 'partner/status/update'))
+    try {(await this.http.update(brandId, {is_deactivate: status}, {}, 'auth/partner/status/update'))
       this.data.forEach(d => {
         if (d.brand_id === brandId) {
           d.is_deactivate = status;
@@ -120,7 +141,7 @@ export class ClientListComponent implements OnInit {
         comment: this.comment,
         brand_id: this.selectedRow.id,
         company_id: this.selectedRow.id,
-      }, {}, 'partner/on_boarding/status');
+      }, {}, 'auth/partner/on_boarding/status');
       this.display = false;
       this.agentName = '';
       this.comment = '';
@@ -131,33 +152,49 @@ export class ClientListComponent implements OnInit {
   }
 
   async getOnBoardingData(row: any) {
-    row.logs = (await this.http.get(row.id, {}, 'partner/on_boarding/detail')).data;
-  }
-
-  async assignSalePOC(id: string, row: any): Promise<void> {
-    (await this.http.update(id, {sale_poc_id: null}, {}, 'partner/on_boarding/brand'))
-    row.sale_poc_name = 'Assigned';
-    this.cd.detectChanges()
-  }
-  async assignSupportPOC(id: string, row: any): Promise<void> {
-    (await this.http.update(id, {support_poc_id: null}, {}, 'partner/on_boarding/brand'))
-    row.support_poc_name = 'Assigned';
-    this.cd.detectChanges();
+    row.logs = (await this.http.get(row.id, {}, 'auth/partner/on_boarding/detail')).data;
   }
 
   async onRowEditSave(product: any) {
-    if (product.poc_id){
-      const id = product.poc_id;
-      const type = product.poc_type.name ? product.poc_type.name : product.poc_type;
-      (await this.http.update(id, {name: product.poc_name, mobile_number: product.poc_mobile_number, type: type},{},  'partner/on_boarding/update'));
+    const sale_id = this.saleId ? this.saleId.poc_id : '';
+    const support_id = this.supportId ? this.supportId.poc_id : '' ;
+    if (support_id && sale_id) {
+      this.query = {
+        support_poc_id: support_id,
+        sales_poc_id: sale_id,
+      }
+    } else if (support_id){
+      this.query = {
+        support_poc_id: support_id,
+      }
+    } else if(sale_id){
+      this.query = {
+        sales_poc_id: sale_id,
+      }
     } else {
-      const type = product.poc_type.name ? product.poc_type.name : product.poc_type;
-      await this.http.create({
-        name: product.poc_name,
-        mobile_number: product.poc_mobile_number,
-        type: type
-      }, {}, 'partner/on_boarding/update')
+      this.query = {
+        support_poc_id: '',
+        sales_poc_id: '',
+      }
     }
+     await this.http.update(product.id, this.query, {}, 'auth/partner/poc')
+  }
 
+  addPoc() {
+    this.openpocmodel = true
+  }
+
+  createPoc() {
+    const type = this.type.name;
+    this.http.create({
+      name: this.name,
+      mobile_number: this.number,
+      type: type
+    }, {}, 'auth/partner/on_boarding/update').then()
+  }
+
+  async patchPayment(data: any, value: boolean) {
+    await this.http.update(data.id, {is_paid: value}, {}, 'auth/partner/payment/update')
+    await this.getClients();
   }
 }

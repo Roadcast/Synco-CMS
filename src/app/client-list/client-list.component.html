@@ -14,13 +14,9 @@
             Clients
           </div>
           <div class="flex">
-<!--            <button (click)="dt.exportCSV()" class="mr-2" icon="pi pi-file" pButton pRipple pTooltip="CSV" tooltipPosition="bottom" type="button"></button>-->
             <button (click)="exportExcel()" class="p-button-success mr-2" icon="pi pi-file-excel" pButton pRipple pTooltip="XLS" tooltipPosition="bottom"
                     type="button"></button>
-<!--            <button (click)="dt.exportCSV({selectionOnly:true})" class="p-button-info ml-auto" icon="pi pi-filter" pButton pRipple-->
-<!--                    pTooltip="Selection Only" tooltipPosition="bottom"-->
-<!--                    type="button"></button>-->
-
+            <button (click)="addPoc()"  class="p-button-outlined p-button-success mr-2" style="width: 115px; float: right" pButton pRipple>Add POC</button>
           </div>
         </div>
       </ng-template>
@@ -36,19 +32,12 @@
           <th>Company</th>
           <th>Status</th>
           <th>Payment</th>
-          <th>Outlet</th>
-<!--          <th>Location</th>-->
-<!--          <th>Number</th>-->
-<!--          <th>Email</th>-->
           <th>Orders</th>
-          <th>Total Orders</th>
-<!--          <th>Zomato</th>-->
           <th>Total Rider</th>
           <th>Active Rider</th>
           <th>Not Active Rider</th>
-          <th>Sale & Support POC Name</th>
-          <th>Sale & Support POC Number</th>
-          <th>Sale & Support POC Type</th>
+          <th>Sale POC Name & Number</th>
+          <th>Support POC Name & Number</th>
           <th>Action</th>
 
         </tr>
@@ -68,26 +57,8 @@
             <p-columnFilter field="is_paid" type="boolean"></p-columnFilter>
           </th>
           <th>
-            <p-columnFilter display="menu" field="outlet_name" type="text"></p-columnFilter>
-          </th>
-<!--          <th>-->
-<!--            <p-columnFilter display="menu" field="outlet_identity" type="text"></p-columnFilter>-->
-<!--          </th>-->
-<!--          <th>-->
-<!--          </th>-->
-<!--          <th>-->
-<!--          </th>-->
-          <th>
             <p-columnFilter display="menu" field="current_month_orders" type="numeric"></p-columnFilter>
           </th>
-          <th>
-            <p-columnFilter display="menu" field="total_orders" type="numeric"></p-columnFilter>
-          </th>
-<!--          <th>-->
-<!--            <p-columnFilter display="menu" field="zomato_integration" type="date"></p-columnFilter>-->
-
-<!--          </th>-->
-          <th></th>
           <th></th>
           <th></th>
           <th></th>
@@ -109,12 +80,6 @@
           <td>
             {{product?.brand_time}}
           </td>
-<!--          <td>-->
-<!--            <a [routerLink]="['/client/' + product.brand_id]">-->
-<!--              {{product.company}}-->
-
-<!--            </a>-->
-<!--          </td>-->
           <td [routerLink]="['/client/' + product.id]">
             {{product.company}}
           </td>
@@ -125,84 +90,36 @@
 
           </td>
           <td>
-            <ng-container *ngIf="product.is_paid">
-              <button class="p-button-rounded p-button-success" icon="pi pi-check" pButton type="button"></button>
+            <ng-container *ngIf="product.is_paid" >
+              <button class="p-button-rounded p-button-success" (click)="patchPayment(product, false)" icon="pi pi-check" pButton type="button"></button>
             </ng-container>
-            <ng-container *ngIf="product.is_paid===false">
-              <button class="p-button-rounded p-button-danger" icon="pi pi-times" pButton type="button"></button>
+            <ng-container *ngIf="!product.is_paid" >
+              <button class="p-button-rounded p-button-danger" (click)="patchPayment(product, true)" icon="pi pi-times" pButton type="button"></button>
             </ng-container>
           </td>
-
-          <td>{{product.outlet_name }}</td>
-<!--          <td>{{product.outlet_identity }}</td>-->
-<!--          <td>-->
-<!--            {{product.mobile_number}}-->
-<!--          </td>-->
-<!--          <td>-->
-<!--            {{product.email}}-->
-<!--          </td>-->
-          <td>{{product.current_month_orders }}</td>
-          <td class="p-message-error">{{product.total_orders }}</td>
-<!--          <td>-->
-<!--            <ng-container *ngIf="product.zomato_integration">-->
-<!--              {{product.zomato_integration | date : 'dd/MM/YYYY'}}-->
-<!--            </ng-container>-->
-
-<!--          </td>-->
+          <td>
+            <p-button (click)="showBasicDialog()" icon="pi pi-chevron-down" label=""></p-button>
+          </td>
           <td>{{product.riders}}</td>
           <td>{{product.active_riders}}</td>
           <td>{{product.not_active_riders}}</td>
-<!--          <td>-->
-<!--            <ng-container *ngIf="product.sale_poc_name; else noSalePoc">-->
-<!--              {{product.sale_poc_name }}-->
-<!--            </ng-container>-->
-<!--            <ng-template #noSalePoc>-->
-<!--              <button (click)="assignSalePOC(product.id, product)" class="p-button-outlined p-button-success mr-2" pButton pRipple>Assign Me</button>-->
-<!--            </ng-template>-->
-<!--          </td>-->
-          <td pEditableColumn>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="product.poc_name">
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{product.poc_name}}
-              </ng-template>
-            </p-cellEditor>
+
+
+          <td>
+            <p-dropdown [options]="saleData" [(ngModel)]="saleId" [placeholder]="product.sales_poc_name + ' '+ product.sales_poc_number"  optionLabel="name"
+                        [showClear]="true"></p-dropdown>
           </td>
 
-<!--          <td>-->
-<!--            <ng-container *ngIf="product.support_poc_name; else noSupportPoc">-->
-<!--              {{product.support_poc_name }}-->
-<!--            </ng-container>-->
-<!--            <ng-template #noSupportPoc>-->
-<!--              <button (click)="assignSupportPOC(product.id, product)" class="p-button-outlined p-button-success mr-2" pButton pRipple>Assign Me</button>-->
-<!--            </ng-template>-->
-<!--          </td>-->
-          <td pEditableColumn>
-            <p-cellEditor>
-              <ng-template pTemplate="input">
-                <input pInputText type="text" [(ngModel)]="product.poc_mobile_number">
-              </ng-template>
-              <ng-template pTemplate="output">
-                {{product.poc_mobile_number}}
-              </ng-template>
-            </p-cellEditor>
+
+          <td>
+            <p-dropdown [options]="supportData" [(ngModel)]="supportId" [placeholder]="product.support_poc_name+' '+ product.support_poc_number"  optionLabel="name"
+                        [showClear]="true"></p-dropdown>
           </td>
-        <td>
-          <p-dropdown [options]="cities" [(ngModel)]="product.poc_type" [placeholder]="product.poc_type" optionLabel="name"
-                      [showClear]="true"></p-dropdown>
-        </td>
           <td class="d-flex justify-content-between flex-nowrap">
             <button pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(product)" class="p-button-rounded p-button-success mr-2"></button>
 
-            <button (click)="showDialog(product)" [disabled]="!product.poc_name" class="p-button-rounded p-button-success mr-2" icon="pi pi-plus-circle" pButton
+            <button (click)="showDialog(product)" class="p-button-rounded p-button-success mr-2" icon="pi pi-plus-circle" pButton
                     pRipple></button>
-<!--            <a [href]="'https://web.whatsapp.com/send?text=hi&phone='+product?.mobile_number?.replace('+', '')" target="_blank">-->
-<!--              <button-->
-<!--                class="p-button-rounded p-button-success mr-2" icon="pi pi-external-link" pButton pRipple-->
-<!--              > </button>-->
-<!--            </a>-->
           </td>
         </tr>
       </ng-template>
@@ -281,5 +198,41 @@
 
   <ng-template pTemplate="footer">
     <button (click)="submit()" [disabled]="newForm.form.invalid" class="p-button-text" label="Submit" pButton type="button"></button>
+  </ng-template>
+</p-dialog>
+
+
+<p-dialog header="Order Count" [(visible)]="displayBasic" [style]="{width: '50vw'}" [baseZIndex]="10000">
+  <p-table [value]="orderCount">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Created</th>
+        <th>Assigned</th>
+        <th>Accepted</th>
+        <th>Delivered</th>
+        <th>Cancelled</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+      <tr style="text-align: center">
+        <td>{{product.created}}</td>
+        <td>{{product.assigned}}</td>
+        <td>{{product.accepted}}</td>
+        <td>{{product.delivered}}</td>
+        <td>{{product.cancelled}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-dialog>
+
+<p-dialog header="Create POC" [(visible)]="openpocmodel" [style]="{width: '60vh'}" [baseZIndex]="10000" >
+  <div style="display: flex; flex-direction: column; margin-bottom: 35%">
+    <input [(ngModel)]="name" pInputText placeholder="Name"  type="text" name="name">&nbsp;
+    <input [(ngModel)]="number"  pInputText placeholder="Mobile Number"  type="text" name="number">&nbsp;
+    <p-dropdown [options]="cities" [(ngModel)]="type" placeholder="Select Type" optionLabel="name"
+                [showClear]="true"></p-dropdown>
+  </div>
+  <ng-template pTemplate="footer">
+    <button (click)="createPoc()" class="p-button-text" label="Submit" pButton type="button"></button>
   </ng-template>
 </p-dialog>

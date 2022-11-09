@@ -17,7 +17,7 @@ export class UserService extends HttpService<any> {
   constructor(private httpClient: HttpClient, private storage: StorageService, spinner: NgxSpinnerService,
               private router: Router) {
     super(httpClient, {
-      path: '/user',
+      path: 'auth/user',
     }, spinner);
   }
 
@@ -52,7 +52,7 @@ export class UserService extends HttpService<any> {
   }
 
   async logout(): Promise<any> {
-    await this.query( {}, 'logout/');
+    await this.query( {}, 'auth/logout/');
     this.user = {} as User;
     return await this.storage.clearAll();
   }

@@ -109,13 +109,13 @@
 
 
           <td>
-            <p-dropdown [options]="saleData" [(ngModel)]="saleId" [placeholder]="product.sales_poc_name + ' '+ product.sales_poc_number"  optionLabel="name"
+            <p-dropdown [options]="saleData" (onChange)="onSaleChange($event)" [placeholder]="product.sales_poc_name + ' '+ product.sales_poc_number"  optionLabel="name"
                         [showClear]="true"></p-dropdown>
           </td>
 
 
           <td>
-            <p-dropdown [options]="supportData" [(ngModel)]="supportId" [placeholder]="product.support_poc_name+' '+ product.support_poc_number"  optionLabel="name"
+            <p-dropdown [options]="supportData" (onChange)="onSupportChange($event)" [placeholder]="product.support_poc_name+' '+ product.support_poc_number"  optionLabel="name"
                         [showClear]="true"></p-dropdown>
           </td>
           <td class="d-flex justify-content-between flex-nowrap">

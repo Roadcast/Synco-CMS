@@ -207,10 +207,11 @@ export class ClientListComponent implements OnInit {
     await this.http.update(data.id, {is_paid: value}, {}, 'auth/partner/payment/update')
     await this.getClients();
   }
-  //
-  // async logOut() {
-  //   await this.query({}, 'auth/logout/');
-  //   this.user = {} as User;
-  //   return await this.storage.clearAll();
-  // }
+  onSaleChange(event: any) {
+    this.saleId = event.value;
+  }
+
+  onSupportChange(event: any) {
+    this.supportId = event.value;
+  }
 }

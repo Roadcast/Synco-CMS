@@ -3,12 +3,15 @@ import {ApiService} from "../services/api.service";
 import {BackgroundDownloaderService} from "../services/background-downloader.service";
 // @ts-ignore
 import * as FileSaver from 'file-saver';
+import {User} from "../services/user";
+import {StorageService} from "../services/storage.service";
 @Component({
   selector: 'app-client-list',
   templateUrl: './client-list.component.html',
   styleUrls: ['./client-list.component.scss']
 })
 export class ClientListComponent implements OnInit {
+  user: User = {} as User;
 
   cities: any;
   selectedRow: any;
@@ -41,14 +44,14 @@ export class ClientListComponent implements OnInit {
   orderCount: any = [];
   supportData: any;
   saleData: any;
-   created: any;
+  created: any;
   name: any;
   number: any;
   type: any;
   query: any;
   saleId: any;
   supportId: any;
-  constructor(private http: ApiService, private bgDownloader: BackgroundDownloaderService, private cd: ChangeDetectorRef) {
+  constructor(private http: ApiService, private bgDownloader: BackgroundDownloaderService, private cd: ChangeDetectorRef, private storage: StorageService,) {
     this.cities = [
       {name: 'SALES'},
       {name: 'SUPPORT'}
@@ -67,14 +70,22 @@ export class ClientListComponent implements OnInit {
   }
 
   async getClients() {
-    this.data = (await this.http.get('', {}, 'auth/partner/outlets')).data;
+    const outletsData = (await this.http.get('', {}, 'auth/partner/outlets')).data;
+    outletsData.forEach( (row: any) =>{
+    row.sales_poc_name = row.sales_poc_name === null ? 'Not Assign' : row.sales_poc_name;
+    row.sales_poc_number = row.sales_poc_number === null ? '' : row.sales_poc_number;
+    row.support_poc_name = row.support_poc_name === null ? 'Not Assign' : row.support_poc_name;
+    row.support_poc_number = row.support_poc_number === null ? '' : row.support_poc_number;
+    })
+    this.data = outletsData;
   }
 
 
-  async showBasicDialog() {
+  async showBasicDialog(product: any) {
     this.displayBasic = true;
-   const count = (await this.http.query({__company_wise__report:true}, 'reporting/order_count_report')).data;
-   this.orderCount.push(count);
+    this.orderCount = [];
+    const count = (await this.http.query({__company_wise__report:true, __company_id__equal: product.id}, 'reporting/order_count_report')).data;
+    this.orderCount.push(count);
 
   }
 
@@ -107,7 +118,6 @@ export class ClientListComponent implements OnInit {
         }
       })
     }
-
   }
 
   exportExcel() {
@@ -197,4 +207,10 @@ export class ClientListComponent implements OnInit {
     await this.http.update(data.id, {is_paid: value}, {}, 'auth/partner/payment/update')
     await this.getClients();
   }
+  //
+  // async logOut() {
+  //   await this.query({}, 'auth/logout/');
+  //   this.user = {} as User;
+  //   return await this.storage.clearAll();
+  // }
 }

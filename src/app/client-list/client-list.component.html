@@ -16,12 +16,15 @@
           <div class="flex">
             <button (click)="exportExcel()" class="p-button-success mr-2" icon="pi pi-file-excel" pButton pRipple pTooltip="XLS" tooltipPosition="bottom"
                     type="button"></button>
-            <button (click)="addPoc()"  class="p-button-outlined p-button-success mr-2" style="width: 115px; float: right" pButton pRipple>Add POC</button>
+            <div style="float: right">
+              <div>
+                <button (click)="addPoc()"  class="p-button-outlined p-button-success mr-2" style="width: 115px;" pButton pRipple>Add POC</button>
+<!--                <button (click)="logOut()"  class="p-button-outlined p-button-danger" style="width: 90px;margin-left: 10px" pButton pRipple>Logout</button>-->
+              </div>
+            </div>
           </div>
         </div>
       </ng-template>
-      <
-
       <ng-template pTemplate="header">
         <tr>
           <th style="width: 3rem">
@@ -98,7 +101,7 @@
             </ng-container>
           </td>
           <td>
-            <p-button (click)="showBasicDialog()" icon="pi pi-chevron-down" label=""></p-button>
+            <p-button  (click)="showBasicDialog(product)" icon="pi pi-chevron-down" label=""></p-button>
           </td>
           <td>{{product.riders}}</td>
           <td>{{product.active_riders}}</td>
@@ -183,8 +186,9 @@
 
         </div>
       </div>
+      <div class="col-12">
+        <h4 class="m-0">Comment</h4>
 
-      <div class="col-12 my-3">
         <div class="p-inputgroup">
           <button icon="pi pi-comment" pButton pRipple styleClass="p-button-success" type="button"></button>
           <input [(ngModel)]="comment" minlength="10" pInputText placeholder="Comment" required type="text" name="comment">
@@ -225,7 +229,7 @@
   </p-table>
 </p-dialog>
 
-<p-dialog header="Create POC" [(visible)]="openpocmodel" [style]="{width: '60vh'}" [baseZIndex]="10000" >
+<p-dialog header="Create POC" [(visible)]="openpocmodel" [style]="{width: '30vh'}" [baseZIndex]="10000" >
   <div style="display: flex; flex-direction: column; margin-bottom: 35%">
     <input [(ngModel)]="name" pInputText placeholder="Name"  type="text" name="name">&nbsp;
     <input [(ngModel)]="number"  pInputText placeholder="Mobile Number"  type="text" name="number">&nbsp;

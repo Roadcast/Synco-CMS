@@ -19,7 +19,6 @@
             <div style="float: right">
               <div>
                 <button (click)="addPoc()"  class="p-button-outlined p-button-success mr-2" style="width: 115px;" pButton pRipple>Add POC</button>
-<!--                <button (click)="logOut()"  class="p-button-outlined p-button-danger" style="width: 90px;margin-left: 10px" pButton pRipple>Logout</button>-->
               </div>
             </div>
           </div>
@@ -88,16 +87,23 @@
           </td>
 
           <td>
-            <p-toggleButton (onChange)="toggleBrand(product.is_deactivate, product.id)"
-                            [(ngModel)]="product.is_deactivate" iconPos="right" offIcon="pi pi-check" onIcon="pi pi-times"></p-toggleButton>
+<!--            <p-toggleButton (onChange)="toggleBrand(product.is_deactivate, product.id)"-->
+<!--                            [(ngModel)]="product.is_deactivate" iconPos="right" offIcon="pi pi-check" onIcon="pi pi-times"></p-toggleButton>-->
+
+            <ng-container *ngIf="product.is_deactivate" >
+              <button class="p-button-rounded p-button-success" (click)="productActiviteDialog(product, false)" icon="pi pi-check" pButton type="button"></button>
+            </ng-container>
+            <ng-container *ngIf="!product.is_deactivate" >
+              <button class="p-button-rounded p-button-danger" (click)="productActiviteDialog(product, true)" icon="pi pi-times" pButton type="button"></button>
+            </ng-container>
 
           </td>
           <td>
             <ng-container *ngIf="product.is_paid" >
-              <button class="p-button-rounded p-button-success" (click)="patchPayment(product, false)" icon="pi pi-check" pButton type="button"></button>
+              <button class="p-button-rounded p-button-success" (click)="paymentDialog(product, false)" icon="pi pi-check" pButton type="button"></button>
             </ng-container>
             <ng-container *ngIf="!product.is_paid" >
-              <button class="p-button-rounded p-button-danger" (click)="patchPayment(product, true)" icon="pi pi-times" pButton type="button"></button>
+              <button class="p-button-rounded p-button-danger" (click)="paymentDialog(product, true)" icon="pi pi-times" pButton type="button"></button>
             </ng-container>
           </td>
           <td>
@@ -121,7 +127,7 @@
           <td class="d-flex justify-content-between flex-nowrap">
             <button pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(product)" class="p-button-rounded p-button-success mr-2"></button>
 
-            <button (click)="showDialog(product)" class="p-button-rounded p-button-success mr-2" icon="pi pi-plus-circle" pButton
+            <button style="margin-left: 3%" (click)="showDialog(product)" class="p-button-rounded p-button-success mr-2" icon="pi pi-plus-circle" pButton
                     pRipple></button>
           </td>
         </tr>
@@ -229,14 +235,34 @@
   </p-table>
 </p-dialog>
 
-<p-dialog header="Create POC" [(visible)]="openpocmodel" [style]="{width: '30vh'}" [baseZIndex]="10000" >
-  <div style="display: flex; flex-direction: column; margin-bottom: 35%">
+<p-dialog header="Create POC" [(visible)]="openpocmodel" [style]="{width: '50vh'}" [baseZIndex]="10000" >
+  <div style="display: flex; flex-direction: column; margin-bottom: 30%">
     <input [(ngModel)]="name" pInputText placeholder="Name"  type="text" name="name">&nbsp;
     <input [(ngModel)]="number"  pInputText placeholder="Mobile Number"  type="text" name="number">&nbsp;
     <p-dropdown [options]="cities" [(ngModel)]="type" placeholder="Select Type" optionLabel="name"
                 [showClear]="true"></p-dropdown>
   </div>
   <ng-template pTemplate="footer">
-    <button (click)="createPoc()" class="p-button-text" label="Submit" pButton type="button"></button>
+    <button (click)="openpocmodel = false; createPoc()"  class="p-button-outlined p-button-primary mr-2" style="width: 95px;" pButton pRipple>Submit</button>
+  </ng-template>
+</p-dialog>
+
+
+
+
+<p-dialog header="Payment" [(visible)]="displayPatchPayment" [style]="{width: '20vw'}" [baseZIndex]="10000">
+  <p>Are you sure to update.</p>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="displayPatchPayment=false; patchPayment( true)" label="Yes" styleClass="p-button-text"></p-button>
+    <p-button icon="pi pi-times" (click)="displayPatchPayment=false; patchPayment( false)" label="No"></p-button>
+  </ng-template>
+</p-dialog>
+
+
+<p-dialog header="Status" [(visible)]="displayProductActivateValue" [style]="{width: '20vw'}" [baseZIndex]="10000">
+  <p>Are you sure to change.</p>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="displayProductActivateValue=false; toggleBrand( true)" label="Yes" styleClass="p-button-text"></p-button>
+    <p-button icon="pi pi-times" (click)="displayProductActivateValue=false; toggleBrand( false)" label="No"></p-button>
   </ng-template>
 </p-dialog>

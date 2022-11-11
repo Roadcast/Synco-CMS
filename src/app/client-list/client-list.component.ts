@@ -51,6 +51,12 @@ export class ClientListComponent implements OnInit {
   query: any;
   saleId: any;
   supportId: any;
+  displayPatchPayment: boolean | undefined;
+  paymentData: any;
+  paymentValue: any;
+  displayProductActivateValue: boolean | undefined;
+  activateData: any;
+  activateValue: any;
   constructor(private http: ApiService, private bgDownloader: BackgroundDownloaderService, private cd: ChangeDetectorRef, private storage: StorageService,) {
     this.cities = [
       {name: 'SALES'},
@@ -103,20 +109,15 @@ export class ClientListComponent implements OnInit {
     }
   }
 
-  async toggleBrand(status: boolean, brandId: string) {
-    try {(await this.http.update(brandId, {is_deactivate: status}, {}, 'auth/partner/status/update'))
-      this.data.forEach(d => {
-        if (d.brand_id === brandId) {
-          d.is_deactivate = status;
-        }
-      })
-      this.cd.detectChanges();
-    } catch (e) {
-      this.data.forEach(d => {
-        if (d.brand_id === brandId) {
-          d.is_deactivate = !status;
-        }
-      })
+  async toggleBrand(status: boolean) {
+    if (status){
+      const data = this.activateData.id;
+      const value = this.activateValue;
+      try {(await this.http.update(data, {is_deactivate: value}, {}, 'auth/partner/status/update'))
+        this.getClients().then()
+        this.cd.detectChanges();
+      } catch (e) {
+      }
     }
   }
 
@@ -200,12 +201,19 @@ export class ClientListComponent implements OnInit {
       name: this.name,
       mobile_number: this.number,
       type: type
-    }, {}, 'auth/partner/on_boarding/update').then()
+    }, {}, 'auth/partner/on_boarding/poc').then()
+    this.name = '';
+    this.number = '';
+    this.type = '';
   }
 
-  async patchPayment(data: any, value: boolean) {
-    await this.http.update(data.id, {is_paid: value}, {}, 'auth/partner/payment/update')
-    await this.getClients();
+  async patchPayment(type: any) {
+    if (type === true){
+      const data = this.paymentData;
+      const value = this.paymentValue;
+      await this.http.update(data.id, {is_paid: value}, {}, 'auth/partner/payment/update')
+      await this.getClients();
+    }
   }
   onSaleChange(event: any) {
     this.saleId = event.value;
@@ -213,5 +221,21 @@ export class ClientListComponent implements OnInit {
 
   onSupportChange(event: any) {
     this.supportId = event.value;
+  }
+
+  paymentDialog(data: any, value: boolean) {
+    this.paymentData = '';
+    this.paymentValue = '';
+    this.displayPatchPayment = true;
+    this.paymentData = data;
+    this.paymentValue = value;
+  }
+
+  productActiviteDialog(product: any, value: boolean) {
+    this.activateData = '';
+    this.activateValue = '';
+    this.displayProductActivateValue = true;
+    this.activateData = product;
+    this.activateValue = value;
   }
 }

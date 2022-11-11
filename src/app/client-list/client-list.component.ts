@@ -196,9 +196,13 @@ export class ClientListComponent implements OnInit {
         sales_poc_id: '',
       }
     }
-    await this.http.update(product.id, this.query, {}, 'auth/partner/poc').then((row: any) =>{
-      this.messageService.add({severity:'success', summary: 'Success', detail: row.data});
-    })
+    try {
+      await this.http.update(product.id, this.query, {}, 'auth/partner/poc').then((row: any) =>{
+        this.messageService.add({severity:'success', summary: 'Success', detail: row.data});
+      })
+    } catch (e) {
+      this.messageService.add({severity:'error', summary: 'error', detail: ''});
+    }
     this.saleId = '';
     this.supportId = '';
     await this.getClients();

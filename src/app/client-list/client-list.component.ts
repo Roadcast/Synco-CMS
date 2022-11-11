@@ -5,6 +5,7 @@ import {BackgroundDownloaderService} from "../services/background-downloader.ser
 import * as FileSaver from 'file-saver';
 import {User} from "../services/user";
 import {StorageService} from "../services/storage.service";
+import {MessageService, PrimeNGConfig} from "primeng/api";
 @Component({
   selector: 'app-client-list',
   templateUrl: './client-list.component.html',
@@ -57,7 +58,8 @@ export class ClientListComponent implements OnInit {
   displayProductActivateValue: boolean | undefined;
   activateData: any;
   activateValue: any;
-  constructor(private http: ApiService, private bgDownloader: BackgroundDownloaderService, private cd: ChangeDetectorRef, private storage: StorageService,) {
+  constructor(private http: ApiService, private bgDownloader: BackgroundDownloaderService, private cd: ChangeDetectorRef,
+              private storage: StorageService, private messageService: MessageService ) {
     this.cities = [
       {name: 'SALES'},
       {name: 'SUPPORT'}
@@ -114,6 +116,7 @@ export class ClientListComponent implements OnInit {
       const data = this.activateData.id;
       const value = this.activateValue;
       try {(await this.http.update(data, {is_deactivate: value}, {}, 'auth/partner/status/update'))
+        this.messageService.add({severity:'success', summary: 'Success', detail: ''});
         this.getClients().then()
         this.cd.detectChanges();
       } catch (e) {
@@ -157,6 +160,7 @@ export class ClientListComponent implements OnInit {
       this.agentName = '';
       this.comment = '';
       this.selectedRow = null;
+      this.messageService.add({severity:'success', summary: 'Success', detail: ''});
     } catch (e) {
 
     }
@@ -167,6 +171,10 @@ export class ClientListComponent implements OnInit {
   }
 
   async onRowEditSave(product: any) {
+    this.query = {
+      support_poc_id: '',
+      sales_poc_id: '',
+    };
     const sale_id = this.saleId ? this.saleId.poc_id : '';
     const support_id = this.supportId ? this.supportId.poc_id : '' ;
     if (support_id && sale_id) {
@@ -188,7 +196,12 @@ export class ClientListComponent implements OnInit {
         sales_poc_id: '',
       }
     }
-     await this.http.update(product.id, this.query, {}, 'auth/partner/poc')
+    await this.http.update(product.id, this.query, {}, 'auth/partner/poc').then((row: any) =>{
+      this.messageService.add({severity:'success', summary: 'Success', detail: row.data});
+    })
+    this.saleId = '';
+    this.supportId = '';
+    await this.getClients();
   }
 
   addPoc() {
@@ -196,12 +209,26 @@ export class ClientListComponent implements OnInit {
   }
 
   createPoc() {
-    const type = this.type.name;
-    this.http.create({
-      name: this.name,
-      mobile_number: this.number,
-      type: type
-    }, {}, 'auth/partner/on_boarding/poc').then()
+    try {
+      const type = this.type.name;
+      this.http.create({
+        name: this.name,
+        mobile_number: this.number,
+        type: type
+      }, {}, 'auth/partner/on_boarding/poc').then( (row: any) =>{
+        console.log(row[0].message);
+        if (row[1] === 400){
+          this.messageService.add({severity:'error', summary: 'Error', detail: row[0].message});
+        }else{
+          this.messageService.add({severity:'success', summary: 'Success', detail: row[0].status});
+        }
+
+      })
+
+    } catch (e) {
+      console.log(e);
+    }
+
     this.name = '';
     this.number = '';
     this.type = '';
@@ -212,6 +239,7 @@ export class ClientListComponent implements OnInit {
       const data = this.paymentData;
       const value = this.paymentValue;
       await this.http.update(data.id, {is_paid: value}, {}, 'auth/partner/payment/update')
+      this.messageService.add({severity:'success', summary: 'Success', detail:''});
       await this.getClients();
     }
   }

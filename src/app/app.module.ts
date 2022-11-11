@@ -24,6 +24,7 @@ import {LoginComponent} from "./login/login.component";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {Interceptor} from "../config/http.intercepter";
 import {DropdownModule} from "primeng/dropdown";
+import {ToastModule} from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import {DropdownModule} from "primeng/dropdown";
         InputTextModule,
         CardModule,
         ToggleButtonModule,
+        ToastModule,
         RippleModule,
         TooltipModule,
         DialogModule,

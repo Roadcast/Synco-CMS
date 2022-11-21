@@ -25,6 +25,9 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {Interceptor} from "../config/http.intercepter";
 import {DropdownModule} from "primeng/dropdown";
 import {ToastModule} from 'primeng/toast';
+import { ConfigSettingComponent } from './client-list/config-setting/config-setting.component';
+import {TabViewModule} from "primeng/tabview";
+import {InputSwitchModule} from "primeng/inputswitch";
 
 @NgModule({
   declarations: [
@@ -32,6 +35,7 @@ import {ToastModule} from 'primeng/toast';
     ClientListComponent,
     ClientDetailComponent,
     LoginComponent,
+    ConfigSettingComponent,
   ],
     imports: [
         BrowserModule,
@@ -54,7 +58,9 @@ import {ToastModule} from 'primeng/toast';
         TimelineModule,
         NgxSpinnerModule,
         BrowserAnimationsModule,
-        DropdownModule
+        DropdownModule,
+        TabViewModule,
+        InputSwitchModule
     ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true},],
   bootstrap: [AppComponent]

@@ -91,19 +91,19 @@
 <!--                            [(ngModel)]="product.is_deactivate" iconPos="right" offIcon="pi pi-check" onIcon="pi pi-times"></p-toggleButton>-->
 
             <ng-container *ngIf="product.is_deactivate" >
-              <button class="p-button-rounded p-button-success" (click)="productActiviteDialog(product, false)" icon="pi pi-check" pButton type="button"></button>
+              <button class=" p-button-danger" (click)="productActiviteDialog(product, false)" icon="pi pi-times" pButton type="button"></button>
             </ng-container>
             <ng-container *ngIf="!product.is_deactivate" >
-              <button class="p-button-rounded p-button-danger" (click)="productActiviteDialog(product, true)" icon="pi pi-times" pButton type="button"></button>
+              <button class=" p-button-success" (click)="productActiviteDialog(product, true)" icon="pi pi-check" pButton type="button"></button>
             </ng-container>
 
           </td>
           <td>
             <ng-container *ngIf="product.is_paid" >
-              <button class="p-button-rounded p-button-success" (click)="paymentDialog(product, false)" icon="pi pi-check" pButton type="button"></button>
+              <button class=" p-button-success" (click)="paymentDialog(product, false)" icon="pi pi-check" pButton type="button"></button>
             </ng-container>
             <ng-container *ngIf="!product.is_paid" >
-              <button class="p-button-rounded p-button-danger" (click)="paymentDialog(product, true)" icon="pi pi-times" pButton type="button"></button>
+              <button class=" p-button-danger" (click)="paymentDialog(product, true)" icon="pi pi-times" pButton type="button"></button>
             </ng-container>
           </td>
           <td>
@@ -112,21 +112,17 @@
           <td>{{product.riders}}</td>
           <td>{{product.active_riders}}</td>
           <td>{{product.not_active_riders}}</td>
-
-
           <td>
             <p-dropdown [options]="saleData" (onChange)="onSaleChange($event)" [placeholder]="product.sales_poc_name + ' '+ product.sales_poc_number"  optionLabel="name"
                         [showClear]="true"></p-dropdown>
           </td>
-
-
           <td>
             <p-dropdown [options]="supportData" (onChange)="onSupportChange($event)" [placeholder]="product.support_poc_name+' '+ product.support_poc_number"  optionLabel="name"
                         [showClear]="true"></p-dropdown>
           </td>
           <td class="d-flex justify-content-between flex-nowrap">
-            <button pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(product)" class="p-button-rounded p-button-success mr-2"></button>
-
+            <button pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(product)" class=" p-button-success mr-2"></button>
+            <button style="margin-left: 3%" (click)="config(product)" class="p-button-success mr-2" icon="pi pi-file-edit" pButton pRipple></button>
 <!--            <button style="margin-left: 3%" (click)="showDialog(product)" class="p-button-rounded p-button-success mr-2" icon="pi pi-plus-circle" pButton-->
 <!--                    pRipple></button>-->
           </td>

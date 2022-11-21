@@ -5,7 +5,10 @@ import {BackgroundDownloaderService} from "../services/background-downloader.ser
 import * as FileSaver from 'file-saver';
 import {User} from "../services/user";
 import {StorageService} from "../services/storage.service";
-import {MessageService, PrimeNGConfig} from "primeng/api";
+import {MessageService} from "primeng/api";
+import {ActivatedRoute, Router} from "@angular/router";
+
+
 @Component({
   selector: 'app-client-list',
   templateUrl: './client-list.component.html',
@@ -59,7 +62,8 @@ export class ClientListComponent implements OnInit {
   activateData: any;
   activateValue: any;
   constructor(private http: ApiService, private bgDownloader: BackgroundDownloaderService, private cd: ChangeDetectorRef,
-              private storage: StorageService, private messageService: MessageService ) {
+              private storage: StorageService, private messageService: MessageService, public router: Router,
+              private activatedRoute: ActivatedRoute) {
     this.cities = [
       {name: 'SALES'},
       {name: 'SUPPORT'}
@@ -269,5 +273,13 @@ export class ClientListComponent implements OnInit {
     this.displayProductActivateValue = true;
     this.activateData = product;
     this.activateValue = value;
+  }
+
+  async config(product: any) {
+    console.log(product);
+    const path = 'config'
+    this.router.navigate([path + '/'+ (product.id ? product.id.toString(10) : 'new')], {
+      relativeTo: this.activatedRoute, queryParamsHandling: 'merge',
+    }).then();
   }
 }

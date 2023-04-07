@@ -14,7 +14,7 @@ export class LoginService extends HttpService<any> {
   }
 
   async login(email: string, password: string): Promise<void> {
-    const res = await this.create({email, password}, {}, 'login/');
-    await this.storage.setItem('token', res.authentication_token);
+    const res = await this.create({email, password}, {}, 'auth/login');
+    await this.storage.setItem('token', res.token);
   }
 }

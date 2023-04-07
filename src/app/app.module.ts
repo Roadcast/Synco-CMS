@@ -19,8 +19,15 @@ import {DialogModule} from "primeng/dialog";
 import {SelectButtonModule} from "primeng/selectbutton";
 import {TimelineModule} from "primeng/timeline";
 import {NgxSpinnerModule} from "ngx-spinner";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {LoginComponent} from "./login/login.component";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {Interceptor} from "../config/http.intercepter";
+import {DropdownModule} from "primeng/dropdown";
+import {ToastModule} from 'primeng/toast';
+import { ConfigSettingComponent } from './client-list/config-setting/config-setting.component';
+import {TabViewModule} from "primeng/tabview";
+import {InputSwitchModule} from "primeng/inputswitch";
 
 @NgModule({
   declarations: [
@@ -28,28 +35,34 @@ import {LoginComponent} from "./login/login.component";
     ClientListComponent,
     ClientDetailComponent,
     LoginComponent,
+    ConfigSettingComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    PanelModule,
-    ButtonModule,
-    TableModule,
-    CalendarModule,
-    FormsModule,
-    InputTextModule,
-    CardModule,
-    ToggleButtonModule,
-    RippleModule,
-    TooltipModule,
-    DialogModule,
-    SelectButtonModule,
-    TimelineModule,
-    NgxSpinnerModule
-  ],
-  providers: [],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule,
+        PanelModule,
+        ButtonModule,
+        TableModule,
+        CalendarModule,
+        FormsModule,
+        InputTextModule,
+        CardModule,
+        ToggleButtonModule,
+        ToastModule,
+        RippleModule,
+        TooltipModule,
+        DialogModule,
+        SelectButtonModule,
+        TimelineModule,
+        NgxSpinnerModule,
+        BrowserAnimationsModule,
+        DropdownModule,
+        TabViewModule,
+        InputSwitchModule
+    ],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true},],
   bootstrap: [AppComponent]
 })
 export class AppModule {

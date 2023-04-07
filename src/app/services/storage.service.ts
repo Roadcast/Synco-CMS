@@ -14,15 +14,16 @@ export class StorageService {
   }
 
   async setItem(key: string, value: any) {
-    return await this.storage.set(key, value).toPromise();
+    await this.storage.set(key, value).toPromise();
+    await this.getItem('token');
   }
 
   async clearItem(key: string) {
-    return await this.storage.delete(key).toPromise();
+     return await this.storage.delete(key).toPromise();
   }
 
   async clearAll() {
-    return await this.storage.clear();
+     return this.storage.clear();
   }
 
   watch(key: string): Observable<any> {

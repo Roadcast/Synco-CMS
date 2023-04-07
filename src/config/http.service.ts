@@ -1,8 +1,8 @@
 import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {catchError} from 'rxjs/operators';
-import {environment} from '../environments/environment';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {environment} from "../environments/environment";
 
 export type IRestTransform = (response: HttpResponse<any>) => any;
 
@@ -35,7 +35,7 @@ export abstract class HttpService<T> {
 
   protected http: HttpClient;
 	private readonly path: string;
-	private readonly base: string = environment.url;
+	private readonly base: string = environment.baseUrl;
 	private baseHeaders: HttpHeaders;
 	private dynamicHeaders: () => HttpHeaders;
 	protected spinner: any;
@@ -103,10 +103,10 @@ export abstract class HttpService<T> {
 	}
 
 	public query(query?: IRestQuery, url?: string, report?: boolean): Promise<T> {
-		this.spinner.show();
+		// this.spinner.show();
 		const request: Observable<any> = this.http.get(this.buildUrl(undefined, url, report), HttpService.buildRequestOptions(query));
 		return new Promise((resolve, reject) => request.subscribe(res => {
-			this.spinner.hide();
+			// this.spinner.hide();
 			return resolve(res);
 		}, (err) => {
 			HttpService.catchError(err);

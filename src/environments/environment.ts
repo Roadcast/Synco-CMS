@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: 'https://synco-test-api.roadcast.co.in/api/v1/auth/',
+  baseUrl: 'https://synco-test-api.roadcast.co.in/api/v1/',
 };
 
 /*

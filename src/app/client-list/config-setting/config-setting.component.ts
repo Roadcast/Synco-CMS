@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ApiService} from "../../services/api.service";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-config-setting',
@@ -21,7 +22,8 @@ export class ConfigSettingComponent implements OnInit {
   companyTrigger: any;
   id: any;
 
-  constructor(private router: Router,private http: ApiService, private activateRoute: ActivatedRoute) {
+  constructor(private router: Router,private http: ApiService, private activateRoute: ActivatedRoute,
+              private messageService: MessageService) {
     this.activateRoute.params.subscribe(res => {
       if (res['id'] !== 'new') {
         this.id = res['id'];
@@ -52,17 +54,28 @@ export class ConfigSettingComponent implements OnInit {
     this.addApiData.eventId = event.value.id;
   }
   addTrigger() {
-    this.http.create({
-      name: this.addApiData.triggerName,
-      delay: this.addApiData.delayData,
-      service: this.addApiData.triggerService,
-      status_id: this.addApiData.eventId
-    }, {}, 'order/partner_trigger_point/' + this.id).then();
-    this.getTrigger().then()
+    try {
+      this.http.create({
+        name: this.addApiData.triggerName,
+        delay: this.addApiData.delayData,
+        service: this.addApiData.triggerService,
+        status_id: this.addApiData.eventId
+      }, {}, 'order/partner_trigger_point/' + this.id).then();
+      this.getTrigger().then();
+      this.messageService.add({severity:'success', summary: 'Added successfully', detail: this.addApiData.triggerName});
+    } catch (e) {
+      this.messageService.add({severity:'error', summary: 'error', detail: ''});
+    }
   }
 
   delTrigger(event: any) {
-    this.http.delete(event.id, {}, 'order/partner_trigger_point').then();
-    this.getTrigger().then()
+    try {
+      this.http.delete(event.id, {}, 'order/partner_trigger_point').then();
+      this.getTrigger().then();
+      this.messageService.add({severity:'success', summary: 'Removed successfully', detail: event.name});
+
+    } catch (e) {
+      this.messageService.add({severity:'error', summary: 'error', detail: ''});
+    }
   }
 }

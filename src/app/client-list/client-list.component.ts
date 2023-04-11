@@ -7,6 +7,8 @@ import {User} from "../services/user";
 import {StorageService} from "../services/storage.service";
 import {MessageService} from "primeng/api";
 import {ActivatedRoute, Router} from "@angular/router";
+import {UserService} from "../services/user.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 
 @Component({
@@ -61,9 +63,12 @@ export class ClientListComponent implements OnInit {
   displayProductActivateValue: boolean | undefined;
   activateData: any;
   activateValue: any;
+  loadTableCheck: boolean = false;
+  toggleOptions = [{label: 'Enabled', value: 'enable'}, {label: 'Disabled', value: 'disable'}]
+  toggleCompanyDisable: any;
   constructor(private http: ApiService, private bgDownloader: BackgroundDownloaderService, private cd: ChangeDetectorRef,
               private storage: StorageService, private messageService: MessageService, public router: Router,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute, private userService: UserService) {
     this.cities = [
       {name: 'SALES'},
       {name: 'SUPPORT'}
@@ -82,14 +87,23 @@ export class ClientListComponent implements OnInit {
   }
 
   async getClients() {
-    const outletsData = (await this.http.get('', {}, 'auth/partner/outlets')).data;
-    outletsData.forEach( (row: any) =>{
-    row.sales_poc_name = row.sales_poc_name === null ? 'Not Assign' : row.sales_poc_name;
-    row.sales_poc_number = row.sales_poc_number === null ? '' : row.sales_poc_number;
-    row.support_poc_name = row.support_poc_name === null ? 'Not Assign' : row.support_poc_name;
-    row.support_poc_number = row.support_poc_number === null ? '' : row.support_poc_number;
-    })
-    this.data = outletsData;
+    this.loadTableCheck = true;
+    try {
+      const outletsData = (await this.http.get('', {}, 'auth/partner/outlets')).data;
+      outletsData.forEach((row: any) => {
+        row['is_activate'] = !row['is_deactivate'];
+        row.sales_poc_name = row.sales_poc_name === null ? 'Not Assign' : row.sales_poc_name;
+        row.sales_poc_number = row.sales_poc_number === null ? '' : row.sales_poc_number;
+        row.support_poc_name = row.support_poc_name === null ? 'Not Assign' : row.support_poc_name;
+        row.support_poc_number = row.support_poc_number === null ? '' : row.support_poc_number;
+      })
+      this.data = outletsData;
+      this.loadTableCheck = false;
+    } catch (e: any) {
+      if (e.status && (e.status === 403 || e.status === 401)) {
+        this.logout();
+      }
+    }
   }
 
 
@@ -124,6 +138,7 @@ export class ClientListComponent implements OnInit {
         this.getClients().then()
         this.cd.detectChanges();
       } catch (e) {
+
       }
     }
   }
@@ -267,7 +282,7 @@ export class ClientListComponent implements OnInit {
     this.paymentValue = value;
   }
 
-  productActiviteDialog(product: any, value: boolean) {
+  productActivateDialog(product: any, value: boolean) {
     this.activateData = '';
     this.activateValue = '';
     this.displayProductActivateValue = true;
@@ -281,5 +296,9 @@ export class ClientListComponent implements OnInit {
     this.router.navigate([path + '/'+ (product.id ? product.id.toString(10) : 'new')], {
       relativeTo: this.activatedRoute, queryParamsHandling: 'merge',
     }).then();
+  }
+
+  logout() {
+    this.userService.logout().then();
   }
 }

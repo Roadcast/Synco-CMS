@@ -52,8 +52,15 @@ export class UserService extends HttpService<any> {
   }
 
   async logout(): Promise<any> {
-    await this.query( {}, 'auth/logout/');
-    this.user = {} as User;
-    return await this.storage.clearAll();
+    try {
+      await this.query({}, 'auth/logout/');
+      await this.storage.clearAll()
+      this.user = {} as User;
+    } catch (e) {
+      await this.storage.clearItem('token')
+      this.user = {} as User;
+    } finally {
+      await this.router.navigate(['/login']);
+    }
   }
 }

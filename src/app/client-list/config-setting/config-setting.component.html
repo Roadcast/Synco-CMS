@@ -15,10 +15,23 @@
             </thead>
             <tbody>
             <tr>
-              <th><p-dropdown [options]="outletsData" (onChange)="triggerData($event)" placeholder="Set Trigger" optionLabel="name" [showClear]="true"></p-dropdown></th>
-              <td><p-dropdown [options]="statusData" (onChange)="eventData($event)" placeholder="Set Event" optionLabel="name" [showClear]="true"></p-dropdown></td>
-              <td><input minlength="10" [(ngModel)]="addApiData.delayData" pInputText placeholder="Set Delay" required type="number" name="delay"></td>
-              <td><button pButton pRipple type="button" class=" p-button-success mr-2" (click)="addTrigger()" label="ADD"></button></td>
+              <th>
+                <p-dropdown [options]="outletsData" (onChange)="triggerData($event)" placeholder="Set Trigger"
+                              optionLabel="name" [showClear]="true"></p-dropdown>
+              </th>
+              <td>
+                <p-dropdown [options]="statusData" (onChange)="eventData($event)" placeholder="Set Event"
+                              optionLabel="name" [showClear]="true"></p-dropdown>
+              </td>
+              <td>
+                <input minlength="10" [(ngModel)]="addApiData.delayData" pInputText placeholder="Set Delay"
+                         required type="number" name="delay">
+              </td>
+              <td>
+                <button pButton pRipple type="button" class=" p-button-success mr-2" (click)="addTrigger()"
+                          label="ADD" [disabled]="!addApiData.delayData || addApiData.eventId === ''
+                           || addApiData.triggerName === ''"></button>
+              </td>
             </tr>
             </tbody>
           </table>
@@ -37,7 +50,8 @@
                             <td>{{product.name}}</td>
                             <td>{{product.status_name}}</td>
                             <td>{{product.delay}}</td>
-                            <td><button pButton pRipple type="button" class=" p-button-danger mr-2" (click)="delTrigger(product)" label="Remove"></button></td>
+                            <td><button pButton pRipple type="button" class=" p-button-danger mr-2"
+                                        (click)="delTrigger(product)" label="Remove"></button></td>
                           </tr>
                         </ng-template>
                       </p-table>

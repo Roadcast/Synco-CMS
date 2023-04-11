@@ -28,6 +28,7 @@ import {ToastModule} from 'primeng/toast';
 import { ConfigSettingComponent } from './client-list/config-setting/config-setting.component';
 import {TabViewModule} from "primeng/tabview";
 import {InputSwitchModule} from "primeng/inputswitch";
+import {ProgressSpinnerModule} from "primeng/progressspinner";
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import {InputSwitchModule} from "primeng/inputswitch";
         BrowserAnimationsModule,
         DropdownModule,
         TabViewModule,
-        InputSwitchModule
+        InputSwitchModule,
+        ProgressSpinnerModule
     ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true},],
   bootstrap: [AppComponent]

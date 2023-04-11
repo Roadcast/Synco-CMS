@@ -1,10 +1,8 @@
 <div class="content-section implementation p-fluid">
   <div class="card p-p-3">
-    <div class="content-section introduction">
+    <p-progressSpinner *ngIf="loadTableCheck"></p-progressSpinner>
 
-    </div>
-
-    <p-table #dt [(selection)]="outlets" [globalFilterFields]="['brand_name','outlet_name','outlet_identity']"
+    <p-table #dt [(selection)]="outlets" [globalFilterFields]="['company']"
              [paginator]="true" [rowsPerPageOptions]="[10,25,50]" [rows]="10" [value]="data" dataKey="id"
              styleClass="p-datatable-striped p-datatable-gridlines p-datatable-sm">
 
@@ -14,11 +12,15 @@
             Clients
           </div>
           <div class="flex">
-            <button (click)="exportExcel()" class="p-button-success mr-2" icon="pi pi-file-excel" pButton pRipple pTooltip="XLS" tooltipPosition="bottom"
+            <button (click)="exportExcel()" class="p-button-success mr-2" icon="pi pi-file-excel" pButton pRipple
+                    pTooltip="XLS" tooltipPosition="bottom"
                     type="button"></button>
             <div style="float: right">
               <div>
-                <button (click)="addPoc()"  class="p-button-outlined p-button-success mr-2" style="width: 115px;" pButton pRipple>Add POC</button>
+                <button (click)="addPoc()"  class="p-button-outlined p-button-success mr-2" style="width: 115px;"
+                        pButton pRipple>Add POC</button>&nbsp;&nbsp;
+                <button (click)="logout()"  class="p-button-sm p-button-danger" style="width: 85px;"
+                        pButton>Logout</button>
               </div>
             </div>
           </div>
@@ -26,10 +28,7 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-<!--          <th style="width: 3rem">-->
-<!--            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>-->
-<!--          </th>-->
-          <th>Boarding Date</th>
+          <th pSortableColumn="brand_created_on">Boarding Date <p-sortIcon field="brand_created_on"></p-sortIcon></th>
           <th>Time</th>
           <th>Company</th>
           <th>Status</th>
@@ -46,20 +45,18 @@
         <tr>
 <!--          <th></th>-->
           <th>
-            <p-columnFilter display="menu" field="brand_created_on" type="date"></p-columnFilter>
           </th>
           <th></th>
           <th>
-            <p-columnFilter display="menu" field="brand_name" type="text"></p-columnFilter>
+            <p-columnFilter display="menu" field="company" type="text"></p-columnFilter>
           </th>
           <th>
-            <p-columnFilter field="is_deactivate" type="boolean"></p-columnFilter>
+            <p-columnFilter field="is_activate" type="boolean"></p-columnFilter>
           </th>
           <th>
             <p-columnFilter field="is_paid" type="boolean"></p-columnFilter>
           </th>
           <th>
-            <p-columnFilter display="menu" field="current_month_orders" type="numeric"></p-columnFilter>
           </th>
           <th></th>
           <th></th>
@@ -78,32 +75,33 @@
 <!--                    pRipple type="button"></button>-->
 
 <!--          </td>-->
-          <td>{{product.brand_created_on | date: 'dd/MM/YYYY'}}</td>
+          <td>{{product.brand_created_on | date: 'MM/dd/YYYY'}}</td>
           <td>
             {{product?.brand_time}}
           </td>
           <td [routerLink]="['/client/' + product.id]">
             {{product.company}}
           </td>
+          <td [routerLink]="['/client/' + product.id]">
 
-          <td>
-<!--            <p-toggleButton (onChange)="toggleBrand(product.is_deactivate, product.id)"-->
-<!--                            [(ngModel)]="product.is_deactivate" iconPos="right" offIcon="pi pi-check" onIcon="pi pi-times"></p-toggleButton>-->
-
-            <ng-container *ngIf="product.is_deactivate" >
-              <button class=" p-button-danger" (click)="productActiviteDialog(product, false)" icon="pi pi-times" pButton type="button"></button>
+            <ng-container *ngIf="product.is_activate" >
+              <button class=" p-button-success" (click)="productActivateDialog(product, true)"
+                      icon="pi pi-check" pButton type="button"></button>
             </ng-container>
-            <ng-container *ngIf="!product.is_deactivate" >
-              <button class=" p-button-success" (click)="productActiviteDialog(product, true)" icon="pi pi-check" pButton type="button"></button>
+            <ng-container *ngIf="!product.is_activate" >
+              <button class=" p-button-danger" (click)="productActivateDialog(product, false)"
+                      icon="pi pi-times" pButton type="button"></button>
             </ng-container>
 
           </td>
           <td>
             <ng-container *ngIf="product.is_paid" >
-              <button class=" p-button-success" (click)="paymentDialog(product, false)" icon="pi pi-check" pButton type="button"></button>
+              <button class=" p-button-success" (click)="paymentDialog(product, false)"
+                      icon="pi pi-check" pButton type="button"></button>
             </ng-container>
             <ng-container *ngIf="!product.is_paid" >
-              <button class=" p-button-danger" (click)="paymentDialog(product, true)" icon="pi pi-times" pButton type="button"></button>
+              <button class=" p-button-danger" (click)="paymentDialog(product, true)"
+                      icon="pi pi-times" pButton type="button"></button>
             </ng-container>
           </td>
           <td>
@@ -113,16 +111,20 @@
           <td>{{product.active_riders}}</td>
           <td>{{product.not_active_riders}}</td>
           <td>
-            <p-dropdown [options]="saleData" (onChange)="onSaleChange($event)" [placeholder]="product.sales_poc_name + ' '+ product.sales_poc_number"  optionLabel="name"
+            <p-dropdown [options]="saleData" (onChange)="onSaleChange($event)" [placeholder]="product.sales_poc_name +
+             ' '+ product.sales_poc_number"  optionLabel="name"
                         [showClear]="true"></p-dropdown>
           </td>
           <td>
-            <p-dropdown [options]="supportData" (onChange)="onSupportChange($event)" [placeholder]="product.support_poc_name+' '+ product.support_poc_number"  optionLabel="name"
+            <p-dropdown [options]="supportData" (onChange)="onSupportChange($event)"
+                        [placeholder]="product.support_poc_name+' '+ product.support_poc_number"  optionLabel="name"
                         [showClear]="true"></p-dropdown>
           </td>
           <td class="d-flex justify-content-between flex-nowrap">
-            <button pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(product)" class=" p-button-success mr-2"></button>
-            <button style="margin-left: 3%" (click)="config(product)" class="p-button-success mr-2" icon="pi pi-file-edit" pButton pRipple></button>
+            <button pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(product)"
+                    class=" p-button-success mr-2" [pTooltip]="'Save changes'"></button>
+            <button style="margin-left: 3%" (click)="config(product)" class="p-button-success mr-2" icon="pi pi-file-edit"
+                    pButton pRipple  [pTooltip]="'Open configuration'"></button>
 <!--            <button style="margin-left: 3%" (click)="showDialog(product)" class="p-button-rounded p-button-success mr-2" icon="pi pi-plus-circle" pButton-->
 <!--                    pRipple></button>-->
           </td>

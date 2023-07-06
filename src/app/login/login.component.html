@@ -28,6 +28,8 @@
             <button pButton class="btn login_btn" style="margin-top: 12px" (click)="login()" label="Login"
                     [disabled]="loginForm.form.invalid"></button>
           </div>
+          <br>
+          <p *ngIf="alert" style="color: red">{{alert}}</p>
         </form>
       </div>
 

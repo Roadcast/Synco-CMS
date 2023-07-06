@@ -79,11 +79,16 @@ export class ClientListComponent implements OnInit {
     this.getClients().then();
     this.getSaleSupportData().then();
   }
+
   async getSaleSupportData() {
-    const getsupportValue = (await this.http.query({type: 'SUPPORT'}, 'auth/partner/poc'));
-    this.supportData = getsupportValue[0].data;
-    const getsaleValue = (await this.http.query({type: 'SALES'}, 'auth/partner/poc'));
-    this.saleData = getsaleValue[0].data;
+    try {
+      const getsupportValue = (await this.http.query({type: 'SUPPORT'}, 'auth/partner/poc'));
+      this.supportData = getsupportValue[0].data;
+      const getsaleValue = (await this.http.query({type: 'SALES'}, 'auth/partner/poc'));
+      this.saleData = getsaleValue[0].data;
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   async getClients() {
@@ -110,7 +115,8 @@ export class ClientListComponent implements OnInit {
   async showBasicDialog(product: any) {
     this.displayBasic = true;
     this.orderCount = [];
-    const count = (await this.http.query({__company_wise__report:true, __company_id__equal: product.id}, 'reporting/order_count_report')).data;
+    const count = (await this.http.query({__company_wise__report:true, __company_id__equal: product.id},
+      'reporting/order_count_report')).data;
     this.orderCount.push(count);
 
   }
@@ -291,9 +297,8 @@ export class ClientListComponent implements OnInit {
   }
 
   async config(product: any) {
-    console.log(product);
     const path = 'config'
-    this.router.navigate([path + '/'+ (product.id ? product.id.toString(10) : 'new')], {
+    this.router.navigate([path + '/'+ (product.company_id ? product.company_id.toString(10) : 'new')], {
       relativeTo: this.activatedRoute, queryParamsHandling: 'merge',
     }).then();
   }

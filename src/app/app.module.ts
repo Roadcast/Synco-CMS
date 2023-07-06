@@ -29,6 +29,7 @@ import { ConfigSettingComponent } from './client-list/config-setting/config-sett
 import {TabViewModule} from "primeng/tabview";
 import {InputSwitchModule} from "primeng/inputswitch";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
+import {MultiSelectModule} from "primeng/multiselect";
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import {ProgressSpinnerModule} from "primeng/progressspinner";
         DropdownModule,
         TabViewModule,
         InputSwitchModule,
-        ProgressSpinnerModule
+        ProgressSpinnerModule,
+        MultiSelectModule
     ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true},],
   bootstrap: [AppComponent]

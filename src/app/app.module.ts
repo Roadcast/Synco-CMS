@@ -30,6 +30,10 @@ import {TabViewModule} from "primeng/tabview";
 import {InputSwitchModule} from "primeng/inputswitch";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
 import {MultiSelectModule} from "primeng/multiselect";
+import { AddIntegrationComponent } from './client-list/add-integration/add-integration.component';
+import {StepsModule} from "primeng/steps";
+import {NgSelectModule} from "@ng-select/ng-select";
+import {TypeAheadComponent} from "./@theme/components/type-ahead/type-ahead.component";
 
 @NgModule({
   declarations: [
@@ -38,34 +42,38 @@ import {MultiSelectModule} from "primeng/multiselect";
     ClientDetailComponent,
     LoginComponent,
     ConfigSettingComponent,
+    AddIntegrationComponent,
+    TypeAheadComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        FormsModule,
-        PanelModule,
-        ButtonModule,
-        TableModule,
-        CalendarModule,
-        FormsModule,
-        InputTextModule,
-        CardModule,
-        ToggleButtonModule,
-        ToastModule,
-        RippleModule,
-        TooltipModule,
-        DialogModule,
-        SelectButtonModule,
-        TimelineModule,
-        NgxSpinnerModule,
-        BrowserAnimationsModule,
-        DropdownModule,
-        TabViewModule,
-        InputSwitchModule,
-        ProgressSpinnerModule,
-        MultiSelectModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    PanelModule,
+    ButtonModule,
+    TableModule,
+    CalendarModule,
+    FormsModule,
+    InputTextModule,
+    CardModule,
+    ToggleButtonModule,
+    ToastModule,
+    RippleModule,
+    TooltipModule,
+    DialogModule,
+    SelectButtonModule,
+    TimelineModule,
+    NgxSpinnerModule,
+    BrowserAnimationsModule,
+    DropdownModule,
+    TabViewModule,
+    InputSwitchModule,
+    ProgressSpinnerModule,
+    MultiSelectModule,
+    StepsModule,
+    NgSelectModule,
+  ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true},],
   bootstrap: [AppComponent]
 })

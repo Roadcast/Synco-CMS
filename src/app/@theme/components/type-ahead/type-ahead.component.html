@@ -1,0 +1,24 @@
+<div class="w-100">
+	<ng-select (change)="emitSelected($event)"
+			   [clearSearchOnAdd]="true"
+			   [closeOnSelect]="true"
+			   [clearable]="true"
+			   [items]="data$ | async"
+			   (open)="loadPeople()"
+			   [loading]="dataLoading"
+			   (search)="failed.emit($event.term);inputInit($event)"
+			   [minTermLength]="1"
+			   [selectableGroup]="true"
+			   #selectContent
+			   [multiple]="multiple"
+			   (clear)="cleared.emit('all')"
+			   (remove)="onRemove.emit($event)"
+			   [typeahead]="dataInput$"
+			   [placeholder]="placeholder"
+			   appendTo="body"
+			   [(ngModel)]="selectedItems"
+			   [bindLabel]="text" class="w-bg">
+		<ng-template let-item="item" ng-option-tmp>{{ resultFormatter(item) }}</ng-template>
+	</ng-select>
+</div>
+

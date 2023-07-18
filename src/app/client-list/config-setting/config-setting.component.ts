@@ -53,8 +53,8 @@ export class ConfigSettingComponent implements OnInit {
        this.loading = false;
        console.error(e);
      }
-
    }
+
   async getStatus() {
     try {
       this.statusData = (await this.http.get('', {}, 'order/status')).data;

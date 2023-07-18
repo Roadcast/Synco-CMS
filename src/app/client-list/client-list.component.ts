@@ -28,6 +28,7 @@ export class ClientListComponent implements OnInit {
   selectedCity1: any;
   displayBasic: boolean | undefined;
   openpocmodel: boolean | undefined;
+  openPartnerModel: boolean | undefined;
 
   exportColumns = [
     {title: 'Boarding Date', dataKey: 'brand_created_on'},
@@ -66,6 +67,16 @@ export class ClientListComponent implements OnInit {
   loadTableCheck: boolean = false;
   toggleOptions = [{label: 'Enabled', value: 'enable'}, {label: 'Disabled', value: 'disable'}]
   toggleCompanyDisable: any;
+  partners: any = [];
+  newPartnerObject = {
+    name: '',
+    icon: "",
+    description: "",
+    web_hook_url: "",
+    outlet_web_hook_url: "",
+    other_web_hook_url: "",
+    keys: {}
+  }
   constructor(private http: ApiService, private bgDownloader: BackgroundDownloaderService, private cd: ChangeDetectorRef,
               private storage: StorageService, private messageService: MessageService, public router: Router,
               private activatedRoute: ActivatedRoute, private userService: UserService) {
@@ -77,6 +88,7 @@ export class ClientListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getClients().then();
+    this.getPartners().then();
     this.getSaleSupportData().then();
   }
 
@@ -111,6 +123,14 @@ export class ClientListComponent implements OnInit {
     }
   }
 
+  async getPartners() {
+    try {
+      this.partners = (await this.http.query({}, 'integration/partner')).data;
+    } catch (e: any) {
+      console.error(e);
+    }
+  }
+
 
   async showBasicDialog(product: any) {
     this.displayBasic = true;
@@ -131,7 +151,7 @@ export class ClientListComponent implements OnInit {
         __start_date__equal: this.rangeDates[0].toJSON(), __end_date__equal: this.rangeDates[1].toJSON()}, 'auth/partner/outlets/report')).data;
       await this.bgDownloader.start();
     } catch (e) {
-
+      this.messageService.add({severity:'error', summary: 'error', detail: ''});
     }
   }
 
@@ -144,7 +164,7 @@ export class ClientListComponent implements OnInit {
         this.getClients().then()
         this.cd.detectChanges();
       } catch (e) {
-
+        this.messageService.add({severity:'error', summary: 'error', detail: 'Could not perform the action!'});
       }
     }
   }
@@ -187,7 +207,7 @@ export class ClientListComponent implements OnInit {
       this.selectedRow = null;
       this.messageService.add({severity:'success', summary: 'Success', detail: ''});
     } catch (e) {
-
+      this.messageService.add({severity:'error', summary: 'error', detail: 'Could not perform the action!'});
     }
   }
 
@@ -234,7 +254,7 @@ export class ClientListComponent implements OnInit {
   }
 
   addPoc() {
-    this.openpocmodel = true
+    this.openpocmodel = true;
   }
 
   createPoc() {
@@ -253,8 +273,8 @@ export class ClientListComponent implements OnInit {
         }
 
       })
-
     } catch (e) {
+      this.messageService.add({severity:'error', summary: 'error', detail: 'Could not create POC!'});
       console.log(e);
     }
 
@@ -264,7 +284,7 @@ export class ClientListComponent implements OnInit {
   }
 
   async patchPayment(type: any) {
-    if (type === true){
+    if (type === true) {
       const data = this.paymentData;
       const value = this.paymentValue;
       await this.http.update(data.id, {is_paid: value}, {}, 'auth/partner/payment/update')
@@ -306,4 +326,31 @@ export class ClientListComponent implements OnInit {
   logout() {
     this.userService.logout().then();
   }
-}
+
+  addPartner() {
+    this.openPartnerModel = true;
+  }
+
+  async createPartner() {
+    try {
+      await this.http.create(this.newPartnerObject, {}, 'integration/partner');
+      this.newPartnerObject = {
+        name: '',
+        icon: "",
+        description: "",
+        web_hook_url: "",
+        outlet_web_hook_url: "",
+        other_web_hook_url: "",
+        keys: {}
+      }
+    } catch (e) {
+      this.messageService.add({severity:'error', summary: 'error', detail: 'Could not create new partner!'});
+      console.error(e);
+    }
+  }
+
+  addNewIntegration(partnerId: string) {
+    this.router.navigateByUrl('new-integration/' + partnerId).then();
+  }
+
+  }

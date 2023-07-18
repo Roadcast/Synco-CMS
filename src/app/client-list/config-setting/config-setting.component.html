@@ -1,8 +1,12 @@
-<p-panel header="SETTING">
+<p-panel header="SETTINGS">
+  <button pButton pRipple type="button" class=" p-button-primary mr-2" style="float: left"
+          (click)="back()" label="Go Back" [icon]="'pi pi-arrow-left'"></button>
+  <br>
+  <br>
+  <br>
   <div class="card">
     <p-progressSpinner *ngIf="loading"></p-progressSpinner>
     <p-tabView>
-      <button pButton pRipple type="button" class=" p-button-primary mr-2" style="float: right" (click)="back()" label="Back"></button>
       <p-tabPanel header="TRIGGER POINT" rightIcon="pi pi-inbox" tooltip="TRIGGER POINT">
         <div class="mx-3">
           <table class="table">
@@ -60,9 +64,7 @@
           </div>
         </div>
       </p-tabPanel>
-
-      <p-tabPanel header="CONFIG" rightIcon="pi pi-star" tooltip="CONFIG">
-        <h3>1. Documents</h3>
+      <p-tabPanel header="DOC CONFIG" rightIcon="pi pi-book" tooltip="DOC CONFIG">
         <table class="table">
           <thead>
           <tr>

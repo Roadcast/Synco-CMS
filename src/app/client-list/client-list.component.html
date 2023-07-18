@@ -1,169 +1,266 @@
-<div class="content-section implementation p-fluid">
-  <div class="card p-p-3">
-    <p-progressSpinner *ngIf="loadTableCheck"></p-progressSpinner>
-
-    <p-table #dt [(selection)]="outlets" [globalFilterFields]="['company']"
-             [paginator]="true" [rowsPerPageOptions]="[10,25,50]" [rows]="10" [value]="data" dataKey="id"
-             styleClass="p-datatable-striped p-datatable-gridlines p-datatable-sm">
-
-      <ng-template pTemplate="caption">
-        <div class="flex align-items-center justify-content-between">
-          <div>
-            Clients
-          </div>
-          <div class="flex">
-            <button (click)="exportExcel()" class="p-button-success mr-2" icon="pi pi-file-excel" pButton pRipple
-                    pTooltip="XLS" tooltipPosition="bottom"
-                    type="button"></button>
-            <div style="float: right">
-              <div>
-                <button (click)="addPoc()"  class="p-button-outlined p-button-success mr-2" style="width: 115px;"
-                        pButton pRipple>Add POC</button>&nbsp;&nbsp;
-                <button (click)="logout()"  class="p-button-sm p-button-danger" style="width: 85px;"
-                        pButton>Logout</button>
-              </div>
+<p-panel header="SETTINGS">
+  <div class="card">
+    <p-tabView>
+      <p-tabPanel header="TRIGGER POINT" rightIcon="pi pi-inbox" tooltip="TRIGGER POINT">
+        <div class="flex">
+          <button (click)="exportExcel()" class="p-button-success mr-2" icon="pi pi-file-excel" pButton pRipple
+                  pTooltip="XLS" tooltipPosition="bottom" label="Download"
+                  type="button"></button>
+          <div style="float: right">
+            <div>
+              <button (click)="addPoc()"  class="p-button-outlined p-button-success mr-2" style="width: 115px;"
+                      pButton pRipple>Add POC</button>&nbsp;&nbsp;
+              <button (click)="logout()"  class="p-button-sm p-button-danger" style="width: 85px;"
+                      pButton>Logout</button>
             </div>
           </div>
         </div>
-      </ng-template>
-      <ng-template pTemplate="header">
-        <tr>
-          <th pSortableColumn="brand_created_on">Boarding Date <p-sortIcon field="brand_created_on"></p-sortIcon></th>
-          <th>Time</th>
-          <th>Company</th>
-          <th>Status</th>
-          <th>Payment</th>
-          <th>Orders</th>
-          <th>Total Rider</th>
-          <th>Active Rider</th>
-          <th>Not Active Rider</th>
-          <th>Sale POC Name & Number</th>
-          <th>Support POC Name & Number</th>
-          <th>Action</th>
+        <br>
+        <div class="content-section implementation p-fluid">
+          <div class="card p-p-3">
+            <p-progressSpinner *ngIf="loadTableCheck"></p-progressSpinner>
 
-        </tr>
-        <tr>
-<!--          <th></th>-->
-          <th>
-          </th>
-          <th></th>
-          <th>
-            <p-columnFilter display="menu" field="company" type="text"></p-columnFilter>
-          </th>
-          <th>
-            <p-columnFilter field="is_activate" type="boolean"></p-columnFilter>
-          </th>
-          <th>
-            <p-columnFilter field="is_paid" type="boolean"></p-columnFilter>
-          </th>
-          <th>
-          </th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
-      </ng-template>
-      <ng-template let-expanded="expanded" let-i=index let-product pTemplate="body">
-        <tr [pEditableRow]="product">
-<!--          <td class="flex justify-content-between flex-nowrap align-items-center">-->
-<!--            <p-tableCheckbox [value]="product"></p-tableCheckbox>-->
-<!--            <button (click)="getOnBoardingData(product)" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" [pRowToggler]="product" class="p-button-text p-button-rounded p-button-plain ml-2"-->
-<!--                    pButton-->
-<!--                    pRipple type="button"></button>-->
+            <p-table #dt [(selection)]="outlets" [globalFilterFields]="['company']"
+                     [paginator]="true" [rowsPerPageOptions]="[10,25,50]" [rows]="10" [value]="data" dataKey="id"
+                     styleClass="p-datatable-striped p-datatable-gridlines p-datatable-sm">
 
-<!--          </td>-->
-          <td>{{product.brand_created_on | date: 'MM/dd/YYYY'}}</td>
-          <td>
-            {{product?.brand_time}}
-          </td>
-          <td [routerLink]="['/client/' + product.id]">
-            {{product.company}}
-          </td>
-          <td [routerLink]="['/client/' + product.id]">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th pSortableColumn="brand_created_on">Boarding Date <p-sortIcon field="brand_created_on"></p-sortIcon></th>
+                  <th>Time</th>
+                  <th>Company</th>
+                  <th>Status</th>
+                  <th>Payment</th>
+                  <th>Orders</th>
+                  <th>Total Rider</th>
+                  <th>Active Rider</th>
+                  <th>Not Active Rider</th>
+                  <th>Sale POC Name & Number</th>
+                  <th>Support POC Name & Number</th>
+                  <th>Action</th>
 
-            <ng-container *ngIf="product.is_activate" >
-              <button class=" p-button-success" (click)="productActivateDialog(product, true)"
-                      icon="pi pi-check" pButton type="button"></button>
-            </ng-container>
-            <ng-container *ngIf="!product.is_activate" >
-              <button class=" p-button-danger" (click)="productActivateDialog(product, false)"
-                      icon="pi pi-times" pButton type="button"></button>
-            </ng-container>
+                </tr>
+                <tr>
+                  <!--          <th></th>-->
+                  <th>
+                  </th>
+                  <th></th>
+                  <th>
+                    <p-columnFilter display="menu" field="company" type="text"></p-columnFilter>
+                  </th>
+                  <th>
+                    <p-columnFilter field="is_activate" type="boolean"></p-columnFilter>
+                  </th>
+                  <th>
+                    <p-columnFilter field="is_paid" type="boolean"></p-columnFilter>
+                  </th>
+                  <th>
+                  </th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </ng-template>
+              <ng-template let-expanded="expanded" let-i=index let-product pTemplate="body">
+                <tr [pEditableRow]="product">
+                  <!--          <td class="flex justify-content-between flex-nowrap align-items-center">-->
+                  <!--            <p-tableCheckbox [value]="product"></p-tableCheckbox>-->
+                  <!--            <button (click)="getOnBoardingData(product)" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" [pRowToggler]="product" class="p-button-text p-button-rounded p-button-plain ml-2"-->
+                  <!--                    pButton-->
+                  <!--                    pRipple type="button"></button>-->
 
-          </td>
-          <td>
-            <ng-container *ngIf="product.is_paid" >
-              <button class=" p-button-success" (click)="paymentDialog(product, false)"
-                      icon="pi pi-check" pButton type="button"></button>
-            </ng-container>
-            <ng-container *ngIf="!product.is_paid" >
-              <button class=" p-button-danger" (click)="paymentDialog(product, true)"
-                      icon="pi pi-times" pButton type="button"></button>
-            </ng-container>
-          </td>
-          <td>
-            <p-button  (click)="showBasicDialog(product)" icon="pi pi-chevron-down" label=""></p-button>
-          </td>
-          <td>{{product.riders}}</td>
-          <td>{{product.active_riders}}</td>
-          <td>{{product.not_active_riders}}</td>
-          <td>
-            <p-dropdown [options]="saleData" (onChange)="onSaleChange($event)" [placeholder]="product.sales_poc_name +
+                  <!--          </td>-->
+                  <td>{{product.brand_created_on | date: 'MM/dd/YYYY'}}</td>
+                  <td>
+                    {{product?.brand_time}}
+                  </td>
+                  <td [routerLink]="['/client/' + product.id]">
+                    {{product.company}}
+                  </td>
+                  <td [routerLink]="['/client/' + product.id]">
+
+                    <ng-container *ngIf="product.is_activate" >
+                      <button class=" p-button-success" (click)="productActivateDialog(product, true)"
+                              icon="pi pi-check" pButton type="button"></button>
+                    </ng-container>
+                    <ng-container *ngIf="!product.is_activate" >
+                      <button class=" p-button-danger" (click)="productActivateDialog(product, false)"
+                              icon="pi pi-times" pButton type="button"></button>
+                    </ng-container>
+
+                  </td>
+                  <td>
+                    <ng-container *ngIf="product.is_paid" >
+                      <button class=" p-button-success" (click)="paymentDialog(product, false)"
+                              icon="pi pi-check" pButton type="button"></button>
+                    </ng-container>
+                    <ng-container *ngIf="!product.is_paid" >
+                      <button class=" p-button-danger" (click)="paymentDialog(product, true)"
+                              icon="pi pi-times" pButton type="button"></button>
+                    </ng-container>
+                  </td>
+                  <td>
+                    <p-button  (click)="showBasicDialog(product)" icon="pi pi-chevron-down" label=""></p-button>
+                  </td>
+                  <td>{{product.riders}}</td>
+                  <td>{{product.active_riders}}</td>
+                  <td>{{product.not_active_riders}}</td>
+                  <td>
+                    <p-dropdown [options]="saleData" (onChange)="onSaleChange($event)" [placeholder]="product.sales_poc_name +
              ' '+ product.sales_poc_number"  optionLabel="name"
-                        [showClear]="true"></p-dropdown>
-          </td>
-          <td>
-            <p-dropdown [options]="supportData" (onChange)="onSupportChange($event)"
-                        [placeholder]="product.support_poc_name+' '+ product.support_poc_number"  optionLabel="name"
-                        [showClear]="true"></p-dropdown>
-          </td>
-          <td class="d-flex justify-content-between flex-nowrap">
-            <button pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(product)"
-                    class=" p-button-success mr-2" [pTooltip]="'Save changes'"></button>
-            <button style="margin-left: 3%" (click)="config(product)" class="p-button-success mr-2" icon="pi pi-file-edit"
-                    pButton pRipple  [pTooltip]="'Open configuration'"></button>
-<!--            <button style="margin-left: 3%" (click)="showDialog(product)" class="p-button-rounded p-button-success mr-2" icon="pi pi-plus-circle" pButton-->
-<!--                    pRipple></button>-->
-          </td>
-        </tr>
-      </ng-template>
+                                [showClear]="true"></p-dropdown>
+                  </td>
+                  <td>
+                    <p-dropdown [options]="supportData" (onChange)="onSupportChange($event)"
+                                [placeholder]="product.support_poc_name+' '+ product.support_poc_number"  optionLabel="name"
+                                [showClear]="true"></p-dropdown>
+                  </td>
+                  <td class="d-flex justify-content-between flex-nowrap">
+                    <button pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(product)"
+                            class=" p-button-success mr-2" [pTooltip]="'Save changes'"></button>
+                    <button style="margin-left: 3%" (click)="config(product)" class="p-button-success mr-2" icon="pi pi-file-edit"
+                            pButton pRipple  [pTooltip]="'Open configuration'"></button>
+                    <!--            <button style="margin-left: 3%" (click)="showDialog(product)" class="p-button-rounded p-button-success mr-2" icon="pi pi-plus-circle" pButton-->
+                    <!--                    pRipple></button>-->
+                  </td>
+                </tr>
+              </ng-template>
 
-      <ng-template let-product pTemplate="rowexpansion">
-        <tr>
-          <td colspan=11>
-            <div class="py-3">
-              <p-timeline [value]="product.logs" layout="vertical">
+              <ng-template let-product pTemplate="rowexpansion">
+                <tr>
+                  <td colspan=11>
+                    <div class="py-3">
+                      <p-timeline [value]="product.logs" layout="vertical">
 
 
-                <ng-template pTemplate="content" let-event>
-                  <small class="text-black-alpha-90">{{event.action}}
-                    <span class="text-black-alpha-90">({{event.status}})</span></small>
-                  <p class="mt-0 mb-0">{{event.comment}}</p>
-                </ng-template>
-                <ng-template pTemplate="opposite" let-event>
-                  <small class="text-black-alpha-60">{{event.date}}</small><br>
-                  <small class="text-black-alpha-60">{{event.agent}}</small>
-                </ng-template>
-              </p-timeline>
-            </div>
-          </td>
-        </tr>
+                        <ng-template pTemplate="content" let-event>
+                          <small class="text-black-alpha-90">{{event.action}}
+                            <span class="text-black-alpha-90">({{event.status}})</span></small>
+                          <p class="mt-0 mb-0">{{event.comment}}</p>
+                        </ng-template>
+                        <ng-template pTemplate="opposite" let-event>
+                          <small class="text-black-alpha-60">{{event.date}}</small><br>
+                          <small class="text-black-alpha-60">{{event.agent}}</small>
+                        </ng-template>
+                      </p-timeline>
+                    </div>
+                  </td>
+                </tr>
 
-      </ng-template>
+              </ng-template>
 
-      <ng-template pTemplate="summary">
-        <div class="p-d-flex p-ai-center p-jc-between">
-          In total there are {{data ? data.length : 0 }} outlets.
+              <ng-template pTemplate="summary">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                  In total there are {{data ? data.length : 0 }} outlets.
+                </div>
+              </ng-template>
+
+
+            </p-table>
+          </div>
         </div>
-      </ng-template>
+      </p-tabPanel>
+
+      <p-tabPanel header="INTEGRATION" rightIcon="pi pi-sliders-h" tooltip="INTEGRATION">
+        <div class="flex">
+          <button (click)="addPartner()" class="p-button-outlined p-button-success mr-2"
+                  pButton pRipple>Add New Partner</button>
+          <div style="float: right">
+            <div>
+              <button (click)="logout()"  class="p-button-sm p-button-danger" style="width: 85px;"
+                      pButton>Logout</button>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="content-section implementation p-fluid">
+          <div class="card p-p-3">
+            <p-table #dt2 [paginator]="true" [rowsPerPageOptions]="[10,25,50]" [rows]="10"
+                 [globalFilterFields]="['name', 'web_hook_url', 'outlet_web_hook_url', 'other_web_hook_url', 'description']"
+                  [value]="partners" dataKey="id" styleClass="p-datatable-striped p-datatable-gridlines p-datatable-sm">
+
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Icon</th>
+              <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+              <th>Description</th>
+              <th>Action</th>
+
+            </tr>
+            <tr>
+              <th></th>
+              <th>
+                <p-columnFilter field="name" type="text"></p-columnFilter>
+              </th>
+              <th>
+                <p-columnFilter field="description" type="text"></p-columnFilter>
+              </th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template let-expanded="expanded" let-i=index let-partner pTemplate="body">
+            <tr [pEditableRow]="partner">
+              <td>
+                <a [href]="partner.icon" title="click to open">
+                  <img *ngIf="partner.icon" height="50" width="50" [src]="partner.icon" alt="Logo" style="cursor:pointer">
+                </a>
+                {{partner.icon ? '' : 'N/A'}}
+              </td>
+              <td>
+                {{partner.name}}
+              </td>
+              <td>
+                {{partner.description}}
+              </td>
+              <td class="d-flex justify-content-between flex-nowrap">
+                <button pButton pRipple type="button" pSaveEditableRow icon="pi pi-plus"
+                        (click)="addNewIntegration(partner.id)" [pTooltip]="'Add new integration'"
+                        class=" p-button-success mr-2" >
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+
+          <ng-template let-product pTemplate="rowexpansion">
+            <tr>
+              <td colspan=11>
+                <div class="py-3">
+                  <p-timeline [value]="product.logs" layout="vertical">
 
 
-    </p-table>
+                    <ng-template pTemplate="content" let-event>
+                      <small class="text-black-alpha-90">{{event.action}}
+                        <span class="text-black-alpha-90">({{event.status}})</span></small>
+                      <p class="mt-0 mb-0">{{event.comment}}</p>
+                    </ng-template>
+                    <ng-template pTemplate="opposite" let-event>
+                      <small class="text-black-alpha-60">{{event.date}}</small><br>
+                      <small class="text-black-alpha-60">{{event.agent}}</small>
+                    </ng-template>
+                  </p-timeline>
+                </div>
+              </td>
+            </tr>
+
+          </ng-template>
+
+          <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+              In total there are {{data ? data.length : 0 }} outlets.
+            </div>
+          </ng-template>
+
+
+        </p-table>
+          </div>
+        </div>
+      </p-tabPanel>
+    </p-tabView>
   </div>
-</div>
+</p-panel>
 
 <p-dialog [(visible)]="display" [style]="{width: '50vw'}">
   <ng-template pTemplate="header">
@@ -242,6 +339,23 @@
   </div>
   <ng-template pTemplate="footer">
     <button (click)="openpocmodel = false; createPoc()"  class="p-button-outlined p-button-primary mr-2" style="width: 95px;" pButton pRipple>Submit</button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog header="Create Partner" [(visible)]="openPartnerModel" [style]="{width: '50vh'}" [baseZIndex]="10000" >
+  <div style="display: flex; flex-direction: column; margin-bottom: 30%">
+    <input [(ngModel)]="newPartnerObject.name" pInputText placeholder="Name"  type="text" name="name">&nbsp;
+    <input [(ngModel)]="newPartnerObject.description" pInputText placeholder="Description" type="text"
+           name="description">&nbsp;
+    <input [(ngModel)]="newPartnerObject.web_hook_url" pInputText placeholder="Web Hook Url" type="text"
+           name="web_hook_url">&nbsp;
+    <input [(ngModel)]="newPartnerObject.outlet_web_hook_url" pInputText placeholder="Outlet Web Hook Url"
+           type="text" name="outlet_web_hook_url">&nbsp;
+    <input [(ngModel)]="newPartnerObject.other_web_hook_url" pInputText placeholder="Web Hook Url 2"
+           type="text" name="other_web_hook_url">&nbsp;
+  </div>
+  <ng-template pTemplate="footer">
+    <button (click)="openPartnerModel = false; createPartner()"  class="p-button-outlined p-button-primary mr-2" style="width: 95px;" pButton pRipple>Submit</button>
   </ng-template>
 </p-dialog>
 

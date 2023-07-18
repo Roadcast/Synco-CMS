@@ -1,0 +1,16 @@
+::ng-deep {
+
+  // .ng-select.ng-select-single .ng-select-container{
+  // 	width: 200px !important;
+  // }
+  .dropdown-overlay {
+    position: absolute !important;
+    z-index: 9999 !important;
+  }
+}
+//.ng-select .ng-select-container{
+//	overflow: auto!important;
+//	.ng-value-container{
+//		height: 50px!important;
+//	}
+//}

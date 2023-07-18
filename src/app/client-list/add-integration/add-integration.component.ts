@@ -75,7 +75,6 @@ export class AddIntegrationComponent implements OnInit {
     await this.getBrands();
     if (this.brandApp && this.brandApp.length > 0) {
       this.brandApp = this.brandApp[0];
-      this.nextStep(1);
     } else {
       try {
         this.brandApp = (await this.http.create({partner_id: this.partnerId, brand_id: this.brandId},
@@ -83,12 +82,12 @@ export class AddIntegrationComponent implements OnInit {
         if (this.brandApp) {
           this.brandApp.outlet_ids = [];
         }
-        this.nextStep(1);
       } catch (e) {
         console.error(e);
         this.messageService.add({severity:'error', summary: 'error', detail: ''});
       }
     }
+    this.nextStep(1);
   }
 
   async getBrands() {

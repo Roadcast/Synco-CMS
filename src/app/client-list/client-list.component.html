@@ -273,7 +273,8 @@
         <h4 class="m-0">Action</h4>
 
         <div class="p-inputgroup">
-          <p-selectButton [(ngModel)]="action" [options]="actions" name="action" (onChange)="action = $event.value" optionValue="name" optionLabel="name"
+          <p-selectButton [(ngModel)]="action" [options]="actions" name="action" (onChange)="action = $event.value"
+                          optionValue="name" optionLabel="name"
                           class="w-full"></p-selectButton>
         </div>
       </div>
@@ -282,7 +283,8 @@
         <h4 class="m-0">Status</h4>
 
         <div class="p-inputgroup">
-          <p-selectButton [(ngModel)]="status" [options]="statuses" name="status" (onChange)="status = $event.value" optionValue="name" optionLabel="name"
+          <p-selectButton [(ngModel)]="status" [options]="statuses" name="status" (onChange)="status = $event.value"
+                          optionValue="name" optionLabel="name"
                           class="w-full"></p-selectButton>
 
         </div>

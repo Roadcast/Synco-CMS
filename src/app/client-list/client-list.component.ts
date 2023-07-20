@@ -157,9 +157,9 @@ export class ClientListComponent implements OnInit {
 
   async toggleBrand(status: boolean) {
     if (status){
-      const data = this.activateData.id;
+      const id = this.activateData.company_id;
       const value = this.activateValue;
-      try {(await this.http.update(data, {is_deactivate: value}, {}, 'auth/partner/status/update'))
+      try {(await this.http.update(id, {is_deactivate: value}, {}, 'auth/partner/status/update'))
         this.messageService.add({severity:'success', summary: 'Success', detail: ''});
         this.getClients().then()
         this.cd.detectChanges();

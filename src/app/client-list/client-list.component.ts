@@ -287,7 +287,7 @@ export class ClientListComponent implements OnInit {
     if (type === true) {
       const data = this.paymentData;
       const value = this.paymentValue;
-      await this.http.update(data.id, {is_paid: value}, {}, 'auth/partner/payment/update')
+      await this.http.update(data.company_id, {is_paid: value}, {}, 'auth/partner/payment/update')
       this.messageService.add({severity:'success', summary: 'Success', detail:''});
       await this.getClients();
     }

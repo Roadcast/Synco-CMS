@@ -264,36 +264,40 @@ export class ConfigSettingComponent implements OnInit {
 
   async saveFaceRecognition() {
     try {
-      const faceRecognitionObj = {
+      const faceRecognitionObj: any = {
         key: 'face_recognition',
         value: this.generalConfig.face_recognition.value ? 1 : 0,
       }
       if (this.generalConfig.face_recognition.id === '') {
+        faceRecognitionObj['company_id'] = this.id;
         await this.http.create(faceRecognitionObj, {}, 'auth/company_config');
       } else {
         await this.http.update(this.generalConfig.face_recognition.id, faceRecognitionObj, {}, 'auth/company_config');
         this.messageService.add({severity:'success', summary: 'Success', detail: 'Config updated successfully!'});
-        await this.setGeneralConfig();
       }
+      await this.setGeneralConfig();
     } catch (e) {
+      this.generalConfig.face_recognition.value = !this.generalConfig.face_recognition.value;
       console.error(e);
     }
   }
 
   async saveLiveStreaming() {
     try {
-      const liveStreamingObj = {
+      const liveStreamingObj: any = {
         key: 'live_streaming',
         value: this.generalConfig.live_streaming.value ? 1 : 0,
       }
       if (this.generalConfig.live_streaming.id === '') {
+        liveStreamingObj['company_id'] = this.id;
         await this.http.create(liveStreamingObj, {}, 'auth/company_config');
       } else {
         await this.http.update(this.generalConfig.live_streaming.id, liveStreamingObj, {}, 'auth/company_config');
         this.messageService.add({severity:'success', summary: 'Success', detail: 'Config updated successfully!'});
-        await this.setGeneralConfig();
       }
+      await this.setGeneralConfig();
     } catch (e) {
+      this.generalConfig.live_streaming.value = !this.generalConfig.live_streaming.value;
       console.error(e);
     }
   }
@@ -301,6 +305,7 @@ export class ConfigSettingComponent implements OnInit {
   async saveDefaultOrderForm() {
     try {
       if (!this.orderConfigId) {
+        this.generalConfig.custom_order_form.is_default_form = !this.generalConfig.custom_order_form.is_default_form;
         this.messageService.add({severity: 'Error!', summary: 'No order config found.', detail: ''});
         return;
       }
@@ -308,6 +313,7 @@ export class ConfigSettingComponent implements OnInit {
         this.messageService.add({severity:'success', summary: 'Success', detail: 'Config updated successfully!'});
       await this.setGeneralConfig();
     } catch (e) {
+      this.generalConfig.custom_order_form.is_default_form = !this.generalConfig.custom_order_form.is_default_form;
       console.error(e);
     }
   }

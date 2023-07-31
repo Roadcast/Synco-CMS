@@ -305,12 +305,16 @@ export class ConfigSettingComponent implements OnInit {
   async saveDefaultOrderForm() {
     try {
       if (!this.orderConfigId) {
-        this.generalConfig.custom_order_form.is_default_form = !this.generalConfig.custom_order_form.is_default_form;
-        this.messageService.add({severity: 'Error!', summary: 'No order config found.', detail: ''});
+        await this.http.create({
+          is_default_form: this.generalConfig.custom_order_form.is_default_form,
+          company_id: this.id,
+        }, {}, 'order/order_config');
+        this.messageService.add({severity:'success', summary: 'Success', detail: 'Config updated successfully!'});
+        await this.setGeneralConfig();
         return;
       }
       await this.http.update(this.orderConfigId, this.generalConfig.custom_order_form, {}, 'order/order_config');
-        this.messageService.add({severity:'success', summary: 'Success', detail: 'Config updated successfully!'});
+      this.messageService.add({severity:'success', summary: 'Success', detail: 'Config updated successfully!'});
       await this.setGeneralConfig();
     } catch (e) {
       this.generalConfig.custom_order_form.is_default_form = !this.generalConfig.custom_order_form.is_default_form;

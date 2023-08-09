@@ -30,7 +30,7 @@ export class TypeAheadComponent implements AfterViewInit, OnInit {
     @Input() multiple: boolean = false;
     @Input() riderManage: boolean = false;
     @Input() clearAfterSelection: boolean = false;
-    @Input() disabled: any;
+    @Input() disabled: boolean = false;
     @Input() filters: any;
     @Input() required = true;
     @Input() basePath: any = 'auth';

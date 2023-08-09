@@ -11,6 +11,7 @@
 			   [selectableGroup]="true"
 			   #selectContent
 			   [multiple]="multiple"
+         [disabled]="disabled"
 			   (clear)="cleared.emit('all')"
 			   (remove)="onRemove.emit($event)"
 			   [typeahead]="dataInput$"

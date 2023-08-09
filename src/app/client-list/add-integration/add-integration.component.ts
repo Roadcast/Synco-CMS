@@ -18,6 +18,7 @@ export class AddIntegrationComponent implements OnInit {
   brandId: any;
   secretKey: any = '';
   accessKey: any = '';
+  selectedCompanyId: any = null;
 
   constructor(private router: Router,private http: ApiService, private activateRoute: ActivatedRoute,
               public messageService: MessageService) {
@@ -58,8 +59,9 @@ export class AddIntegrationComponent implements OnInit {
     this.getOutlets().then();
   }
 
-  clear() {
-    this.brandId = null;
+  clear(type: any) {
+    if (type === 'brand')
+      this.brandId = null;
   }
 
   async getOutlets() {
@@ -154,4 +156,7 @@ export class AddIntegrationComponent implements OnInit {
     this.router.navigateByUrl('').then();
   }
 
+  setCompany(event: any) {
+    this.selectedCompanyId = event.id;
+  }
 }

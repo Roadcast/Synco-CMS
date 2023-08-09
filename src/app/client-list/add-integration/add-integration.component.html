@@ -7,11 +7,24 @@
 
   <p-card *ngIf="activeIndex === 0">
 
+    <h6>Select Company:</h6>
+
+    <p class="p-4">
+      <ngx-type-ahead (send)="setCompany($event)" [basePath]="'auth'"
+                      [filters]="{__only: ['name', 'id'], __company_id__all: true}"
+                      [placeholder]="'Search company here'" [url]="'company'" (cleared)="clear('company')">
+      </ngx-type-ahead>
+    </p>
+<br>
+<br>
+
     <h6>Select Brand:</h6>
 
     <p class="p-4">
-      <ngx-type-ahead (send)="setBrand($event)" [basePath]="'auth'" [filters]="{__only: ['name', 'id']}"
-                      [placeholder]="'Search brand here'" [url]="'brand'" (cleared)="clear()">
+      <ngx-type-ahead (send)="setBrand($event)" [basePath]="'auth'"
+                      [filters]="{__only: ['name', 'id'], __company_id__equal: this.selectedCompanyId}"
+                      [placeholder]="'Search brand here'" [url]="'brand'" [disabled]="!selectedCompanyId"
+                      (cleared)="clear('brand')">
       </ngx-type-ahead>
     </p>
 

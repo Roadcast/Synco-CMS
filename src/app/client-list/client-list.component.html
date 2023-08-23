@@ -346,18 +346,33 @@
 
 <p-dialog header="Create Partner" [(visible)]="openPartnerModel" [style]="{width: '50vh'}" [baseZIndex]="10000" >
   <div style="display: flex; flex-direction: column; margin-bottom: 30%">
-    <input [(ngModel)]="newPartnerObject.name" pInputText placeholder="Name"  type="text" name="name">&nbsp;
-    <input [(ngModel)]="newPartnerObject.description" pInputText placeholder="Description" type="text"
-           name="description">&nbsp;
-    <input [(ngModel)]="newPartnerObject.web_hook_url" pInputText placeholder="Web Hook Url" type="text"
-           name="web_hook_url">&nbsp;
-    <input [(ngModel)]="newPartnerObject.outlet_web_hook_url" pInputText placeholder="Outlet Web Hook Url"
-           type="text" name="outlet_web_hook_url">&nbsp;
-    <input [(ngModel)]="newPartnerObject.other_web_hook_url" pInputText placeholder="Web Hook Url 2"
-           type="text" name="other_web_hook_url">&nbsp;
+    <form class="form" #partnerForm="ngForm">
+      <div class="p-fluid p-mb-3">
+        <input [(ngModel)]="newPartnerObject.name" pInputText placeholder="Name" required type="text" name="name">
+        <p *ngIf="partnerForm.form.invalid && partnerForm.form.touched" style="color:red">Required</p>
+      </div><br>
+      <div class="p-fluid p-mb-3">
+        <input [(ngModel)]="newPartnerObject.description" pInputText placeholder="Description" type="text"
+           name="description">
+      </div><br>
+      <div class="p-fluid p-mb-3">
+        <input [(ngModel)]="newPartnerObject.web_hook_url" pInputText placeholder="Web Hook Url" type="text"
+           name="web_hook_url">
+      </div><br>
+      <div class="p-fluid p-mb-3">
+        <input [(ngModel)]="newPartnerObject.outlet_web_hook_url" pInputText placeholder="Outlet Web Hook Url"
+           type="text" name="outlet_web_hook_url">
+      </div><br>
+      <div class="p-fluid p-mb-3">
+        <input [(ngModel)]="newPartnerObject.other_web_hook_url" pInputText placeholder="Web Hook Url 2"
+           type="text" name="other_web_hook_url">
+      </div><br>
+    </form>
+
   </div>
   <ng-template pTemplate="footer">
-    <button (click)="openPartnerModel = false; createPartner()"  class="p-button-outlined p-button-primary mr-2" style="width: 95px;" pButton pRipple>Submit</button>
+    <button (click)="openPartnerModel = false; createPartner()"  class="p-button-outlined p-button-primary mr-2"
+            style="width: 95px;" pButton pRipple [disabled]="partnerForm.form.invalid">Submit</button>
   </ng-template>
 </p-dialog>
 

@@ -1,5 +1,5 @@
 <p-panel header="SETTINGS">
-  <button pButton pRipple type="button" class=" p-button-primary mr-2" style="float: left"
+  <button pButton pRipple type="button" class="p-button-primary mr-2" style="float: left"
           (click)="back()" label="Go Back" [icon]="'pi pi-arrow-left'"></button>
   <br>
   <br>
@@ -33,7 +33,7 @@
                            required type="number" name="delay">
                 </td>
                 <td>
-                  <button pButton pRipple type="button" class=" p-button-success mr-2" (click)="addTrigger()"
+                  <button pButton pRipple type="button" class="p-button-success mr-2" (click)="addTrigger()"
                             label="ADD" [disabled]="!addApiData.delayData || addApiData.eventId === ''
                              || addApiData.triggerName === ''"></button>
                 </td>
@@ -56,7 +56,7 @@
                   <td>{{product.name}}</td>
                   <td>{{product.status_name}}</td>
                   <td>{{product.delay}}</td>
-                  <td><button pButton pRipple type="button" class=" p-button-danger mr-2"
+                  <td><button pButton pRipple type="button" class="p-button-danger mr-2"
                               (click)="delTrigger(product)" label="Remove"></button></td>
                 </tr>
               </ng-template>
@@ -86,7 +86,7 @@
                           [disabled]="selectedVerificationDocsRef.length === 0" [optionDisabled]="'disable'"></p-multiSelect>
             </td>
             <td>
-              <button pButton pRipple type="button" class=" p-button-success mr-2" (click)="saveDocConfig()"
+              <button pButton pRipple type="button" class="p-button-success mr-2" (click)="saveDocConfig()"
                       label="SAVE" [disabled]="selectedVerificationDocsRef.length === 0 ||
                        selectedVerificationDocs.length === 0"></button>
             </td>
@@ -107,7 +107,7 @@
               <tr>
                 <td>{{config.verification_partner}}</td>
                 <td>{{removeUnderScore(config.doc) | titlecase}}</td>
-                <td><button pButton pRipple type="button" class=" p-button-danger mr-2"
+                <td><button pButton pRipple type="button" class="p-button-danger mr-2"
                             (click)="deleteDoc(config.doc, config.verification_partner)" label="Remove"></button></td>
               </tr>
             </ng-template>
@@ -115,41 +115,8 @@
         </div>
       </p-tabPanel>
       <p-tabPanel header="GENERAL CONFIG" rightIcon="pi pi-file-o" tooltip="GENERAL CONFIG">
-        <table class="table">
-          <thead>
-          <tr>
-            <th scope="col">Face Recognition</th>
-            <th scope="col"> Live Streaming</th>
-            <th scope="col"> Default Order Form</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <th>
-              <p-toggleButton onLabel="ON" offLabel="OFF" (onChange)="openConfirmationDialog('face_recognition', $event)"
-                              [(ngModel)]="generalConfig.face_recognition.value"></p-toggleButton>
-            </th>
-            <td>
-              <p-toggleButton onLabel="ON" offLabel="OFF" (onChange)="openConfirmationDialog('live_streaming', $event)"
-                              [(ngModel)]="generalConfig.live_streaming.value"></p-toggleButton>
-            </td>
-            <td>
-              <p-toggleButton onLabel="ON" offLabel="OFF" (onChange)="openConfirmationDialog('custom_order_form', $event)"
-                              [(ngModel)]="generalConfig.custom_order_form.is_default_form"></p-toggleButton>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-
+        <app-general-config [id]="id"></app-general-config>
       </p-tabPanel>
     </p-tabView>
   </div>
 </p-panel>
-
-<p-dialog header="Status" [(visible)]="displayConfirmationDialog" [style]="{width: '20vw'}" [baseZIndex]="10000">
-  <p>Are you sure?</p>
-  <ng-template pTemplate="footer">
-    <p-button icon="pi pi-check" (click)="displayConfirmationDialog=false; saveConfig()" label="Yes" styleClass="p-button-text"></p-button>
-    <p-button icon="pi pi-times" (click)="cancelSave()" styleClass="p-button-text" label="No"></p-button>
-  </ng-template>
-</p-dialog>

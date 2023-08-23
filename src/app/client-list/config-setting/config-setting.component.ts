@@ -18,7 +18,6 @@ export class ConfigSettingComponent implements OnInit {
     eventId: '',
     delayData: 1,
   }
-  companyId: any;
   companyTrigger: any;
   id: any;
   docConfigRef: any = [];
@@ -28,31 +27,13 @@ export class ConfigSettingComponent implements OnInit {
   selectedVerificationDocsRef: any = [];
   selectedVerificationObject: any;
   selectedVerificationDocs: any = [];
-  generalConfig = {
-    face_recognition: {
-      key: 'face_recognition',
-      value: false,
-      id: '',
-    },
-    live_streaming: {
-      key: 'live_streaming',
-      value: false,
-      id: '',
-    },
-    custom_order_form: {
-      is_default_form: false
-    }
-  };
-  displayConfirmationDialog: any = false;
-  selectedConfig: any;
-  private orderConfigId: any;
+
 
   constructor(private router: Router,private http: ApiService, private activateRoute: ActivatedRoute,
               private messageService: MessageService) {
     this.activateRoute.params.subscribe(async res => {
       if (res['id'] !== 'new') {
         this.id = res['id'];
-        this.setGeneralConfig().then();
       }
     });
   }
@@ -224,138 +205,5 @@ export class ConfigSettingComponent implements OnInit {
 
   removeUnderScore(text: string = '') {
     return text !== '' ? text.split('_').join(' ') : '';
-  }
-
-  async getCompanyConfig() {
-    try {
-      return (await this.http.query({
-        __company_id__equal: this.id,
-      }, 'auth/company_config')).data;
-    } catch (e) {
-      console.error(e);
-      return null;
-    }
-  }
-
-  async getCompanyOrderConfig() {
-    try {
-      return (await this.http.query({
-        __company_id__equal: this.id,
-      }, 'order/order_config')).data[0];
-
-    } catch (e) {
-      console.error(e);
-      return null;
-    }
-  }
-
-  saveConfig() {
-    if (this.selectedConfig === 'face_recognition') {
-      this.saveFaceRecognition().then();
-    }
-    if (this.selectedConfig === 'live_streaming') {
-      this.saveLiveStreaming().then();
-    }
-    if (this.selectedConfig === 'custom_order_form') {
-      this.saveDefaultOrderForm().then();
-    }
-    this.selectedConfig = null;
-  }
-
-  async saveFaceRecognition() {
-    try {
-      const faceRecognitionObj: any = {
-        key: 'face_recognition',
-        value: this.generalConfig.face_recognition.value ? 1 : 0,
-      }
-      if (this.generalConfig.face_recognition.id === '') {
-        faceRecognitionObj['company_id'] = this.id;
-        await this.http.create(faceRecognitionObj, {}, 'auth/company_config');
-      } else {
-        await this.http.update(this.generalConfig.face_recognition.id, faceRecognitionObj, {}, 'auth/company_config');
-        this.messageService.add({severity:'success', summary: 'Success', detail: 'Config updated successfully!'});
-      }
-      await this.setGeneralConfig();
-    } catch (e) {
-      this.generalConfig.face_recognition.value = !this.generalConfig.face_recognition.value;
-      console.error(e);
-    }
-  }
-
-  async saveLiveStreaming() {
-    try {
-      const liveStreamingObj: any = {
-        key: 'live_streaming',
-        value: this.generalConfig.live_streaming.value ? 1 : 0,
-      }
-      if (this.generalConfig.live_streaming.id === '') {
-        liveStreamingObj['company_id'] = this.id;
-        await this.http.create(liveStreamingObj, {}, 'auth/company_config');
-      } else {
-        await this.http.update(this.generalConfig.live_streaming.id, liveStreamingObj, {}, 'auth/company_config');
-        this.messageService.add({severity:'success', summary: 'Success', detail: 'Config updated successfully!'});
-      }
-      await this.setGeneralConfig();
-    } catch (e) {
-      this.generalConfig.live_streaming.value = !this.generalConfig.live_streaming.value;
-      console.error(e);
-    }
-  }
-
-  async saveDefaultOrderForm() {
-    try {
-      if (!this.orderConfigId) {
-        await this.http.create({
-          is_default_form: this.generalConfig.custom_order_form.is_default_form,
-          company_id: this.id,
-        }, {}, 'order/order_config');
-        this.messageService.add({severity:'success', summary: 'Success', detail: 'Config updated successfully!'});
-        await this.setGeneralConfig();
-        return;
-      }
-      await this.http.update(this.orderConfigId, this.generalConfig.custom_order_form, {}, 'order/order_config');
-      this.messageService.add({severity:'success', summary: 'Success', detail: 'Config updated successfully!'});
-      await this.setGeneralConfig();
-    } catch (e) {
-      this.generalConfig.custom_order_form.is_default_form = !this.generalConfig.custom_order_form.is_default_form;
-      console.error(e);
-    }
-  }
-
-  openConfirmationDialog(configType: string, event: any) {
-    this.selectedConfig = configType;
-    this.displayConfirmationDialog = true;
-  }
-
-  cancelSave() {
-    if (this.selectedConfig === 'face_recognition') {
-      this.generalConfig.face_recognition.value = !this.generalConfig.face_recognition.value;
-    }
-    if (this.selectedConfig === 'live_streaming') {
-      this.generalConfig.live_streaming.value = !this.generalConfig.live_streaming.value;
-    }
-    if (this.selectedConfig === 'custom_order_form') {
-      this.generalConfig.custom_order_form.is_default_form = !this.generalConfig.custom_order_form.is_default_form;
-    }
-    this.displayConfirmationDialog = false;
-    this.selectedConfig = null;
-  }
-
-  async setGeneralConfig() {
-    const config = await this.getCompanyConfig();
-    const orderConfig = await this.getCompanyOrderConfig();
-    this.orderConfigId = orderConfig ? orderConfig.id : null;
-    const faceRecognitionObj = config.find((x: any) => x.key === 'face_recognition');
-    if (faceRecognitionObj) {
-      this.generalConfig.face_recognition.value = faceRecognitionObj.value !== 0;
-      this.generalConfig.face_recognition.id = faceRecognitionObj.id;
-    }
-
-    const liveStreamObj = config.find((x: any) => x.key === 'live_streaming');
-    if (liveStreamObj) {
-      this.generalConfig.live_streaming.value = liveStreamObj.value !== 0;
-      this.generalConfig.live_streaming.id = liveStreamObj.id;
-    }
-    this.generalConfig.custom_order_form.is_default_form = orderConfig['is_default_form'] ? orderConfig['is_default_form'] : false;
   }
 }

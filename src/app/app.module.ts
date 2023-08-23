@@ -34,6 +34,8 @@ import { AddIntegrationComponent } from './client-list/add-integration/add-integ
 import {StepsModule} from "primeng/steps";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {TypeAheadComponent} from "./@theme/components/type-ahead/type-ahead.component";
+import {AccordionModule} from "primeng/accordion";
+import { GeneralConfigComponent } from './client-list/config-setting/general-config/general-config.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import {TypeAheadComponent} from "./@theme/components/type-ahead/type-ahead.comp
     LoginComponent,
     ConfigSettingComponent,
     AddIntegrationComponent,
-    TypeAheadComponent
+    TypeAheadComponent,
+    GeneralConfigComponent
   ],
   imports: [
     BrowserModule,
@@ -73,6 +76,7 @@ import {TypeAheadComponent} from "./@theme/components/type-ahead/type-ahead.comp
     MultiSelectModule,
     StepsModule,
     NgSelectModule,
+    AccordionModule,
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true},],
   bootstrap: [AppComponent]

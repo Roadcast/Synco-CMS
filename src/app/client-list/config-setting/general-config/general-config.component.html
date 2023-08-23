@@ -1,0 +1,165 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">Face Recognition</th>
+    <th scope="col"> Live Streaming</th>
+    <th scope="col"> Default Order Form</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th>
+      <p-toggleButton onLabel="ON" offLabel="OFF" (onChange)="openConfirmationDialog('face_recognition', $event)"
+                      [(ngModel)]="generalConfig.face_recognition.value"></p-toggleButton>
+    </th>
+    <td>
+      <p-toggleButton onLabel="ON" offLabel="OFF" (onChange)="openConfirmationDialog('live_streaming', $event)"
+                      [(ngModel)]="generalConfig.live_streaming.value"></p-toggleButton>
+    </td>
+    <td>
+      <p-toggleButton onLabel="ON" offLabel="OFF" (onChange)="openConfirmationDialog('custom_order_form', $event)"
+                      [(ngModel)]="generalConfig.custom_order_form.is_default_form"></p-toggleButton>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<br>
+<br>
+<div>
+  <p-card header="CUSTOM FIELDS CONFIGURATION">
+    <table style="width:100%" >
+      <thead>
+      <tr>
+        <th>
+          Sequence no.
+        </th>
+        <th>
+          Actual column name
+        </th>
+        <th>
+          Show column name
+        </th>
+        <th>
+          Set placeholder
+        </th>
+        <th>
+          Is required
+        </th>
+        <th>
+          Visibility
+        </th>
+        <th>
+          Action
+        </th>
+      </tr>
+      </thead>
+      <tr *ngFor="let data of dataSource" class="rows">
+        <td style="width: 9%">
+          <input pInputText [(ngModel)]="data.show_sequence" type="text" style="width: 40%">
+        </td>
+        <td>{{data.actual_field_name}}</td>
+        <td>
+          <input pInputText [(ngModel)]="data.show_field_name" type="text">
+        </td>
+        <td>
+          <input pInputText type="text" [(ngModel)]="data.show_field_placeholder">
+        </td>
+        <td>
+          <p-toggleButton onLabel="ON" offLabel="OFF" [(ngModel)]="data.is_required"></p-toggleButton>
+        </td>
+        <td>
+          <p-toggleButton onLabel="ON" offLabel="OFF" [(ngModel)]="data.is_visible"></p-toggleButton>
+        </td>
+        <td>
+          <button (click)="saveCustomFields(data)" pButton pRipple type="button"
+                  class="p-button-success p-button-sm mr-2">
+            Save
+          </button>
+        </td>
+      </tr>
+    </table>
+    <br>
+    <br>
+    <div class="custom-fields">
+      <div class="w3-left">
+        <h5><strong>Custom Fields</strong></h5>
+      </div>
+      <br>
+      <div *ngIf="customFields.length > 0">
+        <div *ngFor="let field of customFields; let i = index;">
+          {{i+1}}&nbsp;&nbsp;
+          <label>Field name: </label>&nbsp;
+          <strong>{{field.actual_field_name}}</strong>
+          &nbsp;&nbsp;
+          <label>Type</label>&nbsp;
+          <p-dropdown [options]="dataTypes" [optionValue]="'value'"
+                      [(ngModel)]="field.custom_type" placeholder="Select"
+                      [showClear]="true" [optionLabel]="'label'"></p-dropdown>
+          &nbsp;&nbsp;
+          <button pButton pRipple type="button" class="p-button-danger p-button-sm mr-2" (click)="removeField(field.id)"
+                  *ngIf="field.actual_field_name === 'field' + customFields.length">
+            Remove
+          </button>&nbsp;
+          <button pButton pRipple type="button" class="p-button-success p-button-sm mr-2" (click)="SaveField(field)">
+            Save
+          </button>
+          <div *ngIf="field.custom_type === 'dropdown'" style="width:30%">
+            <p-accordion>
+              <p-accordionTab header="Dropdown (click to edit)">
+                <div *ngIf="field.custom_dropdown && field.custom_dropdown.length > 0">
+                  <div *ngFor="let value of field.custom_dropdown">
+                    <span>{{value}}</span>&nbsp;&nbsp;
+                    <span style="color:red;cursor: pointer" pTooltip="remove"
+                          (click)="deleteDropDown(field.actual_field_name, value)">
+                                                    X
+                                                </span>
+                    <br>
+                  </div>
+                </div>
+                <label>Add dropdown value: </label>
+                <input pInputText #dropdown type="text">&nbsp;&nbsp;
+                <button pButton pRipple type="button" class="p-button-success p-button-sm mr-2"
+                        (click)="addDropDown(field.actual_field_name, dropdown.value)" [disabled]="!dropdown.value">
+                  Add
+                </button>
+              </p-accordionTab>
+            </p-accordion>
+          </div>
+
+          <br><hr>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="add-field">
+        <div class="w3-left">
+          <h5><strong>Add new field</strong></h5>
+        </div>
+        <br>
+        <label>Field name: </label>&nbsp;
+        <strong>field{{customFields.length+1}}</strong>
+        &nbsp;&nbsp;
+        <label>Type</label>&nbsp;
+        <p-dropdown [options]="dataTypes" [optionValue]="'value'"
+                    [(ngModel)]="customType" placeholder="Select"
+                    [showClear]="true" [optionLabel]="'label'"></p-dropdown>
+        <br><br>
+        &nbsp;&nbsp;
+        <button pButton pRipple type="button" class="p-button-success p-button-sm mr-2"
+                [disabled]="customType === ''" (click)="addNewCustomField()">
+          Add field
+        </button>
+      </div>
+    </div>
+  </p-card>
+</div>
+
+
+<p-dialog header="Status" [closable]="false" [draggable]="false"
+          [(visible)]="displayConfirmationDialog" [style]="{width: '20vw'}" [baseZIndex]="10000">
+  <p>Are you sure?</p>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="displayConfirmationDialog=false; saveConfig()" label="Yes" styleClass="p-button-text"></p-button>
+    <p-button icon="pi pi-times" (click)="cancelSave()" styleClass="p-button-text" label="No"></p-button>
+  </ng-template>
+</p-dialog>

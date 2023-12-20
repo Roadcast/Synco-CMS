@@ -1,13 +1,13 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {ApiService} from "../services/api.service";
-import {BackgroundDownloaderService} from "../services/background-downloader.service";
+import {ApiService} from "../../services/api.service";
+import {BackgroundDownloaderService} from "../../services/background-downloader.service";
 // @ts-ignore
 import * as FileSaver from 'file-saver';
-import {User} from "../services/user";
-import {StorageService} from "../services/storage.service";
+import {User} from "../../services/user";
+import {StorageService} from "../../services/storage.service";
 import {MessageService} from "primeng/api";
 import {ActivatedRoute, Router} from "@angular/router";
-import {UserService} from "../services/user.service";
+import {UserService} from "../../services/user.service";
 import {HttpErrorResponse} from "@angular/common/http";
 
 
@@ -81,8 +81,8 @@ export class ClientListComponent implements OnInit {
               private storage: StorageService, private messageService: MessageService, public router: Router,
               private activatedRoute: ActivatedRoute, private userService: UserService) {
     this.cities = [
-      {name: 'SALES'},
-      {name: 'SUPPORT'}
+      {name: 'Sales'},
+      {name: 'Support'}
     ];
   }
 
@@ -94,9 +94,9 @@ export class ClientListComponent implements OnInit {
 
   async getSaleSupportData() {
     try {
-      const getsupportValue = (await this.http.query({type: 'SUPPORT'}, 'auth/partner/poc'));
+      const getsupportValue = (await this.http.query({type: 'Support'}, 'auth/partner/poc'));
       this.supportData = getsupportValue[0].data;
-      const getsaleValue = (await this.http.query({type: 'SALES'}, 'auth/partner/poc'));
+      const getsaleValue = (await this.http.query({type: 'Sales'}, 'auth/partner/poc'));
       this.saleData = getsaleValue[0].data;
     } catch (e) {
       console.error(e);
@@ -107,6 +107,8 @@ export class ClientListComponent implements OnInit {
     this.loadTableCheck = true;
     try {
       const outletsData = (await this.http.get('', {}, 'auth/partner/outlets')).data;
+      console.log(outletsData);
+      
       outletsData.forEach((row: any) => {
         row['is_activate'] = !row['is_deactivate'];
         row.sales_poc_name = row.sales_poc_name === null ? 'Not Assign' : row.sales_poc_name;
@@ -317,9 +319,9 @@ export class ClientListComponent implements OnInit {
   }
 
   async config(product: any) {
-    const path = 'config'
+    const path = 'pages/config'
     this.router.navigate([path + '/'+ (product.company_id ? product.company_id.toString(10) : 'new')], {
-      relativeTo: this.activatedRoute, queryParamsHandling: 'merge',
+       queryParamsHandling: 'merge',
     }).then();
   }
 
@@ -344,7 +346,7 @@ export class ClientListComponent implements OnInit {
         keys: {}
       }
     } catch (e) {
-      this.messageService.add({severity:'error', summary: 'error', detail: 'Could not create new partner!'});
+      this.messageService.add({severity:'error', summary: 'error', detail: 'Could not Create New Partner!'});
       console.error(e);
     }
   }

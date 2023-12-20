@@ -1,0 +1,61 @@
+<div class="ord-table">
+    <div class="row align-items-center">
+        <div class="col-6  mt-10 mb-10">
+            <button nbButton status="primary" class="w-30 align-content-center" (click)="goToAddEdit()">{{"Add" |
+                translate}}</button>
+        </div>
+    </div>
+    <div class="scn">
+        <div class="row m-0 border-bottom-row align-items-center">
+            <div class="col-3 col-bg-pad bor-lft text-center border-right bold font12">
+                {{"Actions" | translate}}
+            </div>
+            <div class="col-3 col-bg-pad bor-lft text-left border-right bold font12">
+                {{"Name" | translate}}
+            </div>
+            <div class="col-2 col-bg-pad bor-lft text-center border-right bold font12">
+                {{"Trip type" | translate}}
+            </div>
+            <div class="col-2 col-bg-pad bor-lft text-center border-right bold font12">
+                {{"Icon" | translate}}
+            </div>
+            <div class="col-2 col-bg-pad bor-lft text-center border-right bold font12">
+                {{"Active" | translate}}
+            </div>
+        </div>
+        <div class="row border-bottom-row align-items-center m-0"
+            *ngFor="let yard of visibleYardConfig; let i = index">
+            <div class="col-3 col-h bor-lft text-center border-right font13 sm-btns">
+                <button nbButton status="primary" outline class="border-0 nbg"
+                    (click)="goToAddEdit(yard)">
+                    <nb-icon [nbTooltip]="'Edit'" icon="edit-outline"></nb-icon>
+                </button>
+                <button (click)="deleteYard(yard)" nbButton status="primary" outline class="border-0 nbg">
+                    <nb-icon [nbTooltip]="'Remove'" icon="trash-2-outline"></nb-icon>
+                </button>
+            </div>
+            <div class="col-3 col-h bor-lft text-left justify-content-start font13">
+                {{yard.name}}
+                <nb-icon *ngIf="yard.description!=null" icon="info-outline"
+                    class="ml-5 font16 basecolor d-cursor" nbTooltip="{{yard.description}}"></nb-icon>
+            </div>
+            <div class="col-2 col-h bor-lft text-left justify-content-start font13">
+                {{yard.flow==='first_mile' ? 'First Mile' : 'Last Mile'}}
+            </div>
+
+            <div class="col-2 col-h bor-lft text-left justify-content-start font13">
+                <ng-container *ngIf="yard.icon!=null">
+                    <img [src]="yard.icon" alt="icon" class="ml-5rem img-h-48">
+                </ng-container>
+
+            </div>
+
+            <div class="col-2 col-h bor-lft text-center font13">
+                <nb-toggle [(ngModel)]="yard.active" (checkedChange)="toggleYard($event, yard)"
+                    labelPosition="left">
+                </nb-toggle>
+            </div>
+        </div>
+        
+    </div>
+</div>

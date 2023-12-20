@@ -1,122 +1,35 @@
-<p-panel header="SETTINGS">
-  <button pButton pRipple type="button" class="p-button-primary mr-2" style="float: left"
-          (click)="back()" label="Go Back" [icon]="'pi pi-arrow-left'"></button>
-  <br>
-  <br>
-  <br>
-  <div class="card">
-    <p-progressSpinner *ngIf="loading"></p-progressSpinner>
-    <p-tabView>
-      <p-tabPanel header="TRIGGER POINT" rightIcon="pi pi-inbox" tooltip="TRIGGER POINT">
-        <div class="mx-3">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Name</th>
-                <th scope="col"> Set Event</th>
-                <th scope="col"> Set Delay</th>
-                <th scope="col"> Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th>
-                  <p-dropdown [options]="outletsData" (onChange)="triggerData($event)" placeholder="Set Trigger"
-                                optionLabel="name" [showClear]="true"></p-dropdown>
-                </th>
-                <td>
-                  <p-dropdown [options]="statusData" (onChange)="eventData($event)" placeholder="Set Event"
-                                optionLabel="name" [showClear]="true"></p-dropdown>
-                </td>
-                <td>
-                  <input minlength="10" [(ngModel)]="addApiData.delayData" pInputText placeholder="Set Delay"
-                           required type="number" name="delay">
-                </td>
-                <td>
-                  <button pButton pRipple type="button" class="p-button-success mr-2" (click)="addTrigger()"
-                            label="ADD" [disabled]="!addApiData.delayData || addApiData.eventId === ''
-                             || addApiData.triggerName === ''"></button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+<p-panel header="CONFIGURATION">
+  <nb-card class="conf-cont mb-30" [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="large">
+    <nb-tabset (changeTab)="onChangeOfTabset($event)">
+      <!-- General Tab -->
+      <nb-tab active="{{setActiveTab==='General'}}" [tabTitle]="translateText('General')">
+          <app-general-config [shareId]="company_id" (getLoadingStatus)="loadingStatus($event)" *ngIf="setActiveTab==='General'"></app-general-config>
+      </nb-tab>
+      <!-- General Tab -->
 
-          <div class="card">
-            <p-table [value]="companyTrigger" [resizableColumns]="true" styleClass="p-datatable-gridlines">
-              <ng-template pTemplate="header">
-                <tr>
-                  <th pResizableColumn>Name</th>
-                  <th pResizableColumn>Event</th>
-                  <th pResizableColumn>Delay</th>
-                  <th pResizableColumn>Action</th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-product>
-                <tr>
-                  <td>{{product.name}}</td>
-                  <td>{{product.status_name}}</td>
-                  <td>{{product.delay}}</td>
-                  <td><button pButton pRipple type="button" class="p-button-danger mr-2"
-                              (click)="delTrigger(product)" label="Remove"></button></td>
-                </tr>
-              </ng-template>
-            </p-table>
-          </div>
-        </div>
-      </p-tabPanel>
-      <p-tabPanel header="DOC CONFIG" rightIcon="pi pi-book" tooltip="DOC CONFIG">
-        <table class="table">
-          <thead>
-          <tr>
-            <th scope="col">Verification Partner</th>
-            <th scope="col"> Set Document</th>
-            <th scope="col"> Action</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <th>
-              <p-dropdown [options]="docConfigRef" (onChange)="setVerificationDocs()"
-                          [(ngModel)]="selectedVerificationObject" placeholder="Set Verification"
-                          [showClear]="true" [optionLabel]="'verification_partner'"></p-dropdown>
-            </th>
-            <td>
-              <p-multiSelect [options]="selectedVerificationDocsRef" placeholder="Set Document" optionLabel="name"
-                          [showClear]="true" optionValue="value" [(ngModel)]="selectedVerificationDocs"
-                          [disabled]="selectedVerificationDocsRef.length === 0" [optionDisabled]="'disable'"></p-multiSelect>
-            </td>
-            <td>
-              <button pButton pRipple type="button" class="p-button-success mr-2" (click)="saveDocConfig()"
-                      label="SAVE" [disabled]="selectedVerificationDocsRef.length === 0 ||
-                       selectedVerificationDocs.length === 0"></button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+      <!-- Reasons Tab -->
+      <nb-tab active="{{setActiveTab==='Reasons'}}" [tabTitle]="translateText('Reasons')" class="pt-0 pl-0 pr-0">
+        <app-reasons [shareId]="company_id" (getLoadingStatus)="loadingStatus($event)" *ngIf="setActiveTab==='Reasons'"></app-reasons>
+      </nb-tab>
+      <!-- Reasons Tab -->
 
-        <div class="card">
-          <p-table [value]="savedDocConfigTableView" [resizableColumns]="true" styleClass="p-datatable-gridlines">
-            <ng-template pTemplate="header">
-              <tr>
-                <th pResizableColumn>Verification Partner</th>
-                <th pResizableColumn>Document</th>
-                <th pResizableColumn>Action</th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-config>
-              <tr>
-                <td>{{config.verification_partner}}</td>
-                <td>{{removeUnderScore(config.doc) | titlecase}}</td>
-                <td><button pButton pRipple type="button" class="p-button-danger mr-2"
-                            (click)="deleteDoc(config.doc, config.verification_partner)" label="Remove"></button></td>
-              </tr>
-            </ng-template>
-          </p-table>
-        </div>
-      </p-tabPanel>
-      <p-tabPanel header="GENERAL CONFIG" rightIcon="pi pi-file-o" tooltip="GENERAL CONFIG">
-        <app-general-config [id]="id"></app-general-config>
-      </p-tabPanel>
-    </p-tabView>
-  </div>
-</p-panel>
+      <!-- Trigger Point Tab-->
+      <nb-tab active="{{setActiveTab==='Trigger Point'}}" [tabTitle]="translateText('Trigger Point')">
+        <app-trigger-point [shareId]="company_id" (getLoadingStatus)="loadingStatus($event)" *ngIf="setActiveTab==='Trigger Point'" ></app-trigger-point>
+      </nb-tab>
+      <!-- Trigger Point Tab-->
+
+      <!-- Doc Verification Config-->
+      <nb-tab active="{{setActiveTab==='Doc Verification Config'}}" [tabTitle]="translateText('Doc Verification Config')">
+        <app-doc-verification (getLoadingStatus)="loadingStatus($event)" *ngIf="setActiveTab==='Doc Verification Config'" [companyId]="companyId"></app-doc-verification>
+      </nb-tab>
+      <!-- Doc Verification Config-->
+
+      <!-- Yard Config-->
+      <nb-tab active="{{setActiveTab==='Yard Config'}}" id="yardConfig" [tabTitle]="translateText('Yard Config')">
+        <app-yard-config (getLoadingStatus)="loadingStatus($event)" *ngIf="setActiveTab==='Yard Config'"></app-yard-config>
+      </nb-tab>
+      <!-- Yard Config -->
+
+    </nb-tabset>
+  </nb-card>

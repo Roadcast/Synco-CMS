@@ -1,0 +1,71 @@
+<nb-layout>
+
+  <!-- Header -->
+  <nb-layout-header fixed>
+    <div class="header-container col-sm-4 pl-0">
+      <!-- Menu -->
+      <div>
+        <a (click)="toggleSidebar()" class="d-cursor">
+          <img src="/assets/images/menu.svg" alt="" width="28">
+        </a>
+      </div>
+    </div>
+    <ng-container>
+      <!-- Company Logo -->
+      <div class="col-sm-4 header-container c-logo pl-0 pr-0">
+        <img alt="" src="/assets/images/logo.png" class="d-block mx-auto" height="42">
+      </div>
+
+
+      <div #topbarmenu class="layout-topbar-menu" >
+        <button class="p-link layout-topbar-button">
+            <i class="pi pi-calendar"></i>
+            <span>Calendar</span>
+        </button>
+        <button class="p-link layout-topbar-button">
+            <i class="pi pi-user"></i>
+            <span>Profile</span>
+        </button>
+         <p-menu #menu [model]="data" [popup]="true"></p-menu> 
+
+        <button class="p-link layout-topbar-button"
+        (click)="menu.toggle($event)" 
+                >
+            <i class="pi pi-cog"></i>
+            <span>Settings</span>
+        </button> 
+     </div> 
+
+      <!-- Notification Button -->
+      <!-- <div class="col-sm-4 pr-0">
+        <div class="d-flex justify-content-end align-items-center h-100">
+          <div [nbTooltip]="'Notification'" class="position-relative">
+            <nb-badge status="danger" position="top right" class="badge-note"></nb-badge>
+            <img src="/assets/images/notification.svg" alt="" height="32" width="32" class="d-cursor">
+          </div>
+        </div>
+      </div> -->
+    </ng-container>
+  </nb-layout-header>
+
+  <!-- Sidebar -->
+    <nb-sidebar class="menu-sidebar" tag="menu-sidebar" responsive start state="compacted" fixed="false">
+      <nb-menu [items]="items"></nb-menu>
+  </nb-sidebar>
+
+
+  <!-- Container -->
+  <nb-layout-column class="pagepad">
+
+    <!--    <nb-menu [items]="items"></nb-menu>-->
+    <router-outlet></router-outlet>
+    <ngx-spinner></ngx-spinner>
+    <p-toast></p-toast>
+  </nb-layout-column>
+
+  <!-- Footer -->
+  <nb-layout-footer fixed>
+    <div class="footer font12 color-grey">&copy; Copyright 2023 | All rights reserved with Roadcast Tech Solutions Pvt. Ltd.</div>
+  </nb-layout-footer>
+
+</nb-layout>

@@ -1,0 +1,23 @@
+<nb-card>
+    <div class="row mt-10">
+        <div class="col">
+            <label>{{"Verification Partner" | translate}}</label>
+            <nb-select placeholder="Select Verification Partner" fullWidth [(ngModel)]="docConfig.verification_partner">
+                <nb-option [value]="docConfig.verification_partner">{{removeUnderScore(docConfig.verification_partner)}}</nb-option>
+            </nb-select>
+        </div>
+    </div>
+    <div class="row mt-10">
+        <div class="col">
+            <label>{{"Verification Partner" | translate}}</label>
+            <nb-select multiple placeholder="Select Docs" fullWidth (selectedChange)="getSelectedChange($event)">
+                <nb-option *ngFor="let doc of docs" [value]="doc.doc">{{removeUnderScore(doc.doc)}}</nb-option>
+            </nb-select>
+        </div>
+    </div>
+    <div class="row mt-10">
+        <div class="col">
+            <button nbButton status="primary" (click)="postDocVerifyData()">{{"Save" | translate}}</button>
+        </div>
+    </div>
+</nb-card>

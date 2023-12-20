@@ -1,0 +1,10 @@
+<div class="d-flex justify-content-between align-items-center">
+	<div [nbSpinnerMessage]="'Uploading File'" [nbSpinnerStatus]="'danger'" [nbSpinner]="loader" class="custom-file">
+		<input (change)="uploadFile($event)" [(ngModel)]="image" [placeholder]="url"
+		[required]="mandatory && !url" name="image" nbInput type="file" multiple class="custom-file-input">
+		<label class="custom-file-label">{{fileName ? fileName : translateText('Choose File')}}</label>
+	</div>
+	<div *ngIf="url" class="viewbtn">
+		<span id="basic-addon2"><a [href]="url" target="_blank">{{"View" | translate}}</a></span>
+	</div>
+</div>

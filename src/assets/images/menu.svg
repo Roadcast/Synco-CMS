@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="80" height="80" viewBox="0 0 80 80">
+  <defs>
+    <clipPath id="clip-Menu">
+      <rect width="80" height="80"/>
+    </clipPath>
+  </defs>
+  <g id="Menu" clip-path="url(#clip-Menu)">
+    <g id="Group_542" data-name="Group 542" transform="translate(150.5 -992)">
+      <path id="Line_152" data-name="Line 152" d="M40.451,6.31H1.538C-.416,6.31-2,4.45-2,2.155S-.416-2,1.538-2H40.451C42.4-2,43.989-.14,43.989,2.155S42.4,6.31,40.451,6.31Z" transform="translate(-146.5 1005)" fill="#333"/>
+      <path id="Line_153" data-name="Line 153" d="M69.886,6.31H1.423C-.467,6.31-2,4.45-2,2.155S-.467-2,1.423-2H69.886c1.891,0,3.423,1.86,3.423,4.155S71.776,6.31,69.886,6.31Z" transform="translate(-146.5 1029.931)" fill="#333"/>
+      <path id="Line_154" data-name="Line 154" d="M55.715,6.31H1.5C-.434,6.31-2,4.45-2,2.155S-.434-2,1.5-2H55.715c1.932,0,3.5,1.86,3.5,4.155S57.647,6.31,55.715,6.31Z" transform="translate(-146.5 1054.861)" fill="#333"/>
+    </g>
+  </g>
+</svg>

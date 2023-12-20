@@ -1,0 +1,34 @@
+<div class="container login h-100c bg-light">
+  <div class="d-flex justify-content-center h-100c">
+    <div class="user_card">
+      <div class="p-d-flex p-justify-center">
+        <div style="text-align: center;">
+          <img src="./assets/roadcast.svg" class="brand_logo" alt="Logo">
+        </div>
+      </div>
+      <div class="p-d-flex p-justify-center form_container">
+        <form class="form" #loginForm="ngForm">
+          <div class="p-fluid mb-15">
+            <!--            <div class="p-field">-->
+            <!--              <span class="input-group-text"><i class="fas fa-user"></i></span>-->
+            <!--            </div>-->
+            <input type="email" name="email" class="form-control input_user" value="" [(ngModel)]="email"
+                   placeholder="Username" required minlength="6" pInputText>
+          </div>
+          <div class="p-fluid mb-20">
+            <!--            <div class="p-field">-->
+            <!--              <span class="input-group-text"><i class="fas fa-key"></i></span>-->
+            <!--            </div>-->
+            <input type="password" name="password" class="form-control input_pass" [(ngModel)]="password"
+                   value="" placeholder="Password" required minlength="6" pInputText>
+          </div>
+          <div>
+            <button pButton class="btn w-100" (click)="login()" label="Login"
+                    [disabled]="loginForm.form.invalid"></button>
+          </div>
+          <p *ngIf="alert" class="mt-10 font12 color-red text-center">{{alert}}</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

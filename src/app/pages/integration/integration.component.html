@@ -1,0 +1,72 @@
+<div class="p-fluid mt-20">
+    <p-table #dt2 [paginator]="true" [rowsPerPageOptions]="[10,25,50]" [rows]="10"
+         [globalFilterFields]="['name', 'web_hook_url', 'outlet_web_hook_url', 'other_web_hook_url', 'description']"
+          [value]="partners" dataKey="id" styleClass="p-datatable-striped p-datatable-gridlines p-datatable-sm">
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Icon</th>
+      <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+      <th>Description</th>
+      <th>Action</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>
+        <p-columnFilter field="name" type="text"></p-columnFilter>
+      </th>
+      <th>
+        <p-columnFilter field="description" type="text"></p-columnFilter>
+      </th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template let-expanded="expanded" let-i=index let-partner pTemplate="body">
+    <tr [pEditableRow]="partner">
+      <td>
+        <a [href]="partner.icon" [pTooltip]="'Click to Open'" tooltipPosition="top">
+          <img *ngIf="partner.icon" height="50" width="50" [src]="partner.icon" alt="" class="d-cursor">
+        </a>
+        {{partner.icon ? '' : 'N/A'}}
+      </td>
+      <td>
+        {{partner.name}}
+      </td>
+      <td>
+        {{partner.description}}
+      </td>
+      <td class="text-center">
+        <p-button type="button" pSaveEditableRow icon="pi pi-plus" tooltipPosition="left"
+                (click)="addNewIntegration(partner.id)" [pTooltip]="'Add New Integration'">
+        </p-button>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template let-product pTemplate="rowexpansion">
+    <tr>
+      <td colspan=11>
+        <div class="py-3">
+          <p-timeline [value]="product.logs" layout="vertical">
+            <ng-template pTemplate="content" let-event>
+              <small class="text-black-alpha-90">{{event.action}}
+                <span class="text-black-alpha-90">({{event.status}})</span></small>
+              <p class="mt-0 mb-0">{{event.comment}}</p>
+            </ng-template>
+            <ng-template pTemplate="opposite" let-event>
+              <small class="text-black-alpha-60">{{event.date}}</small><br>
+              <small class="text-black-alpha-60">{{event.agent}}</small>
+            </ng-template>
+          </p-timeline>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="summary">
+    <div class="p-d-flex p-ai-center p-jc-between">
+      In total there are {{data ? data.length : 0 }} outlets.
+    </div>
+  </ng-template> 
+</p-table>
+</div>

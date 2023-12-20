@@ -1,0 +1,66 @@
+ <nb-tabset (changeTab)="onChangeOfTabset($event)">
+    <nb-tab active="{{setActiveTab==='Rider Rejection Reasons'}}" [tabTitle]="translateText('Rider Rejection Reasons')" >
+        <ng-container *ngIf="setActiveTab==='Rider Rejection Reasons'"><ng2-smart-table [settings]="rejectionReasonsTableSettings" [source]="riderRejectionReasons"
+            (createConfirm)="onRejectReasonCreate($event, 'T')" (editConfirm)="onEdit($event)"
+            (deleteConfirm)="onDelete($event)">
+        </ng2-smart-table>
+
+        <div class="color-red font13 text-center">{{"Note: Only UN - USED reasons can be deleted" |
+            translate}}.</div></ng-container>
+        
+
+    </nb-tab>
+    <nb-tab active="{{setActiveTab==='Payment Rejection Reasons'}}" [tabTitle]="translateText('Payment Rejection Reasons')">
+        <ng-container *ngIf="setActiveTab==='Payment Rejection Reasons'"><ng2-smart-table [settings]="rejectionReasonsTableSettings" [source]="paymentRejectionReasons"
+            (createConfirm)="onRejectReasonCreate($event, 'P')" (editConfirm)="onEdit($event)"
+            (deleteConfirm)="onDelete($event)">
+        </ng2-smart-table>
+
+        <div class="color-red font13 text-center">{{"Note: Only UN - USED reasons can be deleted" |
+            translate}}.</div></ng-container>
+
+    </nb-tab>
+    <nb-tab active="{{setActiveTab==='Order Cancel Reasons'}}" [tabTitle]="translateText('Order Cancel Reasons')">
+        <ng-container *ngIf="setActiveTab==='Order Cancel Reasons'"><ng2-smart-table [settings]="rejectionReasonsTableSettings" [source]="orderRejectionReasons"
+            (createConfirm)="onRejectReasonCreate($event, 'O')" (editConfirm)="onEdit($event)"
+            (deleteConfirm)="onDelete($event)">
+        </ng2-smart-table>
+
+        <div class="color-red font13 text-center">{{"Note: Only UN - USED reasons can be deleted" |
+            translate}}.</div></ng-container>
+
+    </nb-tab>
+    <nb-tab active="{{setActiveTab==='Order Item Reasons'}}" [tabTitle]="translateText('Order Item Reasons')">
+        <ng-container *ngIf="setActiveTab==='Order Item Reasons'"><ng2-smart-table [settings]="rejectionReasonsTableSettings" [source]="orderItemReasons"
+            (createConfirm)="onRejectReasonCreate($event, 'I')" (editConfirm)="onEdit($event)"
+            (deleteConfirm)="onDelete($event)">
+        </ng2-smart-table>
+
+        <div class="color-red font13 text-center">{{"Note: Only UN - USED reasons can be deleted" |
+            translate}}.</div></ng-container>
+
+    </nb-tab>
+    <nb-tab active="{{setActiveTab==='Rider Disable Reasons'}}" [tabTitle]="translateText('Rider Disable Reasons')">
+        <ng-container *ngIf="setActiveTab==='Rider Disable Reasons'"> <ng2-smart-table [settings]="rejectionReasonsTableSettings" [source]="riderDisableReasons"
+            (createConfirm)="onRejectReasonCreate($event, 'R')" (editConfirm)="onEdit($event)"
+            (deleteConfirm)="onDelete($event)">
+        </ng2-smart-table>
+
+        <div class="color-red font13 text-center">{{"Note: Only UN - USED reasons can be deleted" |
+            translate}}.</div></ng-container>
+
+    </nb-tab>
+
+    <nb-tab active="{{setActiveTab==='Safety Instructions Reasons'}}" [tabTitle]="translateText('Safety Instructions Reasons')">
+        <ng-container *ngIf="setActiveTab==='Safety Instructions Reasons'"><ng2-smart-table [settings]="safetyRejectionReasonsTableSettings" [source]="safetyItemReasons"
+            (createConfirm)="onSafetyRejectReasonCreate($event, 'Z')" (editConfirm)="onEdit($event)"
+            (deleteConfirm)="onDelete($event)">
+        </ng2-smart-table>
+
+        <div class="color-red font13 text-center">{{"Note: Only UN - USED reasons can be deleted" |
+            translate}}.</div></ng-container>
+
+    </nb-tab>
+</nb-tabset>
+ 
+ 

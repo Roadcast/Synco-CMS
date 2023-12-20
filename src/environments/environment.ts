@@ -5,7 +5,17 @@
 export const environment = {
   production: false,
   baseUrl: 'https://synco-test-api.roadcast.co.in/api/v1/',
+  firebaseConfig: {
+    apiKey: "AIzaSyCTks4mDMdTsdtZ2duLTfBCLvFvz7_J_NA",
+    authDomain: "synco-dc96f.firebaseapp.com",
+    databaseURL: "https://synco-dc96f.firebaseio.com",
+    projectId: "synco-dc96f",
+    storageBucket: "synco-dc96f.appspot.com",
+    messagingSenderId: "396410044695",
+    appId: "1:396410044695:web:b349e9b39770b377",
+  },
 };
+
 
 /*
  * For easier debugging in development mode, you can import the following file

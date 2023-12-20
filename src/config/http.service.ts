@@ -102,29 +102,39 @@ export abstract class HttpService<T> {
 		}
 	}
 
-	public query(query?: IRestQuery, url?: string, report?: boolean): Promise<T> {
-		// this.spinner.show();
-		const request: Observable<any> = this.http.get(this.buildUrl(undefined, url, report), HttpService.buildRequestOptions(query));
+	// public query(query?: IRestQuery, url?: string, report?: boolean): Promise<T> {
+	// 	// this.spinner.show();
+	// 	const request: Observable<any> = this.http.get(this.buildUrl(undefined, url, report), HttpService.buildRequestOptions(query));
+	// 	return new Promise((resolve, reject) => request.subscribe(res => {
+	// 		// this.spinner.hide();
+	// 		return resolve(res);
+	// 	}, (err) => {
+	// 		HttpService.catchError(err);
+	// 		this.spinner.hide();
+	// 		return reject(err);
+	// 	}));
+	// }
+
+	public query(query?: IRestQuery, url?: string, base?: string): Promise<T> {
+		const request: Observable<any> = this.http.get(this.buildUrl(undefined, url, base), HttpService.buildRequestOptions(query));
 		return new Promise((resolve, reject) => request.subscribe(res => {
-			// this.spinner.hide();
 			return resolve(res);
 		}, (err) => {
 			HttpService.catchError(err);
-			this.spinner.hide();
 			return reject(err);
 		}));
 	}
 
-	public downloadFile(query?: IRestQuery, url?: string, report?: boolean): Promise<Blob> {
-		const request: Observable<any> = this.http.get(this.buildUrl(undefined, url, report),
-			HttpService.buildRequestOptions(query, 'blob'));
-		return new Promise((resolve, reject) => request.subscribe(res => {
-			return resolve(res);
-		}, (err) => {
-			HttpService.catchError(err);
-			return reject(err);
-		}));
-	}
+	// public downloadFile(query?: IRestQuery, url?: string, report?: boolean): Promise<Blob> {
+	// 	const request: Observable<any> = this.http.get(this.buildUrl(undefined, url, report),
+	// 		HttpService.buildRequestOptions(query, 'blob'));
+	// 	return new Promise((resolve, reject) => request.subscribe(res => {
+	// 		return resolve(res);
+	// 	}, (err) => {
+	// 		HttpService.catchError(err);
+	// 		return reject(err);
+	// 	}));
+	// }
 
 	public get(id: string | number, query?: IRestQuery, url?: string): Promise<T> {
 		const request: Observable<any> = this.http.get(this.buildUrl(id, url), HttpService.buildRequestOptions(query));
@@ -177,12 +187,23 @@ export abstract class HttpService<T> {
 		}));
 	}
 
-	protected buildUrl(id?: string | number, newUrl?: string, report?: boolean): string {
+	// protected buildUrl(id?: string | number, newUrl?: string, report?: boolean): string {
+	// 	let url: string = newUrl ? newUrl : this.path;
+	// 	if (id) {
+	// 		url += `/${id}`;
+	// 	}
+	// 	url = `${this.base}${url}`;
+	// 	return url;
+	// }
+	protected buildUrl(id?: string | number, newUrl?: string, baseUrl?: string): string {
 		let url: string = newUrl ? newUrl : this.path;
 		if (id) {
 			url += `/${id}`;
 		}
+		
+		// const base = environment[baseUrl];
 		url = `${this.base}${url}`;
+		
 		return url;
 	}
 }

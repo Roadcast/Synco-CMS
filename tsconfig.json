@@ -24,7 +24,7 @@
     ]
   },
   "angularCompilerOptions": {
-    "disableTypeScriptVersionCheck": true
+    "disableTypeScriptVersionCheck": true,
 //    "enableI18nLegacyMessageIdFormat": false,
 //    "strictInjectionParameters": true,
 //    "strictInputAccessModifiers": true,

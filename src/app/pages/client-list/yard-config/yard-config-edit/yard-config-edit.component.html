@@ -1,0 +1,69 @@
+<div class="row">
+    <div class="col-sm-12 col-12">
+        <section class="forms-section" [nbSpinner]="loading" nbSpinnerMessage="Saving" nbSpinnerStatus="primary">
+            <div class="row" >
+                <div class="col-12 mt-20">
+                    <nb-card>
+                        <nb-card-header>{{ id!='new' ? this.translateText("Update") : this.translateText("Add") }} {{"Configuration" | translate}}</nb-card-header>
+                    <nb-card-body>
+                        <div class="ord-table">
+                            <form  #tripType="ngForm" class="form form-horizontal was-validated mt-20">
+                                <div class="form-group">
+                                    <label class="required">{{"Name" | translate}}</label>
+                                    <input #name="ngModel" nbInput shape="rectangle" class="form-control" placeholder="Trip Type Name" type="text" [(ngModel)]="yard.name"
+                                    name="name" nbInput required="true" (ngModelChange)="onchangeofInput($event,'name')">
+                                        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger mt-3">
+                                            <div *ngIf="name.errors.required">
+                                                {{"Trip Type name is required" | translate}}.
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="mr-20 required">{{"Trip Type" | translate}}</label>
+                                    <nb-select required="true" #type="ngModel" [placeholder]="'Select Trip Type'" (ngModelChange)="onchangeofInput($event,'flow')" [(ngModel)]="yard.flow" name="flow" class="w-100">
+                                        <nb-option [value]="'first_mile'">{{"First Mile" | translate}}</nb-option>
+                                        <nb-option [value]="'last_mile'">{{"Last Mile" | translate}}</nb-option>
+                                    </nb-select>
+                                    <div *ngIf="type.invalid && (type.dirty || type.touched)" class="alert alert-danger mt-3">
+                                        <div *ngIf="type.errors.required">
+                                            {{"Trip Type is required" | translate}}.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>{{"Description" | translate}}</label>
+                                    <input fullWidth nbInput class="form-control w-100" (ngModelChange)="onchangeofInput($event,'description')" type="text" [(ngModel)]="yard.description" name="description">
+                                </div>
+                                <div class="form-group">
+                                    <label>{{"Icon" | translate}}</label>
+                                    <!-- <ngx-file-upload  (getUrl)="yard.icon = $event; onchangeofInput($event,'icon')" [url]="yard.icon">
+                                    </ngx-file-upload> -->
+                                    <app-fileupload (getUrl)="yard.icon = $event; onchangeofInput($event,'icon')" [url]="yard.icon"></app-fileupload>
+                                </div> 
+                                <!-- <div class="form-group">
+                                    <label class="mr-20">{{"Is partial Loading/Unloading Allowed" | translate}}</label>
+                                    <nb-toggle class="mt-10" (ngModelChange)="onchangeofInput($event,'is_partial_loading_unloading_allowed')" labelPosition="left" name="active" [checked]="yard.is_partial_loading_unloading_allowed === true"
+                                        [(ngModel)]="yard.is_partial_loading_unloading_allowed"></nb-toggle>
+                                </div>
+                                <div class="form-group">
+                                    <label class="mr-20">{{"Is partial Trip Allowed" | translate}}</label>
+                                    <nb-toggle class="mt-10" labelPosition="left" (ngModelChange)="onchangeofInput($event,'is_partial_trip_allowed')" name="active" [checked]="yard.is_partial_trip_allowed === true"
+                                        [(ngModel)]="yard.is_partial_trip_allowed"></nb-toggle>
+                                </div>  -->
+                         </form> 
+                        </div>     
+                    </nb-card-body>
+                    <nb-card-footer>
+                        <div class="d-flex justify-content-end">
+                            <button [routerLink]="['/pages/config/', id]" [queryParams]="{page: 'Yard Config'}" class="mr-15 btn-w-12"  nbButton status="primary">
+                                {{ "Go Back" | translate}}
+                            </button>
+                            <button [disabled]="tripType.form.invalid" nbButton class="btn-w-12" status="primary" (click)="saveYardConfig()">{{ id!='new' ? this.translateText("Update") : this.translateText("ADD") }}</button>
+                        </div>
+                    </nb-card-footer>
+                    </nb-card>
+                </div>
+            </div>
+        </section>
+    </div>
+</div> 

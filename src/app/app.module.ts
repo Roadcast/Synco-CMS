@@ -1,14 +1,13 @@
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {ClientListComponent} from './client-list/client-list.component';
-import {ClientDetailComponent} from './client-list/client-detail/client-detail.component';
+import {ClientListComponent} from './pages/client-list/client-list.component';
+import {ClientDetailComponent} from './pages/client-list/client-detail/client-detail.component';
 import {FormsModule} from "@angular/forms";
 import {PanelModule} from "primeng/panel";
 import {ButtonModule} from "primeng/button";
-import {TableModule} from "primeng/table";
 import {CalendarModule} from "primeng/calendar";
 import {InputTextModule} from "primeng/inputtext";
 import {CardModule} from "primeng/card";
@@ -25,18 +24,55 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {Interceptor} from "../config/http.intercepter";
 import {DropdownModule} from "primeng/dropdown";
 import {ToastModule} from 'primeng/toast';
-import { ConfigSettingComponent } from './client-list/config-setting/config-setting.component';
+import { ConfigSettingComponent } from './pages/client-list/config-setting/config-setting.component';
 import {TabViewModule} from "primeng/tabview";
 import {InputSwitchModule} from "primeng/inputswitch";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
 import {MultiSelectModule} from "primeng/multiselect";
-import { AddIntegrationComponent } from './client-list/add-integration/add-integration.component';
+import { AddIntegrationComponent } from './pages/client-list/add-integration/add-integration.component';
 import {StepsModule} from "primeng/steps";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {TypeAheadComponent} from "./@theme/components/type-ahead/type-ahead.component";
 import {AccordionModule} from "primeng/accordion";
-import { GeneralConfigComponent } from './client-list/config-setting/general-config/general-config.component';
+import { GeneralConfigComponent } from './pages/client-list/config-setting/general-config/general-config.component';
+import {AuthModule} from './auth/auth.module';
+import { TableModule } from 'primeng/table';
+import {
+  NbThemeModule,
+  NbLayoutModule,
+  NbTooltipModule,
+  NbBadgeModule,
+  NbMenuModule,
+  NbSidebarModule,
+  NbTabsetModule,
+  NbSelectModule,
+  NbToggleModule,
+  NbIconModule,
+  NbButtonModule,
+  NbToastrModule,
+  NbCheckboxModule,
+  NbCardModule,
+  NbSpinnerModule
+} from '@nebular/theme';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { ToastService } from './pages/toast.service';
+import { ReasonsComponent } from './pages/client-list/config-setting/reasons/reasons.component';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { DocVerificationComponent } from './pages/client-list/config-setting/doc-verification/doc-verification.component';
+import { TriggerPointComponent } from './pages/client-list/trigger-point/trigger-point.component';
+import { YardConfigComponent } from './pages/client-list/yard-config/yard-config.component';
+import { FileuploadComponent } from './pages/client-list/fileupload/fileupload.component';
+import { AngularFireModule } from "@angular/fire/compat";
+import { AngularFireAuthModule } from "@angular/fire/compat/auth";
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { environment } from 'src/environments/environment';
 
+// import { RouterModule } from '@angular/router';
+// import { routes } from './auth/auth-routing.module';
+ 
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,16 +82,21 @@ import { GeneralConfigComponent } from './client-list/config-setting/general-con
     ConfigSettingComponent,
     AddIntegrationComponent,
     TypeAheadComponent,
-    GeneralConfigComponent
+    GeneralConfigComponent,
+    ReasonsComponent,
+    DocVerificationComponent,
+    TriggerPointComponent,
+    YardConfigComponent,
   ],
   imports: [
+    TableModule,
     BrowserModule,
     AppRoutingModule,
+    AuthModule,
     HttpClientModule,
     FormsModule,
     PanelModule,
     ButtonModule,
-    TableModule,
     CalendarModule,
     FormsModule,
     InputTextModule,
@@ -77,8 +118,33 @@ import { GeneralConfigComponent } from './client-list/config-setting/general-con
     StepsModule,
     NgSelectModule,
     AccordionModule,
+    NbThemeModule.forRoot({name: 'corporate'}),
+    NbLayoutModule,
+    NbEvaIconsModule,
+    NbTooltipModule,
+    NbBadgeModule,
+    NbMenuModule.forRoot(),
+    NbSidebarModule.forRoot(),
+    NgbModule,
+    NbTabsetModule,
+    Ng2SmartTableModule,
+    NbSelectModule,
+    NbToggleModule,
+    NbIconModule,
+    NbButtonModule,
+    NbToastrModule,
+    NbCheckboxModule,
+    TranslateModule.forRoot(),
+    NbCardModule,
+    Ng2SmartTableModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    NbSpinnerModule,
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true},],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true},ToastService],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+
   bootstrap: [AppComponent]
 })
 export class AppModule {

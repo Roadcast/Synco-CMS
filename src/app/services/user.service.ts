@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Subject} from 'rxjs';
 import {StorageService} from './storage.service';
@@ -10,9 +10,10 @@ import {User} from "./user";
 @Injectable({
   providedIn: 'root'
 })
-export class UserService extends HttpService<any> {
+export class UserService extends HttpService<any>{
   user: User = {} as User;
   user$: Subject<User> = new Subject() as Subject<User>;
+  company_Id: Subject<any> = new Subject() as Subject<any>;
 
   constructor(private httpClient: HttpClient, private storage: StorageService, spinner: NgxSpinnerService,
               private router: Router) {
@@ -20,6 +21,13 @@ export class UserService extends HttpService<any> {
       path: 'auth/user',
     }, spinner);
   }
+
+//   async getCompanyConfig() {
+//     return (await this.query({
+//       __company_id__equal: this.company_id,
+//       __only: ['key', 'value'],
+//     }, 'auth/company_config')).data;
+// }
 
   async init(): Promise<void> {
     const token = await this.storage.getItem('token');

@@ -1,18 +1,15 @@
-
 .user_card {
   height: 400px;
-  width: 350px;
+  min-width: 280px; width: 400px;
   margin: auto;
-  background: #b7d3dc;
+  background: #fff;
   position: relative;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding: 10px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 1.5rem;
 
 }
 .brand_logo_container {
@@ -41,9 +38,7 @@
   box-shadow: none !important;
   outline: 0 !important;
 }
-.login_container {
-  padding: 0 2rem;
-}
+
 .input-group-text {
   background: #026b95 !important;
   color: white !important;
@@ -66,4 +61,11 @@
   //top: 0;
   //bottom: 0;
   //z-index: 9999999;
+}
+
+
+@media (max-width: 400px) {
+  .user_card {
+    width: 90%;}
+
 }

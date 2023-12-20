@@ -1,0 +1,66 @@
+.user_card {
+  height: 400px;
+  min-width: 280px; width: 400px;
+  margin: auto;
+  background: #fff;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 1.5rem;
+
+}
+.brand_logo_container {
+  //position: absolute;
+  height: 170px;
+  width: 170px;
+  //top: -75px;
+  //border-radius: 50%;
+  background: #60a3bc;
+  padding: 10px;
+  text-align: center;
+}
+.brand_logo {
+  height: 150px;
+  width: 150px;
+}
+.form_container {
+  //margin-top: 100px;
+}
+.login_btn {
+  width: 100%;
+  background: #026b95 !important;
+  color: white !important;
+}
+.login_btn:focus {
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+
+.input-group-text {
+  background: #026b95 !important;
+  color: white !important;
+  border: 0 !important;
+  border-radius: 0.25rem 0 0 0.25rem !important;
+}
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+  background-color: #026b95 !important;
+}
+
+.login {
+  //position: absolute;
+  //height: 100vh;
+  //width: 100%;
+  //top: 0;
+  //bottom: 0;
+  //z-index: 9999999;
+}
+
+
+@media (max-width: 400px) {
+  .user_card {
+    width: 90%;}
+
+}

@@ -55,7 +55,7 @@
                     </nb-card-body>
                     <nb-card-footer>
                         <div class="d-flex justify-content-end">
-                            <button [routerLink]="['/pages/config/', id]" [queryParams]="{page: 'Yard Config'}" class="mr-15 btn-w-12"  nbButton status="primary">
+                            <button (click)="goBack()" class="mr-15 btn-w-12"  nbButton status="primary">
                                 {{ "Go Back" | translate}}
                             </button>
                             <button [disabled]="tripType.form.invalid" nbButton class="btn-w-12" status="primary" (click)="saveYardConfig()">{{ id!='new' ? this.translateText("Update") : this.translateText("ADD") }}</button>

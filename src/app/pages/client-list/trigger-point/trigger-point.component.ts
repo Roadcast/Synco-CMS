@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DataService } from '../../data.service';
+import { MessageService } from 'primeng/api';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-trigger-point',
@@ -8,7 +10,9 @@ import { DataService } from '../../data.service';
 })
 export class TriggerPointComponent implements OnInit {
 
-  constructor(private http: DataService,) { }
+  constructor(private http: DataService,
+    private messageService: MessageService,
+    private route: ActivatedRoute) { }
   @Output() getLoadingStatus = new EventEmitter<boolean>();  
   visibleTriggers:any = [];
   selectedTrigger: any;
@@ -16,7 +20,14 @@ export class TriggerPointComponent implements OnInit {
   orderStatus = [];
   outletsData:any;
   companyTrigger:any;
+  id: any;
   @Input() shareId:any;
+  addApiData = {
+    triggerName: '',
+    triggerService: '',
+    eventId: '',
+    delayData: 1,
+  }
   triggers = [
     "allot_next_order_mark_free",
     "update_rider_eta",
@@ -36,6 +47,9 @@ export class TriggerPointComponent implements OnInit {
     // this.fetchTriggers().then();
     this.fetchOrderStatus().then();
     this.getTrigger().then();
+    this.route.params.subscribe(params => {
+       this.id = params['id']; 
+    });
   }
 
   // async fetchTriggers() {
@@ -49,20 +63,51 @@ export class TriggerPointComponent implements OnInit {
   //   }
   // }
 
-  addTrigger() {
-    const trigger = {
-      name: this.selectedTrigger,
-      event: "",
-      delay: null,
-      isActive: false,
-      notification: false,
-    };
-    this.visibleTriggers.push(trigger);
-    this.selectedTrigger = "";
+  triggerData(event: any) {
+    console.log(event);
+    this.addApiData.triggerName = event.value.name;
+    this.addApiData.triggerService = event.value.service;
   }
 
-  removeRider(index: number) {
-    this.visibleTriggers.splice(index, 1);
+  eventData(event: any) {
+    console.log(event); 
+    this.addApiData.eventId = event.value.id;
+  }
+
+  addTrigger() {
+    // const trigger = {
+    //   name: this.selectedTrigger,
+    //   event: "",
+    //   delay: null,
+    //   isActive: false,
+    //   notification: false,
+    // };
+    // this.visibleTriggers.push(trigger);
+    // this.selectedTrigger = "";
+    try {
+      this.http.create({
+        name: this.addApiData.triggerName,
+        delay: this.addApiData.delayData,
+        service: this.addApiData.triggerService,
+        status_id: this.addApiData.eventId
+      }, {}, 'order/partner_trigger_point/' + this.id).then();
+      this.getTrigger().then();
+      this.messageService.add({severity:'success', summary: 'Added successfully', detail: this.addApiData.triggerName});
+    } catch (e) {
+      this.messageService.add({severity:'error', summary: 'error', detail: ''});
+    }
+  }
+
+  removeRider(event: any) {
+    // this.visibleTriggers.splice(index, 1);
+    try {
+      this.http.delete(event.id, {}, 'order/partner_trigger_point').then();
+      this.getTrigger().then();
+      this.messageService.add({severity:'success', summary: 'Removed successfully', detail: event.name});
+
+    } catch (e) {
+      this.messageService.add({severity:'error', summary: 'error', detail: ''});
+    }
   }
 
   showNotifications(check: boolean) {
@@ -81,7 +126,7 @@ export class TriggerPointComponent implements OnInit {
       // return false;
     }
   }
-
+ 
   async getTrigger() {
     try {
       this.outletsData = (await this.http.get('', {}, 'order/trigger_point_ref')).data;

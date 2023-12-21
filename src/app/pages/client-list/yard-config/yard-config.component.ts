@@ -1,8 +1,9 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DataService } from '../../data.service';
 import { ToastService } from '../../toast.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-yard-config',
@@ -13,13 +14,15 @@ export class YardConfigComponent implements OnInit {
 
   @Output() getLoadingStatus = new EventEmitter<boolean>();
   visibleYardConfig = [];
+  @Input() shareId: any;
 
   constructor(
     private http: DataService,
     private toaster: ToastService,
     private router: Router,
     private translate: TranslateService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private user: UserService
   ) {}
 
   ngOnInit(): void {
@@ -28,10 +31,10 @@ export class YardConfigComponent implements OnInit {
     this.fetchYardConfig()
       .then()
       .catch((e:any) => {});
-      this.route.paramMap.subscribe(params => {
-        const id = params.get('id');
-        console.log('ID from URL:', id);
-      });
+      // this.route.paramMap.subscribe(params => {
+      //   const id = params.get('id');
+      //   console.log('ID from URL:', id);
+      // });
   }
 
   appendAQueryParam() {
@@ -54,7 +57,7 @@ export class YardConfigComponent implements OnInit {
   async fetchYardConfig() {
     try {
       this.visibleYardConfig = (
-        await this.http.query({}, "yard/trip_type")
+        await this.http.query({ __company_id__equal: this.shareId }, "yard/trip_type")
       ).data;
       this.getLoadingStatus.emit(false);
     } catch (e:any) {
@@ -75,6 +78,7 @@ export class YardConfigComponent implements OnInit {
       "pages/config/add/" +
         (yard?.id ? yard.id.toString(10) : "new"),
     ]);
+    this.user.company_Id.next(this.shareId);
   }
 
   //Toggle yard active state True Or False
@@ -115,7 +119,7 @@ export class YardConfigComponent implements OnInit {
   async deleteYard(yard:any) {
     this.getLoadingStatus.emit(true);
     try {
-      this.http.delete(yard.id, {}, "yard/trip_type");
+      this.http.delete(yard.id, {__company_id__equal: this.shareId}, "yard/trip_type");
       this.visibleYardConfig = this.visibleYardConfig.filter(
         (yardConfig:any) => yardConfig.id != yard.id
       );

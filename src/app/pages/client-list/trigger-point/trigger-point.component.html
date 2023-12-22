@@ -1,3 +1,36 @@
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col"> Set Event</th>
+        <th scope="col"> Set Delay</th>
+        <th scope="col"> Action</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>
+              <p-dropdown [options]="outletsData" (onChange)="triggerData($event)" placeholder="Set Trigger"
+                            optionLabel="name" [showClear]="true"></p-dropdown>
+                            
+            </th>
+            <td>
+                <p-dropdown [options]="orderStatus" (onChange)="eventData($event)" placeholder="Set Event"
+                              optionLabel="name" [showClear]="true"></p-dropdown>
+              </td>
+              <td>
+                <input minlength="10" [(ngModel)]="addApiData.delayData" pInputText placeholder="Set Delay"
+                         required type="number" name="delay">
+              </td>
+              <td>
+                <button pButton pRipple type="button" class="p-button-success mr-2" (click)="addTrigger()"
+                          label="ADD" [disabled]="!addApiData.delayData || addApiData.eventId === ''
+                           || addApiData.triggerName === ''"></button>
+              </td>
+          </tr>
+    </tbody>
+  </table>
+
 <div class="ord-table">
     <div class=" scn">
         <div class="row m-0 border-bottom-row align-items-center">
@@ -13,9 +46,9 @@
             <!--                    <div class="col-1 col-bg-pad bor-lft text-center border-right bold font12">-->
             <!--                        Disable-->
             <!--                    </div>-->
-            <div class="col-2 col-bg-pad bor-lft text-center border-right bold font12">
+            <!-- <div class="col-2 col-bg-pad bor-lft text-center border-right bold font12">
                 {{"Notification" | translate}}
-            </div>
+            </div> -->
             <div class="col-3 col-bg-pad bor-lft text-center border-right bold font12">
                 {{"Actions"| translate}}
             </div>
@@ -29,11 +62,12 @@
                     nbTooltip="{{trigg.name}}"></nb-icon>
             </div>
             <div class="col-2 col-h bor-lft text-center font13">
-                <nb-select placeholder="Set Event" [(selected)]="trigg.event" class="w-90">
-                    <nb-option *ngFor="let status of orderStatus" [value]="status.name">
-                        {{status.name}}
+                <!-- <nb-select  class="w-90">
+                    <nb-option *ngFor="let status of visibleTriggers" [value]="status.status_name">
+                        {{status.status_name}}
                     </nb-option>
-                </nb-select>
+                </nb-select> -->
+                <input type="text" nbInput [(ngModel)]="trigg.status_name">
             </div>
             <div class="col-2 col-h bor-lft text-center font13">
                 <input type="number" nbInput [(ngModel)]="trigg.delay" placeholder="In Seconds" max="1000"
@@ -42,22 +76,22 @@
             <!--                    <div class="col-1 col-h bor-lft text-center font13">-->
             <!--                        <nb-toggle [(checked)]="trigg.is_disabled"></nb-toggle>-->
             <!--                    </div>-->
-            <div class="col-2 col-h bor-lft text-center font13">
+            <!-- <div class="col-2 col-h bor-lft text-center font13">
                 <nb-checkbox (checkedChange)="showNotifications($event)"
                     [(checked)]="trigg.notification"></nb-checkbox>
-            </div>
+            </div> -->
             <div class="col-3 col-h bor-lft text-center border-right font13 sm-btns">
-                <nb-toggle labelPosition="start" [(checked)]="trigg.is_disabled" class="mr-10">{{"Disable" |
+                <!-- <nb-toggle labelPosition="start" [(checked)]="trigg.is_disabled" class="mr-10">{{"Disable" |
                     translate}}</nb-toggle>
                 <button nbButton status="primary" outline class="border-0 nbg">
                     <nb-icon [nbTooltip]="'Save'" icon="save-outline"></nb-icon>
-                </button>
-                <button (click)="removeRider(i)" nbButton status="primary" outline class="border-0 nbg">
+                </button> -->
+                <button (click)="removeRider(trigg)" nbButton status="primary" outline class="border-0 nbg">
                     <nb-icon [nbTooltip]="'Remove'" icon="trash-2-outline"></nb-icon>
                 </button>
             </div>
             <!-- Notification Popup start here -->
-            <div *ngIf="trigg.notification" class="col-12 bor-lft bor-rgt">
+            <!-- <div *ngIf="trigg.notification" class="col-12 bor-lft bor-rgt">
                 <div class="w-100 bg-white row m-0 mb-15 pt-25 pb-25 radius ex-border">
                     <div class="col-12">
                         <p class="font16 bold mb-15">{{"Notification" | translate}}</p>
@@ -88,10 +122,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
-    <div class="mt-30 border radius p-20">
+    <!-- <div class="mt-30 border radius p-20">
         <div class="row align-items-center">
             <div class="col-md-3 m-mb-15">
                 <p class="font16 bold mb-0">{{"Add New Trigger Point" | translate}}</p>
@@ -106,5 +140,5 @@
                 <button nbButton status="primary" (click)="addTrigger()">{{"Add" | translate}}</button>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>

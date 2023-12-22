@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { YardData } from 'src/app/models/config-yard';
 import { DataService } from 'src/app/pages/data.service';
 import { ToastService } from 'src/app/pages/toast.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-yard-config-edit',
@@ -12,12 +13,14 @@ import { ToastService } from 'src/app/pages/toast.service';
 })
 export class YardConfigEditComponent implements OnInit {
 
-   loading: boolean = false;
+  loading: boolean = false;
   id: any;
-  yard:YardData=<YardData>{name:'',flow:'',description:null,icon:null,};
-  updateConfigYard:YardData=<YardData>{};
+  yard: YardData = <YardData>{ name: '', flow: '', description: null, icon: null, };
+  updateConfigYard: YardData = <YardData>{};
+  _company_Id: any;
 
-  constructor(private activateRoute: ActivatedRoute,private http: DataService,private toaster: ToastService,private router: Router,private translate: TranslateService,) {
+  constructor(private activateRoute: ActivatedRoute, private http: DataService, private toaster: ToastService, private router: Router, private translate: TranslateService,
+    private user: UserService) {
     this.activateRoute.params.subscribe((res) => {
       this.loading = true;
       if (res['id'] !== 'new') {
@@ -27,23 +30,28 @@ export class YardConfigEditComponent implements OnInit {
         this.id = 'new';
       }
     });
-   }
+  }
 
   ngOnInit(): void {
     if (this.id !== 'new') this.getYardConfigById();
     this.loading = false;
+    this.user.company_Id.subscribe((res) => {
+      this._company_Id = res;
+      localStorage.setItem('company_Id', this._company_Id);
+    })
   }
+  
 
   translateText(key: string): string {
-		let translation: string='';
-		this.translate.get(key).subscribe((res: string) => {
-			translation = res;
-		});
-		return translation;
-	}
+    let translation: string = '';
+    this.translate.get(key).subscribe((res: string) => {
+      translation = res;
+    });
+    return translation;
+  }
 
   //Get Yard Config by ID
-  async getYardConfigById(){
+  async getYardConfigById() {
     try {
       const response = await this.http.get(
         this.id,
@@ -57,14 +65,14 @@ export class YardConfigEditComponent implements OnInit {
     }
   }
 
-   //When user click on the save button
-   async saveYardConfig() {
+  //When user click on the save button
+  async saveYardConfig() {
     this.loading = true;
     try {
       if (this.id !== 'new') {
         console.log(this.updateConfigYard);
         if (Object.keys(this.updateConfigYard).length !== 0) {
-            this.updateYardConfig();
+          this.updateYardConfig();
         } else {
           this.toaster.showToast(this.translateText('Nothing to save or update'), 'Error', true);
           this.loading = false;
@@ -80,7 +88,8 @@ export class YardConfigEditComponent implements OnInit {
 
   // create the new yardConfig
   createYardConfig() {
-    const res = this.http.create(this.yard, {}, 'yard/trip_type').then((yarConfig) => {
+    const company_Id = localStorage.getItem('company_Id');
+    const res = this.http.create(this.yard, {__company_id__equal: company_Id}, 'yard/trip_type').then((yarConfig) => {
       this.id = yarConfig.data[0].id;
       this.router.navigate([
         '/pages/config/add/' + this.id,
@@ -93,8 +102,9 @@ export class YardConfigEditComponent implements OnInit {
 
   // update the new yardConfig
   updateYardConfig() {
+    const company_Id = localStorage.getItem('company_Id');
     const res = this.http
-      .update(this.id, this.updateConfigYard, {}, "yard/trip_type")
+      .update(this.id, this.updateConfigYard, {__company_id__equal: company_Id}, "yard/trip_type")
       .then(() => {
         this.loading = false;
         this.updateConfigYard = <YardData>{};
@@ -112,4 +122,8 @@ export class YardConfigEditComponent implements OnInit {
     this.updateConfigYard = new_obj;
   }
 
+  goBack(){
+    const company_Id = localStorage.getItem('company_Id');
+    this.router.navigate(['/pages/config/' + company_Id ]);
+  }
 }

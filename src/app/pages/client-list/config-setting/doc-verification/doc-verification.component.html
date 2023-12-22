@@ -1,4 +1,4 @@
-<nb-card>
+<!-- <nb-card>
     <div class="row mt-10">
         <div class="col">
             <label>{{"Verification Partner" | translate}}</label>
@@ -20,4 +20,55 @@
             <button nbButton status="primary" (click)="postDocVerifyData()">{{"Save" | translate}}</button>
         </div>
     </div>
-</nb-card>
+</nb-card> -->
+<table class="table">
+    <thead>
+    <tr>
+      <th scope="col">Verification Partner</th>
+      <th scope="col"> Set Document</th>
+      <th scope="col"> Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <th>
+        <p-dropdown [options]="docConfigRef" (onChange)="setVerificationDocs()"
+        [(ngModel)]="selectedVerificationObject" placeholder="Set Verification"
+        [showClear]="true" [optionLabel]="'verification_partner'"></p-dropdown>
+      </th>
+       <td>
+        <p-multiSelect [options]="selectedVerificationDocsRef" placeholder="Set Document" optionLabel="name"
+                    [showClear]="true" optionValue="value" [(ngModel)]="selectedVerificationDocs"
+                    [disabled]="selectedVerificationDocsRef.length === 0" [optionDisabled]="'disable'"></p-multiSelect>
+      </td>
+      <td>
+        <button pButton pRipple type="button" class="p-button-success mr-2" (click)="saveDocConfig()" 
+                label="SAVE" [disabled]="selectedVerificationDocsRef.length === 0 ||
+                 selectedVerificationDocs.length === 0"></button>
+      </td> 
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="card">
+    <p-table [value]="savedDocConfigTableView" [resizableColumns]="true" styleClass="p-datatable-gridlines">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pResizableColumn>Verification Partner</th>
+          <th pResizableColumn>Document</th>
+          <th pResizableColumn>Action</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-config>
+        <tr>
+          <td>{{config.verification_partner}}</td>
+          <td>{{removeUnderScore(config.doc) | titlecase}}</td>
+          <td><button pButton pRipple type="button" class="p-button-danger mr-2"
+                      (click)="deleteDoc(config.doc, config.verification_partner)" label="Remove"></button></td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  
+
+

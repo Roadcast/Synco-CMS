@@ -147,6 +147,12 @@ export abstract class HttpService<T> {
 	}
 
 	public create(obj: T, query?: IRestQuery, url?: string): Promise<T> {
+		console.log(obj);
+		console.log(query);
+		console.log(url);
+		
+		
+		
 		const request: Observable<any> = this.http.post(this.buildUrl(undefined, url), obj,
 			HttpService.buildRequestOptions(query));
 		return new Promise((resolve, reject) => request.subscribe(res => {

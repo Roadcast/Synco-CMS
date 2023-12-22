@@ -27,7 +27,7 @@
 
       <!-- Yard Config-->
       <nb-tab active="{{setActiveTab==='Yard Config'}}" id="yardConfig" [tabTitle]="translateText('Yard Config')">
-        <app-yard-config (getLoadingStatus)="loadingStatus($event)" *ngIf="setActiveTab==='Yard Config'"></app-yard-config>
+        <app-yard-config (getLoadingStatus)="loadingStatus($event)" [shareId]="company_id" *ngIf="setActiveTab==='Yard Config'"></app-yard-config>
       </nb-tab>
       <!-- Yard Config -->
 

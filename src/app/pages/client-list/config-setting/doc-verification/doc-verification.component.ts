@@ -3,24 +3,35 @@ import { DocVerification } from './DocVerification';
 import { DataService } from 'src/app/pages/data.service';
 import { ToastService } from 'src/app/pages/toast.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ActivatedRoute } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
-  selector: 'app-doc-verification',
-  templateUrl: './doc-verification.component.html',
-  styleUrls: ['./doc-verification.component.scss']
+    selector: 'app-doc-verification',
+    templateUrl: './doc-verification.component.html',
+    styleUrls: ['./doc-verification.component.scss']
 })
 export class DocVerificationComponent implements OnInit {
 
-  @Output() getLoadingStatus = new EventEmitter<boolean>();  
-    @Input() companyId: string ='';
-    docConfig: any = {} as DocVerification;
+    @Output() getLoadingStatus = new EventEmitter<boolean>();
+    @Input() companyId: string = '';
+    docConfigRef: any = {} as any;
     docs: any[] = [];
-    postDocs:any= {}
+    postDocs: any = {};
+    selectedVerificationDocsRef: any = [];
+    selectedVerificationObject: any
+    selectedVerificationDocs: any = [];
+    savedDocConfigObjectByVerifyPartner: any = {};
+    savedDocConfig: any = [];
+    savedDocConfigTableView: any = [];
+    id: any;
 
-    constructor(private http: DataService, private toast: ToastService,private translate: TranslateService) {}
+    constructor(private http: DataService, private toast: ToastService, private translate: TranslateService,
+        private activeRoute: ActivatedRoute,
+        private messageService: MessageService) { }
 
     translateText(key: string): string {
-        let translation: string='';
+        let translation: string = '';
         this.translate.get(key).subscribe((res: string) => {
             translation = res;
         });
@@ -29,64 +40,120 @@ export class DocVerificationComponent implements OnInit {
 
     ngOnInit(): void {
         this.getLoadingStatus.emit(true)
-        this.getDocVerifyData().then();
+        // this.getDocVerifyData().then();
+        this.getDocConfigDataRef().then();
+        this.getDocConfigDataById().then();
+        this.activeRoute.paramMap.subscribe(params => {
+            this.id = params.get('id');
+        });
     }
 
-    async getDocVerifyData() {
+    async getDocConfigDataRef() {
         try {
-            this.docConfig = (await this.http.query({__company_id__equal: this.companyId}, 'auth/doc_verification_config', 'auth')).data[0];
-            for (const doc in this.docConfig.docs) {
-                this.docs.push({doc: this.docConfig.docs[doc]})
-            }
-            this.getLoadingStatus.emit(false)
+            this.docConfigRef = (await this.http.query({}, 'auth/doc_config')).data;
+            this.getLoadingStatus.emit(false);
         } catch (e) {
-            console.error('e', e);
-            this.getLoadingStatus.emit(false)
+            console.error(e);
         }
     }
 
-    async postDocVerifyData() {
-        this.getLoadingStatus.emit(true)
-        if (!this.companyId) {
-            this.toast.showToast(this.translateText('Not able to find company id'), 'Invalid', true);
-            this.getLoadingStatus.emit(false)
+    setVerificationDocs() {
+        this.selectedVerificationDocsRef = [];
+        this.selectedVerificationDocs = [];
+        if (!this.selectedVerificationObject)
             return;
-        } else if (!this.docConfig.verification_partner) {
-            this.toast.showToast(this.translateText('Not able to find verification partner'), 'Invalid', true);
-            this.getLoadingStatus.emit(false)
-            return; 
-        } else if (Object.keys(this.postDocs).length === 0) {
-            this.toast.showToast(this.translateText('Not able to find any docs'), 'Invalid', true);
-            this.getLoadingStatus.emit(false)
-            return;
-        } else {
-            const body = {
-                company_id: this.companyId,
-                verification_partner: this.docConfig.verification_partner,
-                docs: this.postDocs
-            }
-            try {
-                const res = await this.http.create(body, {}, 'auth/doc_verification_config');
-                console.log('res', res);
-                this.getLoadingStatus.emit(false)
-            } catch (e) {
-                console.log('e', e);
-                this.toast.showToast(this.translateText('Error while saving config'), 'Failed', true);
-                this.getLoadingStatus.emit(false)
-            }
-        }
+        this.selectedVerificationDocsRef = Object.keys(this.selectedVerificationObject['docs'])
+            .map(x => {
+                return {
+                    name: this.selectedVerificationObject['docs'][x],
+                    value: x,
+                    disable: !!(this.savedDocConfigObjectByVerifyPartner[this.selectedVerificationObject['verification_partner']] &&
+                        this.savedDocConfigObjectByVerifyPartner[this.selectedVerificationObject['verification_partner']]
+                            .includes(this.selectedVerificationObject['docs'][x])),
+                }
+            });
+    }
 
+    async getDocConfigDataById() {
+        try {
+            this.savedDocConfigObjectByVerifyPartner = {};
+            this.savedDocConfigTableView = [];
+            this.selectedVerificationDocsRef = [];
+            this.selectedVerificationDocs = [];
+            this.selectedVerificationObject = null;
+            this.savedDocConfig = (await this.http.query({ __company_id__equal: this.companyId }, 'auth/doc_verification_config')).data;
+            this.savedDocConfig.forEach((config: any) => {
+                Object.keys(config['docs']).forEach(doc => {
+                    this.savedDocConfigObjectByVerifyPartner[config['verification_partner']] ?
+                        this.savedDocConfigObjectByVerifyPartner[config['verification_partner']].push(config['docs'][doc]) :
+                        this.savedDocConfigObjectByVerifyPartner[config['verification_partner']] = [config['docs'][doc]]
+                    const object: any = {}
+                    object['verification_partner'] = config['verification_partner'],
+                        object['doc'] = doc;
+                    this.savedDocConfigTableView.push(object);
+                });
+            });
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     removeUnderScore(text: string = '') {
         return text !== '' ? text.split('_').join(' ') : '';
     }
 
-    getSelectedChange(event: any) {
-        console.log('event', event);
-        event.forEach((el: string) => {
-            this.postDocs[el === 'BANK_ACCOUNT' ? 'BANK'.toLowerCase() : el.toLowerCase()] = el;
+    async deleteDoc(doc: any, verificationPartner: any) {
+        let deleteObject: any = {};
+        this.savedDocConfig.forEach((config: any) => {
+            if (config['verification_partner'] === verificationPartner) {
+                delete config['docs'][doc]
+                delete config['created_on']
+                deleteObject = config;
+            }
         });
-        console.log('post docs', this.postDocs);
+        try {
+            await this.http.update(deleteObject['id'], deleteObject, {}, 'auth/doc_verification_config')
+            this.getDocConfigDataById().then();
+            this.messageService.add({
+                severity: 'success', summary: 'Added successfully',
+                detail: verificationPartner + ': ' + this.removeUnderScore(doc)
+            });
+
+        } catch (e) {
+            this.messageService.add({ severity: 'error', summary: 'error', detail: 'Could not remove config!' });
+            console.error(e);
+        }
     }
+
+    async saveDocConfig() {
+        const payloadObject = JSON.parse(JSON.stringify(this.selectedVerificationObject));
+        delete payloadObject['created_on'];
+        delete payloadObject['id'];
+    
+        const savedConfig = this.savedDocConfig.find((x: any) => x['verification_partner'] ===
+          this.selectedVerificationObject['verification_partner']);
+        if (savedConfig) {
+          payloadObject['id'] = savedConfig['id'];
+        }
+        Object.keys(payloadObject['docs']).forEach((doc: any) => {
+          if (!this.selectedVerificationDocs.includes(doc) &&
+            ((this.savedDocConfigObjectByVerifyPartner[payloadObject['verification_partner']] &&
+              !this.savedDocConfigObjectByVerifyPartner[payloadObject['verification_partner']].includes(payloadObject['docs'][doc]))
+            || !this.savedDocConfigObjectByVerifyPartner[payloadObject['verification_partner']]))
+            delete payloadObject['docs'][doc];
+        });
+        payloadObject['company_id'] = this.id;
+        try {
+          if (payloadObject['id']) {
+            await this.http.update(payloadObject['id'], payloadObject, {}, 'auth/doc_verification_config');
+          } else {
+            await this.http.create(payloadObject, {}, 'auth/doc_verification_config');
+          }
+            this.messageService.add({severity:'success', summary: 'Config saved successfully!', detail: ''});
+            await this.getDocConfigDataById();
+        } catch (e) {
+          console.error(e);
+          this.messageService.add({severity:'error', summary: 'error', detail: ''});
+        }
+      }
 }

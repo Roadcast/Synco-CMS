@@ -83,7 +83,7 @@ export class YardConfigComponent implements OnInit {
 
   //Toggle yard active state True Or False
   toggleYard(event:any, yard:any) {
-    this.getLoadingStatus.emit(true);
+    this.getLoadingStatus.emit(true); 
     try {
       this.http
         .update(
@@ -91,7 +91,7 @@ export class YardConfigComponent implements OnInit {
           {
             active: event,
           },
-          {},
+          {__company_id__equal: this.shareId},
           "yard/trip_type",
           // "yard"
         )

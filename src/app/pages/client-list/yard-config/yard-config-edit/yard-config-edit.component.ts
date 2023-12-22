@@ -52,13 +52,16 @@ export class YardConfigEditComponent implements OnInit {
 
   //Get Yard Config by ID
   async getYardConfigById() {
+    this._company_Id = localStorage.getItem('company_Id');
     try {
       const response = await this.http.get(
         this.id,
-        {},
+        {__company_id__equal:  this._company_Id},
         "yard/trip_type"
       );
       this.yard = Object.assign({}, response);
+      console.log(this.yard);
+      
       this.loading = false;
     } catch (e) {
       this.loading = false;
@@ -108,7 +111,7 @@ export class YardConfigEditComponent implements OnInit {
   updateYardConfig() {
     const company_Id = localStorage.getItem('company_Id');
     const res = this.http
-      .update(this.id, this.updateConfigYard, {__company_id__equal: company_Id}, "yard/trip_type")
+      .update(this.id, this.updateConfigYard, {__company_id__equal: this._company_Id}, "yard/trip_type")
       .then(() => {
         this.loading = false;
         this.updateConfigYard = <YardData>{};

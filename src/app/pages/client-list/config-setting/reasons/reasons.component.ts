@@ -53,7 +53,7 @@ export class ReasonsComponent  {
   };
   safetyRejectionReasonsTableSettings = {
     add: {
-      addButtonContent: '<i class="eva eva-plus-outline"></i>',
+      addButtonContent: '<img src="/assets/images/plus-thin.svg" alt="" width="12">',
       createButtonContent:
         '<img src="/assets/images/icon-check.svg" alt="" width="12">',
       cancelButtonContent:
@@ -127,11 +127,12 @@ export class ReasonsComponent  {
               name: event.newData.name,
               reason_code: this.reasonCode,
               description: event.newData.name,
+              company_id: this.shareId
             },
             {__company_id__equal: this.shareId},
             "order/reason",
           )
-          .then(() => {
+          .then(() => { 
             event.confirm.resolve();
             this.toaster.showToast(
               "Reason Added successfully",
@@ -251,10 +252,11 @@ export class ReasonsComponent  {
 
   //On Delete any table 
   async onDelete(event:any) {
+    console.log(event);
     if (window.confirm("Are you sure you want to delete?")) {
       this.getLoadingStatus.emit(true);
       this.http
-        .delete(event.data.id, {__company_id__equal: this.shareId}, "order/reason")
+        .delete(event.data.id, {}, "order/reason")
         .then(() => {
           event.confirm.resolve();
           if(this.setActiveTab==='Rider Rejection Reasons'){

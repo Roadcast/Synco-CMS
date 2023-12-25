@@ -147,12 +147,7 @@ export abstract class HttpService<T> {
 	}
 
 	public create(obj: T, query?: IRestQuery, url?: string): Promise<T> {
-		console.log(obj);
-		console.log(query);
-		console.log(url);
-		
-		
-		
+
 		const request: Observable<any> = this.http.post(this.buildUrl(undefined, url), obj,
 			HttpService.buildRequestOptions(query));
 		return new Promise((resolve, reject) => request.subscribe(res => {
@@ -183,7 +178,7 @@ export abstract class HttpService<T> {
 		}));
 	}
 
-	public delete(id: string | number, query?: IRestQuery, url?: string): Promise<T> {
+	public delete(id: any, query?: IRestQuery, url?: string): Promise<T> {
 		const request: Observable<any> = this.http.delete(this.buildUrl(id, url), HttpService.buildRequestOptions(query));
 		return new Promise((resolve, reject) => request.subscribe(res => {
 			return resolve(res);

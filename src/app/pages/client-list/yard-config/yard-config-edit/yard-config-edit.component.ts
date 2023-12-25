@@ -15,7 +15,7 @@ export class YardConfigEditComponent implements OnInit {
 
   loading: boolean = false;
   id: any;
-  yard: YardData = <YardData>{ name: '', flow: '', description: null, icon: null, };
+  yard: YardData = <YardData>{ name: '', flow: '', description: null, icon: null,};
   updateConfigYard: YardData = <YardData>{};
   _company_Id: any;
 
@@ -52,13 +52,16 @@ export class YardConfigEditComponent implements OnInit {
 
   //Get Yard Config by ID
   async getYardConfigById() {
+    this._company_Id = localStorage.getItem('company_Id');
     try {
       const response = await this.http.get(
         this.id,
-        {},
+        {__company_id__equal:  this._company_Id},
         "yard/trip_type"
       );
       this.yard = Object.assign({}, response);
+      console.log(this.yard);
+      
       this.loading = false;
     } catch (e) {
       this.loading = false;
@@ -88,8 +91,12 @@ export class YardConfigEditComponent implements OnInit {
 
   // create the new yardConfig
   createYardConfig() {
-    const company_Id = localStorage.getItem('company_Id');
-    const res = this.http.create(this.yard, {__company_id__equal: company_Id}, 'yard/trip_type').then((yarConfig) => {
+    this._company_Id = localStorage.getItem('company_Id');
+    this.yard = {
+      ...this.yard,
+      company_id: this._company_Id,
+    };
+    const res = this.http.create(this.yard, {__company_id__equal:  this._company_Id }, 'yard/trip_type').then((yarConfig) => {
       this.id = yarConfig.data[0].id;
       this.router.navigate([
         '/pages/config/add/' + this.id,
@@ -104,7 +111,7 @@ export class YardConfigEditComponent implements OnInit {
   updateYardConfig() {
     const company_Id = localStorage.getItem('company_Id');
     const res = this.http
-      .update(this.id, this.updateConfigYard, {__company_id__equal: company_Id}, "yard/trip_type")
+      .update(this.id, this.updateConfigYard, {__company_id__equal: this._company_Id}, "yard/trip_type")
       .then(() => {
         this.loading = false;
         this.updateConfigYard = <YardData>{};

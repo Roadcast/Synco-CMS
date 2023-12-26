@@ -1,5 +1,8 @@
-<p-panel header="CONFIGURATION">
-  <nb-card class="conf-cont mb-30" [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="large">
+<div class="row">
+  <div class="col-12">
+    <h2 class="pageheader"><a [routerLink]="'../../clientList'">{{"Client List"}}</a>{{" > Configuration"}}</h2>
+  </div>
+</div>
     <nb-tabset (changeTab)="onChangeOfTabset($event)">
       <!-- General Tab -->
       <nb-tab active="{{setActiveTab==='General'}}" [tabTitle]="translateText('General')">
@@ -32,4 +35,3 @@
       <!-- Yard Config -->
 
     </nb-tabset>
-  </nb-card>

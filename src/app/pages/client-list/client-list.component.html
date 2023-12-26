@@ -6,17 +6,6 @@
 
   <div class="row">
     <div class="col-12">
-    <!-- <p-tabView> -->
-      <!-- <p-tabPanel header="Trigger Point" rightIcon="pi pi-inbox" tooltip="Trigger Point">
-        <div class="row">
-          <div class="col-md-6">
-            <p-button (click)="addPoc()" icon="pi pi-plus" label="Add POC" type="button"></p-button>
-            </div>
-          <div class="col-md-6 text-right">
-            <p-button icon="pi pi-plus" pTooltip="Create New Company" tooltipPosition="bottom" label="Create New Company" type="button"></p-button>
-          </div>
-        </div> -->
-
         <div class="p-fluid">
           <p-progressSpinner *ngIf="loadTableCheck"></p-progressSpinner>
             <p-table #dt [(selection)]="outlets" [globalFilterFields]="['company']"

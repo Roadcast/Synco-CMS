@@ -16,7 +16,7 @@ import {
   NbCardModule,
   NbToggleModule,
   NbSpinnerModule,
-  NbIconModule
+  NbIconModule, NbButtonModule
 } from "@nebular/theme";
 import {NgxSpinnerModule} from "ngx-spinner";
 import {ToastModule} from "primeng/toast";
@@ -75,6 +75,7 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
     AngularFirestoreModule,
     AngularFireStorageModule,
     NbIconModule,
+    NbButtonModule,
     // RouterModule.forRoot(routes)
   ],
   providers: [ToastService],

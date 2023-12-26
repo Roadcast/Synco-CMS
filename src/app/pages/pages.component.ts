@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NbMenuItem, NbSidebarService } from "@nebular/theme";
+import {UserService} from "../services/user.service";
 
 
 @Component({
@@ -10,7 +11,7 @@ import { NbMenuItem, NbSidebarService } from "@nebular/theme";
 })
 export class PagesComponent {
 
-  constructor(private sidebarService: NbSidebarService,
+  constructor(private sidebarService: NbSidebarService,private userService: UserService,
     private router: Router) { }
 
   items: NbMenuItem[] = [
@@ -50,7 +51,11 @@ export class PagesComponent {
     return false;
   }
 
+
+  logout() {
+    this.userService.logout().then();
+  }
   // navigateToIntegration() {
-  //   this.router.navigate(['/pages/listIntegration']); 
+  //   this.router.navigate(['/pages/listIntegration']);
   // }
 }

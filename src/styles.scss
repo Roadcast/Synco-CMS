@@ -209,6 +209,7 @@ b, strong {
 .ml-40 {margin-left:40px !important;}
 .ml-50 {margin-left:50px !important;}
 
+.mr-3 {margin-right:3px !important;}
 .mr-5 {margin-right:5px !important;}
 .mr-10 {margin-right:10px !important;}
 .mr-15 {margin-right:15px !important;}
@@ -289,10 +290,14 @@ nb-layout-header nav {box-shadow: 0 3px 7px 0 rgba(0,0,0,0.05);}
 
 .p-link {
   display: inline-block !important;
-  margin: 0 0 0 15px !important;
+  margin: 0 0 0 10px !important;
   font-size: 13px !important;
-  border: 1px solid #ccc !important;
-  padding: 5px 10px !important;}
+  color: var(--button-filled-primary-text-color) !important;
+  padding: 8px 12px !important;
+  background: $basecolor !important;
+  border-color: $basecolor !important;
+  border-radius: $radius !important;
+}
 
 
 nb-sidebar {z-index: 1 !important; box-shadow: 0 0 14px 0 rgba(0,0,0,.1) !important;  transition:all .1s !important;}
@@ -337,6 +342,31 @@ nb-sidebar.compacted nb-menu .menu-item a.active::before { border-radius: 0 6px 
   border-color: $basecolor !important;
   border-radius: $radius !important; height: 48px !important;
   line-height: 48px !important;
+}
+
+[nbButton].appearance-filled.status-primary, .appearance-filled.status-primary[nbButtonToggle],
+{
+  background: $basecolor !important;
+  border-color: $basecolor !important;
+  border-radius: $radius !important; height: 48px !important;
+}
+
+nb-toggle.status-basic .toggle.checked,
+nb-toggle.status-basic .native-input:enabled + .toggle:hover{
+  background: $basecolor !important;
+  border-color: $basecolor !important;
+
+}
+
+nb-toggle.status-basic .toggle-switcher nb-icon {
+  color: #10C5B3 !important;
+}
+
+nb-toggle.status-basic .native-input:disabled + .toggle .toggle-switcher {
+  background-color: #FFF !important;
+  nb-icon {
+    color: #10C5B3 !important;
+  }
 }
 
 ::ng-deep .p-component {font-family: $newfont !important;}
@@ -395,10 +425,13 @@ nb-sidebar.compacted nb-menu .menu-item a.active::before { border-radius: 0 6px 
 
 .p-tooltip {font-size: 13px !important;}
 
-.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+.p-paginator .p-paginator-pages .p-paginator-page {
   background: $basecolor !important;
   border-color: $basecolor !important;
   color: #fff !important;
+  font-size: 12px;
+  text-align: center;
+  font-weight: 700;
 }
 
 nb-menu .menu-item .menu-icon {
@@ -408,6 +441,15 @@ nb-menu .menu-item .menu-icon {
 .p-datatable-footer {display: none !important;}
 .p-datatable.p-datatable-gridlines .p-paginator-bottom {
   border-width: 0 !important; padding-top: 20px !important; padding-bottom: 20px !important;
+}
+
+p-columnfilter{
+  .p-link {
+    background: none !important;
+    border-color: 0px !important;
+    border-radius: 0 !important;
+    color: #333 !important;
+  }
 }
 
 .p-progress-spinner {
@@ -496,12 +538,16 @@ z-index: 9 !important;
 }
 
 nb-tabset .tab.active .tab-link::before,
-nb-tabset .tab:focus .tab-link::before {
+nb-tabset .tab:focus .tab-link::before ,
+nb-tabset .tab:hover .tab-link::before ,
+{
   background-color: #10C5B3 !important;
+  height: 3px;
 }
 
 nb-tabset .tab.active .tab-link,
-nb-tabset .tab:focus {
+nb-tabset .tab:focus .tab-link,
+nb-tabset .tab:hover .tab-link, {
   color: #10C5B3;
 }
 

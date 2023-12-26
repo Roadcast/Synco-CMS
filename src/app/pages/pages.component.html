@@ -16,38 +16,21 @@
       </div>
 
       <div class="col-sm-4 layout-topbar-menu text-right">
-        <button class="p-link layout-topbar-button">
-          <nb-icon icon="people-outline"></nb-icon>
-            <span>Client List</span>
+        <button nbButton class="p-link layout-topbar-button" [routerLink]="'clientList'">
+          <nb-icon class="mr-5" icon="people-outline"></nb-icon>
+            Client List
         </button>
-        <button class="p-link layout-topbar-button">
-          <nb-icon icon="copy-outline"></nb-icon>
-            <span>Integration</span>
+        <button nbButton class="p-link layout-topbar-button" [routerLink]="'integration'">
+          <nb-icon class="mr-5" icon="copy-outline"></nb-icon>
+            Integration
         </button>
-        <button class="p-link layout-topbar-button">
-          <nb-icon icon="log-out-outline"></nb-icon>
-          <span>Logout</span>
+        <button nbButton class="p-link layout-topbar-button" (click)="logout()">
+          <nb-icon class="mr-5" icon="log-out-outline"></nb-icon>
+          Logout
         </button>
-
-         <!--<p-menu #menu [model]="data" [popup]="true"></p-menu>
-        <button class="p-link layout-topbar-button"
-        (click)="menu.toggle($event)"><i class="pi pi-cog"></i><span>Settings</span>
-        </button>-->
      </div>
-
-      <!-- Notification Button -->
-      <!-- <div class="col-sm-4 pr-0">
-        <div class="d-flex justify-content-end align-items-center h-100">
-          <div [nbTooltip]="'Notification'" class="position-relative">
-            <nb-badge status="danger" position="top right" class="badge-note"></nb-badge>
-            <img src="/assets/images/notification.svg" alt="" height="32" width="32" class="d-cursor">
-          </div>
-        </div>
-      </div> -->
     </ng-container>
   </nb-layout-header>
-
-
 
   <!-- Container -->
   <nb-layout-column class="pagepad">
@@ -60,7 +43,6 @@
 
   <!-- Footer -->
   <nb-layout-footer fixed>
-    <div class="footer font12 color-grey">&copy; Copyright 2023 | All rights reserved with Roadcast Tech Solutions Pvt. Ltd.</div>
+    <div class="footer font12 color-grey">&#169; Copyright 2023 | All rights reserved with Roadcast Tech Solutions Pvt. Ltd.</div>
   </nb-layout-footer>
-
 </nb-layout>

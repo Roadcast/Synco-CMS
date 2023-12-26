@@ -256,7 +256,7 @@ export class ReasonsComponent  {
     if (window.confirm("Are you sure you want to delete?")) {
       this.getLoadingStatus.emit(true);
       this.http
-        .delete(event.data.id, {}, "order/reason")
+        .delete(event.data.id, {__company_id__equal: this.shareId}, "order/reason")
         .then(() => {
           event.confirm.resolve();
           if(this.setActiveTab==='Rider Rejection Reasons'){

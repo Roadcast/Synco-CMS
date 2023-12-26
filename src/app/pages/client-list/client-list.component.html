@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-12">
-    <h2 class="pageheader">{{"Clients"}}</h2>
+    <h2 class="pageheader">{{"Clients List"}}</h2>
   </div>
 </div>
 
@@ -17,7 +17,7 @@
           </div>
         </div> -->
 
-        <div class="p-fluid mt-20">
+        <div class="p-fluid">
           <p-progressSpinner *ngIf="loadTableCheck"></p-progressSpinner>
             <p-table #dt [(selection)]="outlets" [globalFilterFields]="['company']"
                      [paginator]="true" [rowsPerPageOptions]="[10,25,50]" [rows]="10" [value]="data" dataKey="id"
@@ -157,7 +157,7 @@
         </div>
       <!-- </p-tabPanel> -->
 
-    
+
   </div>
 
 

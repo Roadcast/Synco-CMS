@@ -285,6 +285,16 @@ b, strong {
 
 .pagepad {padding:20px !important; background: #f6faff;}
 
+nb-layout-header nav {box-shadow: 0 3px 7px 0 rgba(0,0,0,0.05);}
+
+.p-link {
+  display: inline-block !important;
+  margin: 0 0 0 15px !important;
+  font-size: 13px !important;
+  border: 1px solid #ccc !important;
+  padding: 5px 10px !important;}
+
+
 nb-sidebar {z-index: 1 !important; box-shadow: 0 0 14px 0 rgba(0,0,0,.1) !important;  transition:all .1s !important;}
 nb-menu .menu-item a.active, nb-menu .menu-item a.active .menu-icon, nb-menu .menu-item a:hover, nb-menu .menu-item a:hover .menu-icon  {color: $basecolor !important;}
 nb-sidebar.compacted nb-menu .menu-item a.active::before { border-radius: 0 6px 6px 0;

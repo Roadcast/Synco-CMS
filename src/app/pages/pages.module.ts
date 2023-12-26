@@ -3,7 +3,21 @@ import { CommonModule } from '@angular/common';
 
 import { PagesRoutingModule } from './pages-routing.module';
 import { PagesComponent } from './pages.component';
-import {NbBadgeModule, NbLayoutModule, NbTooltipModule, NbSidebarModule, NbMenuModule, NbTabsetModule, NbThemeModule, NbToastrModule, NbSelectModule, NbCardModule, NbToggleModule, NbSpinnerModule} from "@nebular/theme";
+import {
+  NbBadgeModule,
+  NbLayoutModule,
+  NbTooltipModule,
+  NbSidebarModule,
+  NbMenuModule,
+  NbTabsetModule,
+  NbThemeModule,
+  NbToastrModule,
+  NbSelectModule,
+  NbCardModule,
+  NbToggleModule,
+  NbSpinnerModule,
+  NbIconModule
+} from "@nebular/theme";
 import {NgxSpinnerModule} from "ngx-spinner";
 import {ToastModule} from "primeng/toast";
 import { LogoutComponent } from './client-list/logout/logout.component';
@@ -56,10 +70,11 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
     NbEvaIconsModule,
     NbCardModule,
     NbToggleModule,
-    NbSpinnerModule, 
+    NbSpinnerModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireStorageModule,
+    NbIconModule,
     // RouterModule.forRoot(routes)
   ],
   providers: [ToastService],

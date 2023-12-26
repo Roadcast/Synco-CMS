@@ -3,12 +3,11 @@
   <!-- Header -->
   <nb-layout-header fixed>
     <div class="header-container col-sm-4 pl-0">
-      <!-- Menu -->
-      <div>
+      <!--<div>
         <a (click)="toggleSidebar()" class="d-cursor">
           <img src="/assets/images/menu.svg" alt="" width="28">
         </a>
-      </div>
+      </div>-->
     </div>
     <ng-container>
       <!-- Company Logo -->
@@ -16,25 +15,25 @@
         <img alt="" src="/assets/images/logo.png" class="d-block mx-auto" height="42">
       </div>
 
-
-      <div #topbarmenu class="layout-topbar-menu" >
+      <div class="col-sm-4 layout-topbar-menu text-right">
         <button class="p-link layout-topbar-button">
-            <i class="pi pi-calendar"></i>
-            <span>Calendar</span>
+          <nb-icon icon="people-outline"></nb-icon>
+            <span>Client List</span>
         </button>
         <button class="p-link layout-topbar-button">
-            <i class="pi pi-user"></i>
-            <span>Profile</span>
+          <nb-icon icon="copy-outline"></nb-icon>
+            <span>Integration</span>
         </button>
-         <p-menu #menu [model]="data" [popup]="true"></p-menu> 
+        <button class="p-link layout-topbar-button">
+          <nb-icon icon="log-out-outline"></nb-icon>
+          <span>Logout</span>
+        </button>
 
+         <!--<p-menu #menu [model]="data" [popup]="true"></p-menu>
         <button class="p-link layout-topbar-button"
-        (click)="menu.toggle($event)" 
-                >
-            <i class="pi pi-cog"></i>
-            <span>Settings</span>
-        </button> 
-     </div> 
+        (click)="menu.toggle($event)"><i class="pi pi-cog"></i><span>Settings</span>
+        </button>-->
+     </div>
 
       <!-- Notification Button -->
       <!-- <div class="col-sm-4 pr-0">
@@ -48,10 +47,6 @@
     </ng-container>
   </nb-layout-header>
 
-  <!-- Sidebar -->
-    <nb-sidebar class="menu-sidebar" tag="menu-sidebar" responsive start state="compacted" fixed="false">
-      <nb-menu [items]="items"></nb-menu>
-  </nb-sidebar>
 
 
   <!-- Container -->

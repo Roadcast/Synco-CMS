@@ -1,144 +1,149 @@
 <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col"> Set Event</th>
-        <th scope="col"> Set Delay</th>
-        <th scope="col"> Action</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th>
-              <p-dropdown [options]="outletsData" (onChange)="triggerData($event)" placeholder="Set Trigger"
-                            optionLabel="name" [showClear]="true"></p-dropdown>
-                            
-            </th>
-            <td>
-                <p-dropdown [options]="orderStatus" (onChange)="eventData($event)" placeholder="Set Event"
-                              optionLabel="name" [showClear]="true"></p-dropdown>
-              </td>
-              <td>
-                <input minlength="10" [(ngModel)]="addApiData.delayData" pInputText placeholder="Set Delay"
-                         required type="number" name="delay">
-              </td>
-              <td>
-                <button pButton pRipple type="button" class="p-button-success mr-2" (click)="addTrigger()"
-                          label="ADD" [disabled]="!addApiData.delayData || addApiData.eventId === ''
-                           || addApiData.triggerName === ''"></button>
-              </td>
-          </tr>
-    </tbody>
-  </table>
+  <thead>
+  <tr>
+    <th scope="col">Name</th>
+    <th scope="col"> Set Event</th>
+    <th scope="col"> Set Delay</th>
+    <th scope="col"> Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th>
+      <nb-select class="w-90" [(selected)]="selectedOutlet" (selectedChange)="triggerData($event)" placeholder="Set Trigger">
+        <nb-option *ngFor="let outlet of outletsData" [value]="outlet">{{ outlet.name }}</nb-option>
+      </nb-select>
 
+    </th>
+    <td>
+      <nb-select class="w-90" [(selected)]="selectedOrderStatus" (selectedChange)="eventData($event)" placeholder="Set Event">
+        <nb-option *ngFor="let status of orderStatus" [value]="status">{{ status.name }}</nb-option>
+      </nb-select>
+    </td>
+    <td>
+      <input nbInput class="w-90" minlength="10" [(ngModel)]="addApiData.delayData" pInputText placeholder="Set Delay"
+             required type="number" name="delay">
+    </td>
+    <td>
+      <button nbButton class="mr-2" (click)="addTrigger()" [disabled]="!addApiData.delayData || addApiData.eventId === ''
+                           || addApiData.triggerName === ''">ADD
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<nb-card class="p-30 pl-15 pr-15">
 <div class="ord-table">
-    <div class=" scn">
-        <div class="row m-0 border-bottom-row align-items-center">
-            <div class="col-3 col-bg-pad bor-lft text-left border-right bold font12">
-                {{"Trigger" | translate}}
-            </div>
-            <div class="col-2 col-bg-pad bor-lft text-center border-right bold font12">
-                {{"Set Event" | translate}}
-            </div>
-            <div class="col-2 col-bg-pad bor-lft text-center border-right bold font12">
-                {{"Set Delay" | translate}}
-            </div>
-            <!--                    <div class="col-1 col-bg-pad bor-lft text-center border-right bold font12">-->
-            <!--                        Disable-->
-            <!--                    </div>-->
-            <!-- <div class="col-2 col-bg-pad bor-lft text-center border-right bold font12">
-                {{"Notification" | translate}}
-            </div> -->
-            <div class="col-3 col-bg-pad bor-lft text-center border-right bold font12">
-                {{"Actions"| translate}}
-            </div>
+  <div class=" scn">
+    <div class="row m-0 border-bottom-row align-items-center">
+      <div class="col-3 col-bg-pad bor-lft text-left border-right bold font12">
+        {{ "Trigger" | translate }}
+      </div>
+      <div class="col-3 col-bg-pad bor-lft text-center border-right bold font12">
+        {{ "Set Event" | translate }}
+      </div>
+      <div class="col-3 col-bg-pad bor-lft text-center border-right bold font12">
+        {{ "Set Delay" | translate }}
+      </div>
+      <!--                    <div class="col-1 col-bg-pad bor-lft text-center border-right bold font12">-->
+      <!--                        Disable-->
+      <!--                    </div>-->
+      <!-- <div class="col-2 col-bg-pad bor-lft text-center border-right bold font12">
+          {{"Notification" | translate}}
+      </div> -->
+      <div class="col-3 col-bg-pad bor-lft text-center border-right bold font12">
+        {{ "Actions"| translate }}
+      </div>
 
-        </div>
-        <div class="row border-bottom-row align-items-center m-0"
-            *ngFor="let trigg of visibleTriggers; let i = index">
-            <div class="col-3 col-h bor-lft text-left justify-content-start font13">
-                {{trigg.name}}
-                <nb-icon icon="info-outline" class="ml-5 font16 basecolor d-cursor"
-                    nbTooltip="{{trigg.name}}"></nb-icon>
-            </div>
-            <div class="col-2 col-h bor-lft text-center font13">
-                <!-- <nb-select  class="w-90">
-                    <nb-option *ngFor="let status of visibleTriggers" [value]="status.status_name">
-                        {{status.status_name}}
-                    </nb-option>
-                </nb-select> -->
-                <input type="text" nbInput [(ngModel)]="trigg.status_name">
-            </div>
-            <div class="col-2 col-h bor-lft text-center font13">
-                <input type="number" nbInput [(ngModel)]="trigg.delay" placeholder="In Seconds" max="1000"
-                    min="1" class="w-90" (keypress)="keyPressNumbers($event)">
-            </div>
-            <!--                    <div class="col-1 col-h bor-lft text-center font13">-->
-            <!--                        <nb-toggle [(checked)]="trigg.is_disabled"></nb-toggle>-->
-            <!--                    </div>-->
-            <!-- <div class="col-2 col-h bor-lft text-center font13">
-                <nb-checkbox (checkedChange)="showNotifications($event)"
-                    [(checked)]="trigg.notification"></nb-checkbox>
-            </div> -->
-            <div class="col-3 col-h bor-lft text-center border-right font13 sm-btns">
-                <!-- <nb-toggle labelPosition="start" [(checked)]="trigg.is_disabled" class="mr-10">{{"Disable" |
-                    translate}}</nb-toggle>
-                <button nbButton status="primary" outline class="border-0 nbg">
-                    <nb-icon [nbTooltip]="'Save'" icon="save-outline"></nb-icon>
-                </button> -->
-                <button (click)="removeRider(trigg)" nbButton status="primary" outline class="border-0 nbg">
-                    <nb-icon [nbTooltip]="'Remove'" icon="trash-2-outline"></nb-icon>
-                </button>
-            </div>
-            <!-- Notification Popup start here -->
-            <!-- <div *ngIf="trigg.notification" class="col-12 bor-lft bor-rgt">
-                <div class="w-100 bg-white row m-0 mb-15 pt-25 pb-25 radius ex-border">
-                    <div class="col-12">
-                        <p class="font16 bold mb-15">{{"Notification" | translate}}</p>
-                    </div>
-                    <div class="col-3">
-                        <label>{{"Receiver" | translate}}</label>
-                        <nb-select placeholder="Select" fullWidth>
-                            <nb-option [value]="'customer'">{{"Customer" | translate}}</nb-option>
-                            <nb-option [value]="'rider'">{{"Rider" | translate}}</nb-option>
-                        </nb-select>
-                    </div>
-                    <div class="col-3">
-                        <label>{{"Mode" | translate}}</label>
-                        <nb-select placeholder="Select" fullWidth>
-                            <nb-option [value]="'sms'">{{"SMS" | translate}}</nb-option>
-                        </nb-select>
-                    </div>
-                    <div class="col-3">
-                        <label>{{"Template ID" | translate}}</label>
-                        <input nbInput type="text" placeholder="Enter Template ID" class="form-control"
-                            fullWidth>
-                    </div>
-                    <div class="col-3">
-                        <label>{{"Header" | translate}}</label>
-                        <input nbInput type="text" placeholder="Enter Header" class="form-control"
-                            fullWidth>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
+    </div>
+    <div class="row border-bottom-row align-items-center m-0"
+         *ngFor="let trigg of visibleTriggers; let i = index">
+      <div class="col-3 col-h bor-lft text-left justify-content-start font13">
+        {{ trigg.name }}
+        <nb-icon icon="info-outline" class="ml-5 font16 basecolor d-cursor"
+                 nbTooltip="{{trigg.name}}"></nb-icon>
+      </div>
+      <div class="col-3 col-h bor-lft text-center font13">
+        <!-- <nb-select  class="w-90">
+            <nb-option *ngFor="let status of visibleTriggers" [value]="status.status_name">
+                {{status.status_name}}
+            </nb-option>
+        </nb-select> -->
+        <input type="text" nbInput [(ngModel)]="trigg.status_name">
+      </div>
+      <div class="col-3 col-h bor-lft text-center font13">
+        <input type="number" nbInput [(ngModel)]="trigg.delay" placeholder="In Seconds" max="1000"
+               min="1" class="w-90" (keypress)="keyPressNumbers($event)">
+      </div>
+      <!--                    <div class="col-1 col-h bor-lft text-center font13">-->
+      <!--                        <nb-toggle [(checked)]="trigg.is_disabled"></nb-toggle>-->
+      <!--                    </div>-->
+      <!-- <div class="col-2 col-h bor-lft text-center font13">
+          <nb-checkbox (checkedChange)="showNotifications($event)"
+              [(checked)]="trigg.notification"></nb-checkbox>
+      </div> -->
+      <div class="col-3 col-h bor-lft text-center border-right font13 sm-btns">
+        <!-- <nb-toggle labelPosition="start" [(checked)]="trigg.is_disabled" class="mr-10">{{"Disable" |
+            translate}}</nb-toggle>
+        <button nbButton status="primary" outline class="border-0 nbg">
+            <nb-icon [nbTooltip]="'Save'" icon="save-outline"></nb-icon>
+        </button> -->
+        <button (click)="removeRider(trigg)" nbButton status="primary" outline class="border-0 nbg">
+          <nb-icon [nbTooltip]="'Remove'" icon="trash-2-outline"></nb-icon>
+        </button>
+      </div>
+      <!-- Notification Popup start here -->
+      <!-- <div *ngIf="trigg.notification" class="col-12 bor-lft bor-rgt">
+          <div class="w-100 bg-white row m-0 mb-15 pt-25 pb-25 radius ex-border">
+              <div class="col-12">
+                  <p class="font16 bold mb-15">{{"Notification" | translate}}</p>
+              </div>
+              <div class="col-3">
+                  <label>{{"Receiver" | translate}}</label>
+                  <nb-select placeholder="Select" fullWidth>
+                      <nb-option [value]="'customer'">{{"Customer" | translate}}</nb-option>
+                      <nb-option [value]="'rider'">{{"Rider" | translate}}</nb-option>
+                  </nb-select>
+              </div>
+              <div class="col-3">
+                  <label>{{"Mode" | translate}}</label>
+                  <nb-select placeholder="Select" fullWidth>
+                      <nb-option [value]="'sms'">{{"SMS" | translate}}</nb-option>
+                  </nb-select>
+              </div>
+              <div class="col-3">
+                  <label>{{"Template ID" | translate}}</label>
+                  <input nbInput type="text" placeholder="Enter Template ID" class="form-control"
+                      fullWidth>
+              </div>
+              <div class="col-3">
+                  <label>{{"Header" | translate}}</label>
+                  <input nbInput type="text" placeholder="Enter Header" class="form-control"
+                      fullWidth>
+              </div>
+          </div>
+      </div>
+  </div>
+</div> -->
 
 
-    <!-- <div class="mt-30 border radius p-20">
-        <div class="row align-items-center">
-            <div class="col-md-3 m-mb-15">
-                <p class="font16 bold mb-0">{{"Add New Trigger Point" | translate}}</p>
-            </div>
-            <div class="col-md-7 m-mb-15">
-                <nb-select placeholder="select" [(selected)]="selectedTrigger" fullWidth>
-                    <nb-option *ngFor="let trigSelect of triggers" [value]="trigSelect" style="text-transform:
-                 capitalize;">{{trigSelect}}</nb-option>
-                </nb-select>
-            </div>
-            <div class="col-md-2">
-                <button nbButton status="primary" (click)="addTrigger()">{{"Add" | translate}}</button>
-            </div>
-        </div>
-    </div> -->
+      <!-- <div class="mt-30 border radius p-20">
+          <div class="row align-items-center">
+              <div class="col-md-3 m-mb-15">
+                  <p class="font16 bold mb-0">{{"Add New Trigger Point" | translate}}</p>
+              </div>
+              <div class="col-md-7 m-mb-15">
+                  <nb-select placeholder="select" [(selected)]="selectedTrigger" fullWidth>
+                      <nb-option *ngFor="let trigSelect of triggers" [value]="trigSelect" style="text-transform:
+                   capitalize;">{{trigSelect}}</nb-option>
+                  </nb-select>
+              </div>
+              <div class="col-md-2">
+                  <button nbButton status="primary" (click)="addTrigger()">{{"Add" | translate}}</button>
+              </div>
+          </div>
+      </div> -->
+    </div>
+  </div>
 </div>
+</nb-card>

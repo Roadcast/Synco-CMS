@@ -1,77 +1,82 @@
+.general-cont{
+  background: #fff;
+  padding: 20px 10px;
+  border-radius: 12px;
+}
+
 
 .items-rows{
     align-items: center;
   }
-  
+
   :host ::ng-deep nb-accordion nb-accordion-item nb-accordion-item-header {
     font-weight: 600;
     font-size: .875rem; padding: 0; border-bottom: 0;
   }
-  
+
   .cc-itms {float: left; border:1px solid #eee; margin: 0 5px 5px 0; border-radius: 0.75rem; padding: 8px 8px 8px 12px; display: flex; align-items: center; justify-content: space-between;}
-  
+
   .cc-itms-f {float: left; border:1px solid #eee; margin: 0 5px 5px 0; border-radius: 0.75rem; padding: 8px 8px 8px 12px; display: flex; align-items: center; justify-content: space-between;}
-  
+
   .cc-itms-n {text-transform: capitalize; border:1px solid #eee; margin: 0 0 5px 0; border-radius: 0.75rem; padding: 8px 12px; display: flex; align-items: center; justify-content: space-between;}
-  
+
   .img-h-48{
     height: 48px !important;
   }
   .ml-5rem{
     margin-left: 3rem !important;
   }
-  
+
   .col-bg-pad {
     background: #e1e7ec;
     padding: 12px 8px !important;
     border-top: 1px solid #c5cbd0;
   }
-  
+
   .border-bottom-row {
     border-bottom: 1px solid #c5cbd0;
   }
-  
+
   .bor-lft {
     border-left: 1px solid #c5cbd0;
   }
-  
+
   .col-h {
     min-height: 76px !important; padding: 7px 8px !important;
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  
+
   .ex-border {
     border: 1px solid #f1f1f1;
   }
-  
+
   .bor-rgt {
     border-right: 1px solid #c5cbd0;
   }
-  
+
   .ord-table {width: 100%; overflow-x: auto;}
-  
+
   .nbg {background: inherit !important;}
-  
+
   ::ng-deep .sm-btns [nbButton], ::ng-deep .sm-btns [nbButtonToggle] {padding:0 0.4rem !important}
   ::ng-deep .sm-btns [nbButton]:hover, ::ng-deep .sm-btns [nbButtonToggle]:hover {color:#000 !important}
-  
+
   ::ng-deep .sm-btns [nbButton].appearance-outline:focus:not(:hover):not(:active) {color:#000 !important; }
   ::ng-deep .sm-btns .appearance-outline[nbButtonToggle]:focus:not(:hover):not(:active) {color:#000 !important;}
-  
-  
-  
+
+
+
   @media (max-width:1179px) {
     .general-cont .col-md-6 {
       flex: 0 0 100%;
       max-width: 100%;
     }
   }
-  
+
   @media (max-width:1023px) {
-  
+
     .scn {width: 1000px;}
-  
+
   }
-  

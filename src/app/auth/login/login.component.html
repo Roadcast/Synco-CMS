@@ -23,7 +23,7 @@
                    value="" placeholder="Password" required minlength="6" pInputText>
           </div>
           <div>
-            <button pButton class="btn w-100" (click)="login()" label="Login"
+            <button nbButton pButton class="w-100" (click)="login()" label="Login"
                     [disabled]="loginForm.form.invalid"></button>
           </div>
           <p *ngIf="alert" class="mt-10 font12 color-red text-center">{{alert}}</p>

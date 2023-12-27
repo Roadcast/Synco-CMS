@@ -1,8 +1,8 @@
-<div class="d-flex justify-content-between align-items-center">
-	<div [nbSpinnerMessage]="'Uploading File'" [nbSpinnerStatus]="'danger'" [nbSpinner]="loader" class="custom-file">
+<div class="d-flex justify-content-between align-items-center w-100">
+	<div [nbSpinnerMessage]="'Uploading File'" [nbSpinnerStatus]="'danger'" [nbSpinner]="loader" class="custom-file w-100">
 		<input (change)="uploadFile($event)" [(ngModel)]="image" [placeholder]="url"
-		[required]="mandatory && !url" name="image" nbInput type="file" multiple class="custom-file-input">
-		<label class="custom-file-label">{{fileName ? fileName : translateText('Choose File')}}</label>
+		[required]="mandatory && !url" name="image" nbInput type="file" multiple class="custom-file-input1 w-100">
+<!--		<label class="custom-file-label">{{fileName ? fileName : translateText('Choose File')}}</label>-->
 	</div>
 	<div *ngIf="url" class="viewbtn">
 		<span id="basic-addon2"><a [href]="url" target="_blank">{{"View" | translate}}</a></span>

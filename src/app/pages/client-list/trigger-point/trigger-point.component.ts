@@ -13,12 +13,14 @@ export class TriggerPointComponent implements OnInit {
   constructor(private http: DataService,
     private messageService: MessageService,
     private route: ActivatedRoute) { }
-  @Output() getLoadingStatus = new EventEmitter<boolean>();  
+  @Output() getLoadingStatus = new EventEmitter<boolean>();
   visibleTriggers:any = [];
   selectedTrigger: any;
   notification: any;
   orderStatus = [];
   outletsData:any;
+  selectedOutlet: any;
+  selectedOrderStatus: any;
   companyTrigger:any;
   id: any;
   @Input() shareId:any;
@@ -48,7 +50,7 @@ export class TriggerPointComponent implements OnInit {
     this.fetchOrderStatus().then();
     this.getTrigger().then();
     this.route.params.subscribe(params => {
-       this.id = params['id']; 
+       this.id = params['id'];
     });
   }
 
@@ -70,7 +72,7 @@ export class TriggerPointComponent implements OnInit {
   }
 
   eventData(event: any) {
-    console.log(event); 
+    console.log(event);
     this.addApiData.eventId = event.value.id;
   }
 
@@ -126,7 +128,7 @@ export class TriggerPointComponent implements OnInit {
       // return false;
     }
   }
- 
+
   async getTrigger() {
     try {
       this.outletsData = (await this.http.get('', {}, 'order/trigger_point_ref')).data;

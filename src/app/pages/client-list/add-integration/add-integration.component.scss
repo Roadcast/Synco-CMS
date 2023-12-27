@@ -1,0 +1,12 @@
+::ng-deep .ng-select .ng-select-container .ng-value-container .ng-placeholder {
+  display: none !important;
+}
+
+::ng-deep .ng-select.ng-select-single .ng-select-container .ng-clear-wrapper,
+::ng-deep .ng-select.ng-select-single .ng-select-container .ng-arrow-wrapper {
+  bottom: 14px !important;
+  right: 12px !important;
+}
+::ng-deep .ng-select .ng-select-container:after {
+  border-bottom: none !important;
+}

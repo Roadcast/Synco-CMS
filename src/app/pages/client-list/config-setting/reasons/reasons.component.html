@@ -1,4 +1,5 @@
- <nb-tabset (changeTab)="onChangeOfTabset($event)">
+<nb-card class="reason mt-20">
+<nb-tabset (changeTab)="onChangeOfTabset($event)">
     <nb-tab active="{{setActiveTab==='Rider Rejection Reasons'}}" [tabTitle]="translateText('Rider Rejection Reasons')" >
         <ng-container *ngIf="setActiveTab==='Rider Rejection Reasons'"><ng2-smart-table [settings]="rejectionReasonsTableSettings" [source]="riderRejectionReasons"
             (createConfirm)="onRejectReasonCreate($event, 'T')" (editConfirm)="onEdit($event)"
@@ -7,7 +8,7 @@
 
         <div class="color-red font13 text-center">{{"Note: Only UN - USED reasons can be deleted" |
             translate}}.</div></ng-container>
-        
+
 
     </nb-tab>
     <nb-tab active="{{setActiveTab==='Payment Rejection Reasons'}}" [tabTitle]="translateText('Payment Rejection Reasons')">
@@ -62,5 +63,4 @@
 
     </nb-tab>
 </nb-tabset>
- 
- 
+</nb-card>

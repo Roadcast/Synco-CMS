@@ -55,7 +55,6 @@
                                                    'Enter here' : 'Prefix'" [ngStyle]="configData.value.key === 'external_id_generate' ?
                                                    {'width': '100%'} : {}">
                         </div>
-
                         <div>
                             <button nbButton status="primary"
                                 (click)="addTextData(configData.value.key, data.value)">{{"Update" |
@@ -65,9 +64,9 @@
 
                     </div>
 
-                        <div><span class="font13">{{configData.value.key ===
+                        <div><span class="font13 medium">{{configData.value.key ===
                                 'external_id_generate' ?
-                                '-YYYYMMDD' : ''}}</span>
+                                'YYYY-MM-DD' : ''}}</span>
                         </div>
                     </div>
                     </td>

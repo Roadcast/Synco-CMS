@@ -7,9 +7,9 @@
                         <nb-card-header>{{ id!='new' ? this.translateText("Update") : this.translateText("Add") }} {{"Configuration" | translate}}</nb-card-header>
                     <nb-card-body>
                         <div class="ord-table">
-                            <form  #tripType="ngForm" class="form form-horizontal was-validated mt-20">
-                                <div class="form-group">
-                                    <label class="required">{{"Name" | translate}}</label>
+                            <form  #tripType="ngForm" class="form form-horizontal was-validated mt-20 row">
+                                <div class="form-group col-md-6 mb-10">
+                                    <label class="required mb-5">{{"Name" | translate}}</label>
                                     <input #name="ngModel" nbInput shape="rectangle" class="form-control" placeholder="Trip Type Name" type="text" [(ngModel)]="yard.name"
                                     name="name" nbInput required="true" (ngModelChange)="onchangeofInput($event,'name')">
                                         <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger mt-3">
@@ -18,8 +18,8 @@
                                             </div>
                                         </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="mr-20 required">{{"Trip Type" | translate}}</label>
+                                <div class="form-group col-md-6 mb-10">
+                                    <label class="mr-20 required mb-5">{{"Trip Type" | translate}}</label>
                                     <nb-select required="true" #type="ngModel" [placeholder]="'Select Trip Type'" (ngModelChange)="onchangeofInput($event,'flow')" [(ngModel)]="yard.flow" name="flow" class="w-100">
                                         <nb-option [value]="'first_mile'">{{"First Mile" | translate}}</nb-option>
                                         <nb-option [value]="'last_mile'">{{"Last Mile" | translate}}</nb-option>
@@ -30,16 +30,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>{{"Description" | translate}}</label>
-                                    <input fullWidth nbInput class="form-control w-100" (ngModelChange)="onchangeofInput($event,'description')" type="text" [(ngModel)]="yard.description" name="description">
+                                <div class="form-group col-md-6 mb-10">
+                                    <label class="mb-5">{{"Description" | translate}}</label>
+                                    <input fullWidth nbInput class="form-control w-100" (ngModelChange)="onchangeofInput($event,'description')" type="textarea" [(ngModel)]="yard.description" name="description">
                                 </div>
-                                <div class="form-group">
-                                    <label>{{"Icon" | translate}}</label>
+                                <div class="form-group col-md-6">
+                                    <label class="mb-5">{{"Icon" | translate}}</label>
                                     <!-- <ngx-file-upload  (getUrl)="yard.icon = $event; onchangeofInput($event,'icon')" [url]="yard.icon">
                                     </ngx-file-upload> -->
                                     <app-fileupload (getUrl)="yard.icon = $event; onchangeofInput($event,'icon')" [url]="yard.icon"></app-fileupload>
-                                </div> 
+                                </div>
                                 <!-- <div class="form-group">
                                     <label class="mr-20">{{"Is partial Loading/Unloading Allowed" | translate}}</label>
                                     <nb-toggle class="mt-10" (ngModelChange)="onchangeofInput($event,'is_partial_loading_unloading_allowed')" labelPosition="left" name="active" [checked]="yard.is_partial_loading_unloading_allowed === true"
@@ -50,8 +50,8 @@
                                     <nb-toggle class="mt-10" labelPosition="left" (ngModelChange)="onchangeofInput($event,'is_partial_trip_allowed')" name="active" [checked]="yard.is_partial_trip_allowed === true"
                                         [(ngModel)]="yard.is_partial_trip_allowed"></nb-toggle>
                                 </div>  -->
-                         </form> 
-                        </div>     
+                         </form>
+                        </div>
                     </nb-card-body>
                     <nb-card-footer>
                         <div class="d-flex justify-content-end">
@@ -66,4 +66,4 @@
             </div>
         </section>
     </div>
-</div> 
+</div>

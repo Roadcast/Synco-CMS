@@ -1,132 +1,121 @@
-<div class="card">
-  <div style="float: left">
-    <p-button icon="pi pi-home" (click)="goToHome()"
-              label="Home"></p-button>
+<div class="row">
+  <div class="col-12">
+    <h2 class="pageheader">{{ "Integration" }}</h2>
   </div>
-  <p-steps [model]="integrationSteps" [readonly]="true" [activeIndex]="activeIndex"></p-steps>
-
-  <p-card *ngIf="activeIndex === 0">
-
-    <h6>Select Company:</h6>
-
-    <p class="p-4">
-      <ngx-type-ahead (send)="setCompany($event)" [basePath]="'auth'"
-                      [filters]="{__only: ['name', 'id'], __company_id__all: true}"
-                      [placeholder]="'Search company here'" [url]="'company'" (cleared)="clear('company')">
-      </ngx-type-ahead>
-    </p>
-<br>
-<br>
-
-    <h6>Select Brand:</h6>
-
-    <p class="p-4">
-      <ngx-type-ahead (send)="setBrand($event)" [basePath]="'auth'"
-                      [filters]="{__only: ['name', 'id'], __company_id__equal: this.selectedCompanyId}"
-                      [placeholder]="'Search brand here'" [url]="'brand'" [disabled]="!selectedCompanyId"
-                      (cleared)="clear('brand')">
-      </ngx-type-ahead>
-    </p>
-
-    <div class="p-4 d-flex justify-content-end">
-      <p-button icon="pi pi-arrow-right" (click)="enableIntegration()"
-                label="Next"></p-button>
-    </div>
-
-  </p-card>
-
-  <p-card *ngIf="activeIndex === 1">
-
-    <div class="p-4 w-100">
-      <div class="form form-horizontal row">
-
-        <div class="form-group col-9 row no-gutters">
-          <div class="col-3 align-self-center">
-            <label>Brand Key</label>
-          </div>
-
-          <div class="col-9">
-            <input [value]="brandApp?.brand_key" readonly size="large" pInputText>
-          </div>
-
-        </div>
-
-        <div class="col-3">
-          <p-button (click)="generateKey()">
-            GENERATE KEY
-          </p-button>
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="p-4 d-flex justify-content-end">
-      <p-button icon="pi pi-arrow-left" (click)="previousStep(0)"
-                label="Previous"></p-button>&nbsp;&nbsp;
-      <p-button icon="pi pi-arrow-right" (click)="brandApp && brandApp.brand_key ? nextStep(2) :
-                messageService.add({severity:'error', summary: 'error', detail: 'No key generated!'})"
-                label="Next"></p-button>
-    </div>
-
-  </p-card>
-
-  <p-card *ngIf="activeIndex === 2">
-    <div class="p-4 w-100">
-      <div class="form form-horizontal row">
-
-        <div class="form-group col-4 row no-gutters">
-          <div class="col-3 align-self-center">
-            <label>Secret Key</label>
-          </div>
-
-          <div class="col-9">
-            <input [value]="secretKey" readonly size="large" pInputText>
-          </div>
-
-        </div>
-
-        <div class="form-group col-4 row no-gutters">
-          <div class="col-3 align-self-center">
-            <label>Access Key</label>
-          </div>
-
-          <div class="col-9">
-            <input [value]="accessKey" readonly size="large" pInputText>
-          </div>
-
-        </div>
-
-        <div class="col-3">
-          <p-button (click)="generateAccessKey()">
-            GENERATE KEYS
-          </p-button>
-        </div>
-      </div>
-    </div>
-
-    <div class="p-4 d-flex justify-content-end">
-      <p-button icon="pi pi-arrow-left" (click)="previousStep(1)"
-                label="Previous"></p-button>&nbsp;&nbsp;
-      <p-button icon="pi pi-arrow-right" (click)="secretKey && accessKey ? nextStep(3) :
-                messageService.add({severity:'error', summary: 'error', detail: 'Generate both keys!!'})"
-                label="Next"></p-button>
-    </div>
-
-  </p-card>
-
-  <p-card *ngIf="activeIndex === 3">
-
-    <h6 class="mb-5">Select outlet you want to enable integration</h6>
-
-    <p-multiSelect [options]="outlets" placeholder="Select multiple outlets" optionLabel="name"
-                   [showClear]="true" optionValue="id" [(ngModel)]="selectedOutlets"
-                   [disabled]="outlets.length === 0" [optionDisabled]="'disable'"></p-multiSelect>
-
-    <div class="p-4 d-flex justify-content-end">
-      <p-button icon="pi pi-arrow-left" (click)="previousStep(2)"
-                label="Previous"></p-button>&nbsp;&nbsp;
-      <p-button (click)="saveIntegration()" label="Save"></p-button>
-    </div>
-  </p-card>
 </div>
+<div class="card p-20">
+  <div class="row">
+    <div class="col-md-12 d-flex justify-content-end">
+      <button nbButton pButton icon="pi pi-home" (click)="goToHome()"
+              label="Home"></button>
+    </div>
+    <div class="col-md-12 mt-20">
+      <p-steps [model]="integrationSteps" [readonly]="true" [activeIndex]="activeIndex"></p-steps>
+    </div>
+  </div>
+  <div class="row mt-20" *ngIf="activeIndex === 0">
+    <div class="col-md-6">
+      <h6>Select Company:</h6>
+      <p class="">
+        <ngx-type-ahead (send)="setCompany($event)" [basePath]="'auth'"
+                        [filters]="{__only: ['name', 'id'], __company_id__all: true}"
+                        [placeholder]="'Search company here'" [url]="'company'" (cleared)="clear('company')">
+        </ngx-type-ahead>
+      </p>
+    </div>
+    <div class="col-md-6">
+      <h6>Select Brand:</h6>
+
+      <p class="">
+        <ngx-type-ahead (send)="setBrand($event)" [basePath]="'auth'"
+                        [filters]="{__only: ['name', 'id'], __company_id__equal: this.selectedCompanyId}"
+                        [placeholder]="'Search brand here'" [url]="'brand'" [disabled]="!selectedCompanyId"
+                        (cleared)="clear('brand')">
+        </ngx-type-ahead>
+      </p>
+    </div>
+    <div class="col-md-12 d-flex justify-content-end">
+      <button nbButton pButton icon="pi pi-arrow-right" (click)="enableIntegration()"
+              label="Next"></button>
+    </div>
+  </div>
+  <div class="row mt-30" *ngIf="activeIndex === 1">
+    <div class="col-md-1 d-flex align-items-center">
+      <p class="font18 bold">Brand Key</p>
+    </div>
+    <div class="col-md-5">
+      <input class="w-100" [value]="brandApp?.brand_key" readonly size="large" nbInput pInputText>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end">
+      <button nbButton pButton (click)="generateKey()">
+        GENERATE KEY
+      </button>
+    </div>
+    <div class="col-md-12 mt-20 d-flex justify-content-end">
+      <button nbButton pButton icon="pi pi-arrow-left" (click)="previousStep(0)"
+              label="Previous"></button>&nbsp;&nbsp;
+      <button nbButton pButton icon="pi pi-arrow-right" (click)="brandApp && brandApp.brand_key ? nextStep(2) :
+                messageService.add({severity:'error', summary: 'error', detail: 'No key generated!'})"
+              label="Next"></button>
+    </div>
+  </div>
+
+
+  <div class="row mt-30" *ngIf="activeIndex === 2">
+    <div class="col-md-1 d-flex align-items-center">
+      <p class="font18 bold">Secret Key</p>
+    </div>
+    <div class="col-md-3">
+      <input class="w-100" [value]="secretKey" readonly size="large" nbInput pInputText>
+    </div>
+    <div class="col-md-1 d-flex align-items-center">
+      <p class="font18 bold">Access Key</p>
+    </div>
+    <div class="col-md-3">
+      <input class="w-100" [value]="accessKey" readonly size="large" nbInput pInputText>
+    </div>
+    <div class="col-md-4 d-flex justify-content-end">
+      <button nbButton pButton (click)="generateAccessKey()">
+        GENERATE KEYS
+      </button>
+    </div>
+    <div class="col-md-12 mt-20 d-flex justify-content-end">
+      <button nbButton pButton icon="pi pi-arrow-left" (click)="previousStep(1)"
+              label="Previous"></button>&nbsp;&nbsp;
+      <button nbButton pButton icon="pi pi-arrow-right" (click)="secretKey && accessKey ? nextStep(3) :
+                messageService.add({severity:'error', summary: 'error', detail: 'Generate both keys!!'})"
+              label="Next"></button>
+    </div>
+  </div>
+  <div class="row mt-30" *ngIf="activeIndex === 3">
+    <div class="col-md-5 d-flex align-items-center">
+      <p class="font18 bold">Select outlet you want to enable integration</p>
+    </div>
+    <div class="col-md-7">
+      <p-multiSelect [options]="outlets" placeholder="Select multiple outlets" optionLabel="name"
+                     [showClear]="true" optionValue="id" [(ngModel)]="selectedOutlets"
+                     [disabled]="outlets.length === 0" [optionDisabled]="'disable'"></p-multiSelect>
+    </div>
+    <div class="col-md-12 mt-20 d-flex justify-content-end">
+      <button nbButton pButton icon="pi pi-arrow-left" (click)="previousStep(2)"
+                label="Previous"></button>&nbsp;&nbsp;
+      <button nbButton pButton (click)="saveIntegration()" label="Save"></button>
+    </div>
+  </div>
+
+</div>
+
+<p-card *ngIf="activeIndex === 3">
+
+  <h6 class="mb-5">Select outlet you want to enable integration</h6>
+
+  <p-multiSelect [options]="outlets" placeholder="Select multiple outlets" optionLabel="name"
+                 [showClear]="true" optionValue="id" [(ngModel)]="selectedOutlets"
+                 [disabled]="outlets.length === 0" [optionDisabled]="'disable'"></p-multiSelect>
+
+  <div class="p-4 d-flex justify-content-end">
+    <p-button icon="pi pi-arrow-left" (click)="previousStep(2)"
+              label="Previous"></p-button>&nbsp;&nbsp;
+    <p-button (click)="saveIntegration()" label="Save"></p-button>
+  </div>
+</p-card>

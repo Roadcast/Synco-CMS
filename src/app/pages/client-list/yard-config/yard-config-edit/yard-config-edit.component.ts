@@ -35,10 +35,6 @@ export class YardConfigEditComponent implements OnInit {
   ngOnInit(): void {
     if (this.id !== 'new') this.getYardConfigById();
     this.loading = false;
-    this.user.company_Id.subscribe((res) => {
-      this._company_Id = res;
-      localStorage.setItem('company_Id', this._company_Id);
-    })
   }
   
 
@@ -70,6 +66,7 @@ export class YardConfigEditComponent implements OnInit {
 
   //When user click on the save button
   async saveYardConfig() {
+    this._company_Id = localStorage.getItem('company_Id');
     this.loading = true;
     try {
       if (this.id !== 'new') {
@@ -96,15 +93,18 @@ export class YardConfigEditComponent implements OnInit {
       ...this.yard,
       company_id: this._company_Id,
     };
-    const res = this.http.create(this.yard, {__company_id__equal:  this._company_Id }, 'yard/trip_type').then((yarConfig) => {
-      this.id = yarConfig.data[0].id;
-      this.router.navigate([
-        '/pages/config/add/' + this.id,
-      ]);
-      this.loading = false;
-      this.toaster.showToast('Yard Added successfully', 'Success', false);
-      this.updateConfigYard = <YardData>{};
-    });
+    try {
+      this.http.create(this.yard, { __company_id__equal: this._company_Id }, 'yard/trip_type')
+        .then((yarConfig) => {
+          this.id = yarConfig.data[0].id;
+          this.router.navigate(['/pages/config/add/' + this.id]);
+          this.loading = false;
+          this.toaster.showToast('Yard Added successfully', 'Success', false);
+          this.updateConfigYard = <YardData>{};
+        });
+    } catch (error:any) {
+      this.toaster.showToast("Error Updating", "Error", true, error);
+    }
   }
 
   // update the new yardConfig

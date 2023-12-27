@@ -40,6 +40,7 @@ export class ConfigSettingComponent  {
     this.activeRoute.paramMap.subscribe(params => {
         this.company_id = params.get('id');
       });
+      localStorage.setItem('company_Id', this.company_id);
   }
 
   translateText(key: string): string {

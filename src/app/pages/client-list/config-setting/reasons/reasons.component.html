@@ -53,13 +53,12 @@
 
     <nb-tab active="{{setActiveTab==='Safety Instructions Reasons'}}" [tabTitle]="translateText('Safety Instructions Reasons')">
         <ng-container *ngIf="setActiveTab==='Safety Instructions Reasons'"><ng2-smart-table [settings]="safetyRejectionReasonsTableSettings" [source]="safetyItemReasons"
-            (createConfirm)="onSafetyRejectReasonCreate($event, 'Z')" (editConfirm)="onEdit($event)"
+            (createConfirm)="onRejectReasonCreate($event, 'Z')" (editConfirm)="onEdit($event)"
             (deleteConfirm)="onDelete($event)">
         </ng2-smart-table>
 
         <div class="color-red font13 text-center">{{"Note: Only UN - USED reasons can be deleted" |
             translate}}.</div></ng-container>
-
     </nb-tab>
 </nb-tabset>
  

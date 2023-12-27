@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DocVerification } from './DocVerification';
 import { DataService } from 'src/app/pages/data.service';
 import { ToastService } from 'src/app/pages/toast.service';
@@ -9,7 +9,7 @@ import { MessageService } from 'primeng/api';
 @Component({
     selector: 'app-doc-verification',
     templateUrl: './doc-verification.component.html',
-    styleUrls: ['./doc-verification.component.scss']
+    styleUrls: ['./doc-verification.component.scss'],
 })
 export class DocVerificationComponent implements OnInit {
 
@@ -28,7 +28,9 @@ export class DocVerificationComponent implements OnInit {
 
     constructor(private http: DataService, private toast: ToastService, private translate: TranslateService,
         private activeRoute: ActivatedRoute,
-        private messageService: MessageService) { }
+        private messageService: MessageService,
+        private cdr: ChangeDetectorRef
+    ) { }
 
     translateText(key: string): string {
         let translation: string = '';
@@ -109,6 +111,7 @@ export class DocVerificationComponent implements OnInit {
                 delete config['docs'][doc]
                 delete config['created_on']
                 deleteObject = config;
+                console.log(deleteObject);
             }
         });
         try {
@@ -129,31 +132,49 @@ export class DocVerificationComponent implements OnInit {
         const payloadObject = JSON.parse(JSON.stringify(this.selectedVerificationObject));
         delete payloadObject['created_on'];
         delete payloadObject['id'];
-    
-        const savedConfig = this.savedDocConfig.find((x: any) => x['verification_partner'] ===
-          this.selectedVerificationObject['verification_partner']);
+
+        const savedConfig = this.savedDocConfig.find((x: any) => x['verification_partner'] === this.selectedVerificationObject['verification_partner']);
+
         if (savedConfig) {
-          payloadObject['id'] = savedConfig['id'];
+            payloadObject['id'] = savedConfig['id'];
         }
+
+        // Remove documents not selected
         Object.keys(payloadObject['docs']).forEach((doc: any) => {
-          if (!this.selectedVerificationDocs.includes(doc) &&
-            ((this.savedDocConfigObjectByVerifyPartner[payloadObject['verification_partner']] &&
-              !this.savedDocConfigObjectByVerifyPartner[payloadObject['verification_partner']].includes(payloadObject['docs'][doc]))
-            || !this.savedDocConfigObjectByVerifyPartner[payloadObject['verification_partner']]))
-            delete payloadObject['docs'][doc];
+            if (!this.selectedVerificationDocs.includes(doc) &&
+                ((this.savedDocConfigObjectByVerifyPartner[payloadObject['verification_partner']] &&
+                    !this.savedDocConfigObjectByVerifyPartner[payloadObject['verification_partner']].includes(payloadObject['docs'][doc]))
+                    || !this.savedDocConfigObjectByVerifyPartner[payloadObject['verification_partner']])) {
+                delete payloadObject['docs'][doc];
+            }
         });
+
         payloadObject['company_id'] = this.id;
+
         try {
-          if (payloadObject['id']) {
-            await this.http.update(payloadObject['id'], payloadObject, {}, 'auth/doc_verification_config');
-          } else {
-            await this.http.create(payloadObject, {}, 'auth/doc_verification_config');
-          }
-            this.messageService.add({severity:'success', summary: 'Config saved successfully!', detail: ''});
-            await this.getDocConfigDataById();
+            if (payloadObject['id']) {
+                await this.http.update(payloadObject['id'], payloadObject, {}, 'auth/doc_verification_config');
+                
+            } else {
+                await this.http.create(payloadObject, {}, 'auth/doc_verification_config');
+            }
+
+            this.messageService.add({ severity: 'success', summary: 'Config saved successfully!', detail: '' });
+
+            // Update the existing data table with the new data
+            Object.keys(payloadObject['docs']).forEach((doc: any) => {
+                const updatedConfig: any = {};
+                updatedConfig['verification_partner'] = payloadObject['verification_partner'];
+                updatedConfig['doc'] = doc;
+                this.savedDocConfigTableView.push(updatedConfig);
+            });
+
+            this.cdr.detectChanges();
+            
         } catch (e) {
-          console.error(e);
-          this.messageService.add({severity:'error', summary: 'error', detail: ''});
+            console.error(e);
+            this.messageService.add({ severity: 'error', summary: 'error', detail: '' });
         }
-      }
+    }
+    
 }

@@ -1,27 +1,15 @@
 <div class="row">
   <div class="col-12">
-    <h2 class="pageheader">{{"Clients"}}</h2>
+    <h2 class="pageheader">{{"Clients List"}}</h2>
   </div>
 </div>
-
+<p-progressSpinner class="position-absolute z-3" *ngIf="loadTableCheck"></p-progressSpinner>
   <div class="row">
     <div class="col-12">
-    <!-- <p-tabView> -->
-      <!-- <p-tabPanel header="Trigger Point" rightIcon="pi pi-inbox" tooltip="Trigger Point">
-        <div class="row">
-          <div class="col-md-6">
-            <p-button (click)="addPoc()" icon="pi pi-plus" label="Add POC" type="button"></p-button>
-            </div>
-          <div class="col-md-6 text-right">
-            <p-button icon="pi pi-plus" pTooltip="Create New Company" tooltipPosition="bottom" label="Create New Company" type="button"></p-button>
-          </div>
-        </div> -->
-
-        <div class="p-fluid mt-20">
-          <p-progressSpinner *ngIf="loadTableCheck"></p-progressSpinner>
+        <div class="p-fluid">
             <p-table #dt [(selection)]="outlets" [globalFilterFields]="['company']"
                      [paginator]="true" [rowsPerPageOptions]="[10,25,50]" [rows]="10" [value]="data" dataKey="id"
-                     styleClass="p-datatable-striped p-datatable-gridlines p-datatable-sm">
+                     styleClass="p-datatable-striped p-datatable-gridlines p-datatable-sm" class="clientList">
 
               <ng-template pTemplate="header">
                 <tr>
@@ -79,27 +67,27 @@
                   </td>
                   <td [routerLink]="['/client/' + product.id]" class="text-center">
                     <ng-container *ngIf="product.is_activate" >
-                      <button class=" p-button-success" (click)="productActivateDialog(product, true)"
+                      <button nbButton (click)="productActivateDialog(product, true)"
                               icon="pi pi-check" pButton type="button"></button>
                     </ng-container>
                     <ng-container *ngIf="!product.is_activate" >
-                      <button class=" p-button-danger" (click)="productActivateDialog(product, false)"
+                      <button nbButton (click)="productActivateDialog(product, false)"
                               icon="pi pi-times" pButton type="button"></button>
                     </ng-container>
 
                   </td>
                   <td class="text-center">
                     <ng-container *ngIf="product.is_paid" >
-                      <button class=" p-button-success" (click)="paymentDialog(product, false)"
+                      <button nbButton (click)="paymentDialog(product, false)"
                               icon="pi pi-check" pButton type="button"></button>
                     </ng-container>
                     <ng-container *ngIf="!product.is_paid" >
-                      <button class=" p-button-danger" (click)="paymentDialog(product, true)"
+                      <button nbButton (click)="paymentDialog(product, true)"
                               icon="pi pi-times" pButton type="button"></button>
                     </ng-container>
                   </td>
                   <td class="text-center">
-                    <p-button (click)="showBasicDialog(product)" icon="pi pi-chevron-down" label=""></p-button>
+                    <button nbButton pButton type="button" (click)="showBasicDialog(product)" icon="pi pi-angle-down"></button>
                   </td>
                   <td>{{product.riders}}</td>
                   <td>{{product.active_riders}}</td>
@@ -116,8 +104,8 @@
                   </td>
                   <td class="text-center">
                     <div class="d-flex">
-                    <p-button type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(product)" [pTooltip]="'Save Changes'" tooltipPosition="left"></p-button>
-                    <p-button (click)="config(product)" icon="pi pi-file-edit" [pTooltip]="'Open Configuration'" tooltipPosition="left"></p-button>
+                    <button nbButton pButton icon="pi pi-check" (click)="onRowEditSave(product)" [pTooltip]="'Save Changes'" tooltipPosition="left"></button>
+                    <button nbButton pButton (click)="config(product)" icon="pi pi-file-edit" [pTooltip]="'Open Configuration'" tooltipPosition="left"></button>
                     <!--            <p-button (click)="showDialog(product)" icon="pi pi-plus-circle" pButton-->
                     <!--                    pRipple></p-button>-->
                     </div>
@@ -153,11 +141,11 @@
               </ng-template>
             </p-table>
           <div class="mt-20">
-            <p-button (click)="exportExcel()" icon="pi pi-file-excel" pTooltip="XLS" tooltipPosition="top" label="Download" type="button"></p-button></div>
+            <button nbButton pButton (click)="exportExcel()" icon="pi pi-file-excel" pTooltip="XLS" tooltipPosition="top" label="Download" type="button"></button></div>
         </div>
       <!-- </p-tabPanel> -->
 
-    
+
   </div>
 
 
@@ -281,3 +269,4 @@
     <p-button icon="pi pi-times" (click)="displayProductActivateValue=false; toggleBrand( false)" label="No"></p-button>
   </ng-template>
 </p-dialog>
+  </div>

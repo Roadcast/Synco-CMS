@@ -31,7 +31,8 @@ const routes: Routes = [
         component: ConfigSettingComponent},
       {
         path: 'new-integration/:id',
-        component: AddIntegrationComponent},
+        component: AddIntegrationComponent
+      },
       {
         path: 'integration',
         component: AddIntegrationComponent,

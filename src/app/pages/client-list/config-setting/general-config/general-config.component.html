@@ -7,7 +7,7 @@
                     <th scope="col">{{"Action" | translate}}</th>
                 </tr>
             </thead>
-           
+
             <tr *ngFor="let configData of configRef | keyvalue ;let i=index">
                 <ng-container *ngIf="configData.value.data_type === 'binary'">
                     <td *ngIf="configData.value.data_type === 'binary'" class="w-60 valignM">
@@ -17,7 +17,7 @@
                             <nb-icon icon="info-outline" class="font16 basecolor d-cursor"
                                 nbTooltip="{{(configData.value.description)}}"></nb-icon>
                         </div>
-                    </td>  
+                    </td>
                     <td class="w-40 valignM">
                         <div>
                             <nb-toggle (checkedChange)="updateCompanyToggleConfig(configData.key, $event)"
@@ -55,19 +55,18 @@
                                                    'Enter here' : 'Prefix'" [ngStyle]="configData.value.key === 'external_id_generate' ?
                                                    {'width': '100%'} : {}">
                         </div>
-                        
                         <div>
                             <button nbButton status="primary"
                                 (click)="addTextData(configData.value.key, data.value)">{{"Update" |
                                 translate}}
                             </button>
                         </div>
-                        
+
                     </div>
 
-                        <div><span class="font13">{{configData.value.key ===
+                        <div><span class="font13 medium">{{configData.value.key ===
                                 'external_id_generate' ?
-                                '-YYYYMMDD' : ''}}</span>
+                                'YYYY-MM-DD' : ''}}</span>
                         </div>
                     </div>
                     </td>
@@ -145,7 +144,7 @@
                                                 <nb-select placeholder="Select Value"
                                                     [(selected)]="selectedDeliveryFee" fullWidth>
                                                     <nb-option *ngFor="let delivery of deliveryfeeConfig"
-                                                        [value]="delivery" [disabled]="selectedDeliveryFeeJSON ? selectedDeliveryFeeJSON[delivery] 
+                                                        [value]="delivery" [disabled]="selectedDeliveryFeeJSON ? selectedDeliveryFeeJSON[delivery]
                                                                 > 0 : false">{{delivery}}</nb-option>
                                                 </nb-select>
                                             </div>
@@ -163,7 +162,7 @@
                                     </nb-accordion-item-body>
                                 </nb-accordion-item>
                             </nb-accordion>
-                        </div> 
+                        </div>
                         <div *ngIf="configData.value.key === 'service_fee'">
                             <nb-accordion>
                                 <nb-accordion-item>
@@ -648,7 +647,7 @@
                                                 translate}}
                                             </button>
                                         </div>
-                                    </ng-container>    
+                                    </ng-container>
                                 </nb-accordion-item-body>
                             </nb-accordion-item>
                         </nb-accordion>
@@ -658,4 +657,4 @@
             </tr>
         </table>
      </div>
- </div>           
+ </div>

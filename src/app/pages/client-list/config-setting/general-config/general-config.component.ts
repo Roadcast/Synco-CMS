@@ -377,7 +377,7 @@ export class GeneralConfigComponent implements OnInit {
     { code: "zm", title: "Zambia" },
     { code: "zw", title: "Zimbabwe" },
   ];
-  
+
   constructor(
     private http: DataService,
     public configService: ConfigService,
@@ -391,7 +391,7 @@ export class GeneralConfigComponent implements OnInit {
     this.fetchCompanyConfig().then();
     console.log(this.selectedDashboardConfigJSON);
     console.log("new",this.shareId);
-    
+
   }
 
   async fetchCompanyConfig() {
@@ -400,7 +400,7 @@ export class GeneralConfigComponent implements OnInit {
         await this.http.query({__company_id__equal: this.shareId},"auth/company_config_ref", "auth")
       ).data;
       this.configs = (await this.http.query({__company_id__equal: this.shareId}, "auth/company_config", "auth")).data;
-  
+
       this.companyId = this.configs.find((el:any) => el.company_id).company_id;
 
       this.sizeRef = 0;
@@ -511,7 +511,7 @@ export class GeneralConfigComponent implements OnInit {
         this.toaster.showToast(e.message, "Error", true);
       }
   }
-    
+
   //Add Feedback Complete Questions
   async addFeedbackData(type:any) {
     //alert('addFeedbackData')
@@ -611,7 +611,7 @@ export class GeneralConfigComponent implements OnInit {
       }
     }
   }
- 
+
   async addDashboardConfig(keyName: any, value: string) {
     if (this.selectedDashboardConfig && value) {
       this.selectedDashboardConfigJSON[this.selectedDashboardConfig] = value;
@@ -645,7 +645,7 @@ export class GeneralConfigComponent implements OnInit {
     }
   }
 
-  //Add service key and name 
+  //Add service key and name
   async addServiceFee(keyName: any, value: string) {
     console.log(keyName,value,this.selectedServiceFee)
     if (this.selectedServiceFee && value) {
@@ -681,7 +681,7 @@ export class GeneralConfigComponent implements OnInit {
       }
   }
 
-    
+
   //Add for vehicle_model_config
   async addJSONArray(keyName: any, value: string) {
     //alert('addJSONArray')
@@ -755,7 +755,7 @@ export class GeneralConfigComponent implements OnInit {
     }
   }
 
-  //Add Json value (Auto Route Default Parameters) 
+  //Add Json value (Auto Route Default Parameters)
   async addJSONValue(keyName:any, key:any, value:any): Promise<any> {
     const configData = this.configs.find((x:any) => x.key === keyName);
     let tempkeyname=this.configService.underscoreConvert(configData.key);
@@ -779,7 +779,7 @@ export class GeneralConfigComponent implements OnInit {
           this.createConfiguration(keyName,jsonValue)
         }
       }
-    }  
+    }
   }
 
   //Add value For Criticality Config and Multi Job Criticality Config
@@ -895,7 +895,7 @@ export class GeneralConfigComponent implements OnInit {
     await this.http.create({key: keyName,value: jsonValue},{},"auth/company_config");
   }
 
-  //Update Configuration 
+  //Update Configuration
   async updateConfiguration(configurationID:any,jsonValue:any){
     await this.http.update(configurationID,{ value: jsonValue },{},"auth/company_config");
   }

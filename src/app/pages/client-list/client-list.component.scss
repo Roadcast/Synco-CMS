@@ -1,0 +1,11 @@
+::ng-deep .clientList [nbButton].appearance-filled.status-basic, .appearance-filled.status-basic[nbButtonToggle] {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  color: #333 !important;
+  border-radius: 0px !important;
+}
+
+
+::ng-deep .clientList .p-button:focus {
+  box-shadow: none !important;
+}

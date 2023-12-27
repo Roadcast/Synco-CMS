@@ -3,12 +3,11 @@
   <!-- Header -->
   <nb-layout-header fixed>
     <div class="header-container col-sm-4 pl-0">
-      <!-- Menu -->
-      <div>
+      <!--<div>
         <a (click)="toggleSidebar()" class="d-cursor">
           <img src="/assets/images/menu.svg" alt="" width="28">
         </a>
-      </div>
+      </div>-->
     </div>
     <ng-container>
       <!-- Company Logo -->
@@ -16,43 +15,22 @@
         <img alt="" src="/assets/images/logo.png" class="d-block mx-auto" height="42">
       </div>
 
-
-      <div #topbarmenu class="layout-topbar-menu" >
-        <button class="p-link layout-topbar-button">
-            <i class="pi pi-calendar"></i>
-            <span>Calendar</span>
+      <div class="col-sm-4 layout-topbar-menu d-flex justify-content-end">
+        <button nbButton class="layout-topbar-button h-36" [routerLink]="'clientList'">
+          <nb-icon class="mr-5" icon="people-outline"></nb-icon>
+            Client List
         </button>
-        <button class="p-link layout-topbar-button">
-            <i class="pi pi-user"></i>
-            <span>Profile</span>
+        <button nbButton class="layout-topbar-button ml-10 h-36" [routerLink]="'integration'">
+          <nb-icon class="mr-5" icon="copy-outline"></nb-icon>
+            Integration
         </button>
-         <p-menu #menu [model]="data" [popup]="true"></p-menu> 
-
-        <button class="p-link layout-topbar-button"
-        (click)="menu.toggle($event)" 
-                >
-            <i class="pi pi-cog"></i>
-            <span>Settings</span>
-        </button> 
-     </div> 
-
-      <!-- Notification Button -->
-      <!-- <div class="col-sm-4 pr-0">
-        <div class="d-flex justify-content-end align-items-center h-100">
-          <div [nbTooltip]="'Notification'" class="position-relative">
-            <nb-badge status="danger" position="top right" class="badge-note"></nb-badge>
-            <img src="/assets/images/notification.svg" alt="" height="32" width="32" class="d-cursor">
-          </div>
-        </div>
-      </div> -->
+        <button nbButton class="layout-topbar-button ml-10 h-36" (click)="logout()">
+          <nb-icon class="mr-5" icon="log-out-outline"></nb-icon>
+          Logout
+        </button>
+     </div>
     </ng-container>
   </nb-layout-header>
-
-  <!-- Sidebar -->
-    <nb-sidebar class="menu-sidebar" tag="menu-sidebar" responsive start state="compacted" fixed="false">
-      <nb-menu [items]="items"></nb-menu>
-  </nb-sidebar>
-
 
   <!-- Container -->
   <nb-layout-column class="pagepad">
@@ -65,7 +43,6 @@
 
   <!-- Footer -->
   <nb-layout-footer fixed>
-    <div class="footer font12 color-grey">&copy; Copyright 2023 | All rights reserved with Roadcast Tech Solutions Pvt. Ltd.</div>
+    <div class="footer font12 color-grey">&#169; Copyright 2023 | All rights reserved with Roadcast Tech Solutions Pvt. Ltd.</div>
   </nb-layout-footer>
-
 </nb-layout>

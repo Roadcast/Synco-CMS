@@ -53,7 +53,7 @@
     </tr>
     </tbody>
   </table>
-<p-table [value]="savedDocConfigTableView" [resizableColumns]="true" styleClass="p-datatable-gridlines">
+<p-table [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="large" [value]="savedDocConfigTableView" [resizableColumns]="true" styleClass="p-datatable-gridlines">
       <ng-template pTemplate="header">
         <tr>
           <th pResizableColumn>Verification Partner</th>

@@ -30,7 +30,7 @@ export class DocVerificationComponent implements OnInit {
     constructor(private http: DataService, private toast: ToastService, private translate: TranslateService,
         private activeRoute: ActivatedRoute,
         private messageService: MessageService,
-        private cdr: ChangeDetectorRef
+        private cdr: ChangeDetectorRef,
     ) { }
 
     translateText(key: string): string {
@@ -78,9 +78,12 @@ export class DocVerificationComponent implements OnInit {
     }
 
     async getDocConfigDataById() {
+        console.log(this.savedDocConfigTableView);
+        console.log(this.selectedVerificationDocs);
+
         try {
             this.savedDocConfigObjectByVerifyPartner = {};
-            this.savedDocConfigTableView = [];
+            // this.savedDocConfigTableView = [];
             this.selectedVerificationDocsRef = [];
             this.selectedVerificationDocs = [];
             this.selectedVerificationObject = null;
@@ -90,15 +93,17 @@ export class DocVerificationComponent implements OnInit {
             this.savedDocConfig.forEach((config: any) => {
                 console.log(config)
                 Object.keys(config['docs']).forEach(doc => {
-
+                    if (!(this.savedDocConfigTableView.some((obj: any) => obj.doc === doc && obj.verification_partner == config['verification_partner']))) {//To prevent duplicate documents to get added in the list
                     this.savedDocConfigObjectByVerifyPartner[config['verification_partner']] ?
                         this.savedDocConfigObjectByVerifyPartner[config['verification_partner']].push(config['docs'][doc]) :
                         this.savedDocConfigObjectByVerifyPartner[config['verification_partner']] = [config['docs'][doc]]
+
                     const object: any = {}
                     object['verification_partner'] = config['verification_partner'],
                         object['doc'] = doc;
                     object['id'] = config.id;
                     this.savedDocConfigTableView.push(object);
+                    }
                 });
             });
         } catch (e) {
@@ -110,7 +115,7 @@ export class DocVerificationComponent implements OnInit {
         return text !== '' ? text.split('_').join(' ') : '';
     }
 
-    async deleteDoc(doc: any, verificationPartner: any) {
+    async deleteDoc(doc: any, verificationPartner: any, index: any) {
         let deleteObject: any = {};
         this.savedDocConfig.forEach((config: any) => {
             if (config['verification_partner'] === verificationPartner) {
@@ -122,22 +127,13 @@ export class DocVerificationComponent implements OnInit {
         });
         try {
             await this.http.update(deleteObject['id'], deleteObject, {}, 'auth/doc_verification_config')
-            //this.getDocConfigDataById().then();
+            this.getDocConfigDataById().then();
             this.messageService.add({
                 severity: 'success', summary: 'Added successfully',
                 detail: verificationPartner + ': ' + this.removeUnderScore(doc)
             });
-            const indexToDelete = this.savedDocConfigTableView.findIndex((item: any) => {
-                if (item.id === deleteObject['id']) {
-                    return true;
-                } else {
-                    return false;
-                }
-            });
-            console.log(indexToDelete)
-            if (indexToDelete != -1) {
-                this.savedDocConfigTableView.splice(indexToDelete, 1);
-            }
+            this.savedDocConfigTableView.splice(index, 1);
+           
         } catch (e) {
             this.messageService.add({ severity: 'error', summary: 'error', detail: 'Could not remove config!' });
             console.error(e);
@@ -145,67 +141,36 @@ export class DocVerificationComponent implements OnInit {
     }
 
     async saveDocConfig() {
+        console.log(this.selectedVerificationDocsRef);
         const payloadObject = JSON.parse(JSON.stringify(this.selectedVerificationObject));
         delete payloadObject['created_on'];
         delete payloadObject['id'];
-        const savedConfig = this.savedDocConfig.find((x: any) => x['verification_partner'] === this.selectedVerificationObject['verification_partner']);
 
+        const savedConfig = this.savedDocConfig.find((x: any) => x['verification_partner'] ===
+            this.selectedVerificationObject['verification_partner']);
         if (savedConfig) {
             payloadObject['id'] = savedConfig['id'];
-
         }
-
-        // Remove documents not selected
         Object.keys(payloadObject['docs']).forEach((doc: any) => {
+            console.log(this.selectedVerificationDocs);
             if (!this.selectedVerificationDocs.includes(doc) &&
                 ((this.savedDocConfigObjectByVerifyPartner[payloadObject['verification_partner']] &&
                     !this.savedDocConfigObjectByVerifyPartner[payloadObject['verification_partner']].includes(payloadObject['docs'][doc]))
-                    || !this.savedDocConfigObjectByVerifyPartner[payloadObject['verification_partner']])) {
+                    || !this.savedDocConfigObjectByVerifyPartner[payloadObject['verification_partner']]))
                 delete payloadObject['docs'][doc];
-            }
         });
 
-        payloadObject['company_id'] = this.id;
+        console.log(payloadObject['docs']);
 
+        payloadObject['company_id'] = this.id;
         try {
             if (payloadObject['id']) {
-                await this.http.update(payloadObject['id'], payloadObject, {}, 'auth/doc_verification_config').then();
-
+                await this.http.update(payloadObject['id'], payloadObject, {}, 'auth/doc_verification_config');
             } else {
-                await this.http.create(payloadObject, {}, 'auth/doc_verification_config').then();
+                await this.http.create(payloadObject, {}, 'auth/doc_verification_config');
             }
-
             this.messageService.add({ severity: 'success', summary: 'Config saved successfully!', detail: '' });
-
-            // Update the existing data table with the new data
-            // this.savedDocConfigTableView = []
-            console.log(savedConfig)
-            savedConfig['docs'] = { ...payloadObject['docs'] };
-            // Object.keys(payloadObject['docs']).forEach((doc: any) => {
-            //     // const updatedConfig: any = {};
-            //     // updatedConfig['verification_partner'] = payloadObject['verification_partner'];
-            //     // savedConfig['doc'] = doc;
-            //     savedConfig['docs']={...payloadObject['docs']};
-
-            // });
-            console.log(savedConfig)
-            console.log(this.savedDocConfig)
-            this.savedDocConfigTableView = []
-            this.savedDocConfig.forEach((config: any) => {
-                console.log(config)
-                Object.keys(config['docs']).forEach(doc => {
-
-                    this.savedDocConfigObjectByVerifyPartner[config['verification_partner']] ?
-                        this.savedDocConfigObjectByVerifyPartner[config['verification_partner']].push(config['docs'][doc]) :
-                        this.savedDocConfigObjectByVerifyPartner[config['verification_partner']] = [config['docs'][doc]]
-                    const object: any = {}
-                    object['verification_partner'] = config['verification_partner'],
-                        object['doc'] = doc;
-                    object['id'] = config.id;
-                    this.savedDocConfigTableView.push(object);
-                });
-            });
-
+            await this.getDocConfigDataById();
         } catch (e) {
             console.error(e);
             this.messageService.add({ severity: 'error', summary: 'error', detail: '' });

@@ -39,12 +39,9 @@
         </nb-select>
       </th>
        <td>
-         <nb-select class="w-90" [(ngModel)]="selectedVerificationDocs" placeholder="Set Document" [disabled]="selectedVerificationDocsRef.length === 0">
-           <nb-option *ngFor="let doc of selectedVerificationDocsRef" [value]="doc.value" [disabled]="doc.disable">
-             {{ doc.name }}
-           </nb-option>
-         </nb-select>
-
+         <p-multiSelect [options]="selectedVerificationDocsRef" placeholder="Set Document" optionLabel="name"
+         [showClear]="true" optionValue="value" [(ngModel)]="selectedVerificationDocs"
+         [disabled]="selectedVerificationDocsRef.length === 0" [optionDisabled]="'disable'" [appendTo]="'body'"></p-multiSelect>
       </td>
       <td>
         <button nbButton type="button" class="p-button-success mr-2" (click)="saveDocConfig()" [disabled]="selectedVerificationDocsRef.length === 0 ||
@@ -61,13 +58,13 @@
           <th pResizableColumn>Action</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-config>
+      <ng-template pTemplate="body" let-config let-i="rowIndex">
         <tr>
           <td>{{config.verification_partner}}</td>
           <td>{{removeUnderScore(config.doc) | titlecase}}</td>
           <td>
             <button nbButton type="button" class="p-button-danger mr-2"
-                      (click)="deleteDoc(config.doc, config.verification_partner)">Remove
+                      (click)="deleteDoc(config.doc, config.verification_partner, i)">Remove
             </button>
           </td>
         </tr>

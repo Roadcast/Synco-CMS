@@ -23,6 +23,7 @@ export class ConfigSettingComponent  {
   loader = false;
   Object = Object;
   company_id:any;
+  companyName:any;
 
   constructor(
     private http: DataService,
@@ -57,7 +58,9 @@ export class ConfigSettingComponent  {
       this.companyId = data?.data.find((el:any) => el.company_id).company_id;
       // this.user.getCompanyConfig();
     });
+    this.companyName = localStorage.getItem('companyName');
   }
+  
   validateInput(event: any) {
     if (event.target.value.length >= 1) {
       return false;

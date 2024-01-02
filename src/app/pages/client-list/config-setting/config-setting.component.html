@@ -1,6 +1,7 @@
 <div class="row">
   <div class="col-12">
-    <h2 class="pageheader" [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="large"><a [routerLink]="'../../clientList'">{{"Client List"}}</a>{{" > Configuration"}}</h2>
+    <h2 class="pageheader" [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerSize="large"> <a [routerLink]="'../../clientList'">{{"Client List "}}&lt;{{companyName}}</a>{{"> Configuration"}}
+    </h2>
   </div>
 </div>
     <nb-tabset (changeTab)="onChangeOfTabset($event)">

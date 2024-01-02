@@ -36,6 +36,8 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from 'src/environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { PartnerComponent } from './integration/partner/partner.component';
+import { DialogModule } from 'primeng/dialog';
 // import { RouterModule } from '@angular/router';
 // import { routes } from '../auth/auth-routing.module';
 
@@ -46,6 +48,7 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
     IntegrationComponent,
     YardConfigEditComponent,
     FileuploadComponent,
+    PartnerComponent,
   ],
   imports: [
     CommonModule,
@@ -76,6 +79,7 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
     AngularFireStorageModule,
     NbIconModule,
     NbButtonModule,
+    DialogModule
     // RouterModule.forRoot(routes)
   ],
   providers: [ToastService],

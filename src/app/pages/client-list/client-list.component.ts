@@ -319,6 +319,8 @@ export class ClientListComponent implements OnInit {
   }
 
   async config(product: any) {
+    console.log(product);
+    localStorage.setItem('companyName', product.company);
     const path = 'pages/config'
     this.router.navigate([path + '/'+ (product.company_id ? product.company_id.toString(10) : 'new')], {
        queryParamsHandling: 'merge',

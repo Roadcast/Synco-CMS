@@ -8,6 +8,7 @@ import {LogoutComponent} from "./client-list/logout/logout.component";
 import { IntegrationComponent } from './integration/integration.component';
 import { YardConfigEditComponent } from './client-list/yard-config/yard-config-edit/yard-config-edit.component';
 import { YardConfigComponent } from './client-list/yard-config/yard-config.component';
+import { PartnerComponent } from './integration/partner/partner.component';
 
 
 
@@ -52,6 +53,10 @@ const routes: Routes = [
       {
         path: 'config/:id',
         component: YardConfigComponent
+      },
+      {
+        path:'partner',
+        component: PartnerComponent
       }
     ],
   },

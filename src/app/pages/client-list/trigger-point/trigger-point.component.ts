@@ -67,13 +67,13 @@ export class TriggerPointComponent implements OnInit {
 
   triggerData(event: any) {
     console.log(event);
-    this.addApiData.triggerName = event.value.name;
-    this.addApiData.triggerService = event.value.service;
+    this.addApiData.triggerName = event.name;
+    this.addApiData.triggerService = event.service;
   }
 
   eventData(event: any) {
     console.log(event);
-    this.addApiData.eventId = event.value.id;
+    this.addApiData.eventId = event.id;
   }
 
   addTrigger() {

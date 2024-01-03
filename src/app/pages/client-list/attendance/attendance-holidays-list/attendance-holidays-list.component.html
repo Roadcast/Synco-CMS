@@ -1,0 +1,70 @@
+<nb-card>
+    <nb-card-body>
+        <div class="row">
+            <div class="col-12 font18 bold pt-10 pb-10">Add Holiday</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row align-items-center form-group">
+                    <div class="col-md-4"><label>{{"Date" | translate}}</label></div>
+                    <div class="col-md-8"><input nbInput type="date" fullWidth [(ngModel)]="holiday.date"
+                                                 class="form-control"></div>
+                </div>
+
+                <div class="row align-items-center form-group">
+                    <div class="col-md-4"><label>{{"Title" | translate}}</label></div>
+                    <div class="col-md-8"><input nbInput type="text" class="form-control" placeholder="Holiday Title"
+                                                 [(ngModel)]="holiday.title"></div>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="row align-items-center form-group">
+                    <div class="col-md-4"><label>Holiday Type</label></div>
+                    <div class="col-md-8">
+                        <nb-select [(ngModel)]="holiday.type" fullWidth>
+                            <nb-option value="HOLIDAY">{{"Holiday" | translate}}</nb-option>
+                            <nb-option value="WEEKEND">{{"Weekend" | translate}}</nb-option>
+                            <nb-option value="OTHERS">{{"Others" | translate}}</nb-option>
+                        </nb-select>
+                    </div>
+                </div>
+
+                <div class="row align-items-center form-group">
+                    <div class="col-md-4"><label>{{"Zones" | translate}}</label></div>
+                    <div class="col-md-8">
+                        <app-type-ahead (send)="holiday.zone = $event"
+                                        [filters]="{__active__bool: true, __only:['id', 'name']}"
+                                        [placeholder]="'Select Zone'"
+                                        [multiple]="true"
+                                        [selectedItems]="holiday.zone"
+                                        [url]="'auth/zone'" required>
+                        </app-type-ahead>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fullw row justify-content-end">
+            <div class="col-10">
+                <button nbButton filled status="primary" [disabled]="holiday.title == ''" (click)="save()">Add
+                </button>
+            </div>
+        </div>
+
+        <div class="row mt-40">
+            <div class="col-12">
+                <div class="table-responsive">
+                    <ng2-smart-table
+                        (deleteConfirm)="deleteHoliday($event)"
+                        [settings]="tableSettings"
+                        [source]="tableData">
+                    </ng2-smart-table>
+                </div>
+            </div>
+        </div>
+
+    </nb-card-body>
+</nb-card>
+
+

@@ -30,10 +30,10 @@
             <ng-template let-expanded="expanded" let-i=index let-partner pTemplate="body">
                 <tr [pEditableRow]="partner">
                     <td>
-                        <a [href]="partner.icon" title="click to open">
-                            <img *ngIf="partner.icon" height="50" width="50" [src]="partner.icon" alt="Logo"
-                                style="cursor:pointer">
-                        </a>
+                        <div [title]="partner.icon ? 'click to open' : ''">
+                            <img *ngIf="partner.icon" height="50" width="50" [src]="partner.icon" alt=""
+                                style="cursor:pointer" (error)="handleImageError($event)">
+                        </div>
                         {{partner.icon ? '' : 'N/A'}}
                     </td>
                     <td>
@@ -88,11 +88,12 @@
             <div class="p-fluid p-mb-3">
                 <input [(ngModel)]="newPartnerObject.name" pInputText placeholder="Name" required type="text"
                     name="name">
-                <p *ngIf="partnerForm.form.invalid && partnerForm.form.touched" style="color:red">Required</p>
+                <p *ngIf="partnerForm.form.invalid && partnerForm.form.touched" style="color:red">Name is Required</p>
             </div><br>
             <div class="p-fluid p-mb-3">
-                <input [(ngModel)]="newPartnerObject.description" pInputText placeholder="Description" type="text"
+                <input [(ngModel)]="newPartnerObject.description" pInputText placeholder="Description" required type="text"
                     name="description">
+                    <p *ngIf="partnerForm.form.invalid && partnerForm.form.touched" style="color:red">Description is Required</p>
             </div><br>
             <div class="p-fluid p-mb-3">
                 <input [(ngModel)]="newPartnerObject.web_hook_url" pInputText placeholder="Web Hook Url" type="text"
@@ -107,13 +108,13 @@
                     type="text" name="other_web_hook_url">
             </div><br>
             <div class="p-fluid p-mb-3">
-                <app-fileupload (getUrl)="newPartnerObject.icon = $event; onchangeofInput($event,'icon')" [url]="newPartnerObject.icon"></app-fileupload>
+                <app-fileupload (change)="fileSelected = true" (getUrl)="newPartnerObject.icon = $event; onchangeofInput($event,'icon')" [url]="newPartnerObject.icon"></app-fileupload>
             </div>
         </form>
 
     </div>
     <ng-template pTemplate="footer">
         <button (click)="openPartnerModel = false; createPartner()" 
-            style="width: 95px;" pButton pRipple [disabled]="partnerForm.form.invalid">Submit</button>
+            style="width: 95px;" pButton pRipple [disabled]="partnerForm.form.invalid || !fileSelected">Submit</button>
     </ng-template>
 </p-dialog>

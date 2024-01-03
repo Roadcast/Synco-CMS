@@ -131,6 +131,6 @@ export class YardConfigEditComponent implements OnInit {
 
   goBack(){
     const company_Id = localStorage.getItem('company_Id');
-    this.router.navigate(['/pages/config/' + company_Id ]);
+    this.router.navigate(['/pages/account-settings/configuration/' + company_Id ]);
   }
 }

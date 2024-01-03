@@ -35,6 +35,7 @@
     "firebase": "^10.7.1",
     "firebase-tools": "^13.0.1",
     "jspdf": "^2.5.1",
+    "moment": "^2.30.1",
     "ng2-smart-table": "^1.7.2",
     "ngx-file-upload": "^0.0.1",
     "ngx-filesaver": "^14.0.0",

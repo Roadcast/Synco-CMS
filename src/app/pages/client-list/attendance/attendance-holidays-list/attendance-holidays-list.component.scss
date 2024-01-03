@@ -1,0 +1,12 @@
+input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator {
+    margin-right: 0 !important;
+  }
+  
+  @media (max-width:1023px) {
+    .fullw {
+      justify-content: start !important;
+    }
+  
+    ::ng-deep .table-responsive table {width: 900px !important; max-width: inherit !important;}
+  }
+  

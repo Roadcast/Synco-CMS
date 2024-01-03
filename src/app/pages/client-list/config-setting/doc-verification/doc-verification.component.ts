@@ -75,6 +75,10 @@ export class DocVerificationComponent implements OnInit {
                             .includes(this.selectedVerificationObject['docs'][x])),
                 }
             });
+        console.log(this.savedDocConfigObjectByVerifyPartner);
+        console.log(typeof (this.savedDocConfigObjectByVerifyPartner));
+        console.log(this.savedDocConfigObjectByVerifyPartner[this.selectedVerificationObject['verification_partner']]);
+        console.log(typeof (this.savedDocConfigObjectByVerifyPartner[this.selectedVerificationObject['verification_partner']]));
     }
 
     async getDocConfigDataById() {
@@ -82,10 +86,10 @@ export class DocVerificationComponent implements OnInit {
         console.log(this.selectedVerificationDocs);
 
         try {
-            this.savedDocConfigObjectByVerifyPartner = {};
+            //  this.savedDocConfigObjectByVerifyPartner = {};
             // this.savedDocConfigTableView = [];
             this.selectedVerificationDocsRef = [];
-            this.selectedVerificationDocs = [];
+            this.selectedVerificationDocs = []
             this.selectedVerificationObject = null;
             this.savedDocConfig = (await this.http.query({ __company_id__equal: this.companyId }, 'auth/doc_verification_config')).data;
             console.log(this.savedDocConfig);
@@ -94,15 +98,15 @@ export class DocVerificationComponent implements OnInit {
                 console.log(config)
                 Object.keys(config['docs']).forEach(doc => {
                     if (!(this.savedDocConfigTableView.some((obj: any) => obj.doc === doc && obj.verification_partner == config['verification_partner']))) {//To prevent duplicate documents to get added in the list
-                    this.savedDocConfigObjectByVerifyPartner[config['verification_partner']] ?
-                        this.savedDocConfigObjectByVerifyPartner[config['verification_partner']].push(config['docs'][doc]) :
-                        this.savedDocConfigObjectByVerifyPartner[config['verification_partner']] = [config['docs'][doc]]
+                        this.savedDocConfigObjectByVerifyPartner[config['verification_partner']] ?
+                            this.savedDocConfigObjectByVerifyPartner[config['verification_partner']].push(config['docs'][doc]) :
+                            this.savedDocConfigObjectByVerifyPartner[config['verification_partner']] = [config['docs'][doc]]
 
-                    const object: any = {}
-                    object['verification_partner'] = config['verification_partner'],
-                        object['doc'] = doc;
-                    object['id'] = config.id;
-                    this.savedDocConfigTableView.push(object);
+                        const object: any = {}
+                        object['verification_partner'] = config['verification_partner'],
+                            object['doc'] = doc;
+                        object['id'] = config.id;
+                        this.savedDocConfigTableView.push(object);
                     }
                 });
             });
@@ -116,13 +120,30 @@ export class DocVerificationComponent implements OnInit {
     }
 
     async deleteDoc(doc: any, verificationPartner: any, index: any) {
+        console.log(this.savedDocConfigObjectByVerifyPartner[verificationPartner]);
         let deleteObject: any = {};
+        console.log(this.savedDocConfig);
+
         this.savedDocConfig.forEach((config: any) => {
             if (config['verification_partner'] === verificationPartner) {
+                console.log(config['docs'][doc]);
+                const existingValues = this.savedDocConfigObjectByVerifyPartner[verificationPartner];   // Retrieve the actual value from the config['docs'] object
+              
+                const valueToDelete = config['docs'][doc];
+
+                //find the index of value which have to splice from savedDocConfigObjectByVerifyPartner  
+                const valueIndex = existingValues
+                    ? existingValues.findIndex((value: any) => value === valueToDelete)
+                    : -1;
+
+                if (valueIndex !== -1) {  
+                    this.savedDocConfigObjectByVerifyPartner[verificationPartner].splice(valueIndex, 1);
+                }
                 delete config['docs'][doc]
                 delete config['created_on']
                 deleteObject = config;
                 console.log(deleteObject)
+
             }
         });
         try {
@@ -133,7 +154,7 @@ export class DocVerificationComponent implements OnInit {
                 detail: verificationPartner + ': ' + this.removeUnderScore(doc)
             });
             this.savedDocConfigTableView.splice(index, 1);
-           
+
         } catch (e) {
             this.messageService.add({ severity: 'error', summary: 'error', detail: 'Could not remove config!' });
             console.error(e);

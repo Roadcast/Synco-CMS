@@ -89,7 +89,7 @@ export class AddIntegrationComponent implements OnInit {
         this.messageService.add({severity:'error', summary: 'error', detail: ''});
       }
     }
-    this.nextStep(1);
+    // this.nextStep(1);
   }
 
   async getBrands() {
@@ -102,7 +102,10 @@ export class AddIntegrationComponent implements OnInit {
         'integration/brand_integration'));
       if (response) {
         this.brandApp = response.data;
+        this.nextStep(1);
       }
+      console.log(response);
+      
       if (this.brandApp.outlet_ids && this.brandApp.outlet_ids.length > 0)
         this.selectedOutlets = this.brandApp.outlet_ids;
     } catch (e) {

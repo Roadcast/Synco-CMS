@@ -1,0 +1,19 @@
+<nb-card>
+    <nb-tabset>
+        <nb-tab [tabTitle]="translateText('Holidays (List)')" class="p-0">
+            <app-attendance-holidays-list></app-attendance-holidays-list>
+        </nb-tab>
+        <nb-tab [tabTitle]="translateText('Settings')" class="p-0 overflow-x-hidden">
+            <app-attendance-settings></app-attendance-settings>
+        </nb-tab>
+        <nb-tab [tabTitle]="translateText('New Attendance Settings')" class="p-0 overflow-x-hidden">
+           <!-- <ngx-new-attendance-settings></ngx-new-attendance-settings> -->
+        </nb-tab>
+        <nb-tab [tabTitle]="translateText('New Settings')" class="p-0 overflow-x-hidden">
+            <!-- <ngx-attendance-setting></ngx-attendance-setting> -->
+         </nb-tab>
+         <nb-tab [tabTitle]="translateText('New Leave type')" class="p-0 overflow-x-hidden">
+            <!-- <attendance-leavetype></attendance-leavetype> -->
+         </nb-tab>
+    </nb-tabset>
+</nb-card>

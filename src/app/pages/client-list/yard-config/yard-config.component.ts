@@ -75,7 +75,7 @@ export class YardConfigComponent implements OnInit {
   //Go tO Add and Edit yard config page
   goToAddEdit(yard?:any) {
     this.router.navigate([
-      "pages/config/add/" +
+      "pages/account-settings/configuration/yard-config/" +
         (yard?.id ? yard.id.toString(10) : "new"),
     ]);
     this.user.company_Id.next(this.shareId);

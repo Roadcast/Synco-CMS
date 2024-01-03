@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { ApiService } from 'src/app/services/api.service';
 
@@ -8,7 +8,9 @@ import { ApiService } from 'src/app/services/api.service';
   styleUrls: ['./partner.component.scss']
 })
 export class PartnerComponent implements OnInit {
+  @ViewChild('partnerForm') partnerForm: any;
   partners: any = [];
+  fileSelected: boolean = false;
   openPartnerModel: boolean | undefined;
   newPartnerObject = {
     name: '',
@@ -20,7 +22,8 @@ export class PartnerComponent implements OnInit {
     keys: {}
   }
   constructor(private http: ApiService,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+     ) { }
 
   ngOnInit(): void {
     this.getPartners().then();
@@ -36,6 +39,7 @@ export class PartnerComponent implements OnInit {
 
   addPartner() {
     this.openPartnerModel = true;
+    this.partnerReset();
   }
 
   async createPartner() {
@@ -52,7 +56,7 @@ export class PartnerComponent implements OnInit {
       }
       this.getPartners().then();
     } catch (e) {
-      this.messageService.add({severity:'error', summary: 'error', detail: 'Could not create new partner!'});
+      this.messageService.add({ severity: 'error', summary: 'error', detail: 'Could not create new partner!' });
       console.error(e);
     }
   }
@@ -60,5 +64,35 @@ export class PartnerComponent implements OnInit {
   onchangeofInput(event: Event, type: string) {
     const new_obj = { ...this.newPartnerObject, [type]: event };
     this.newPartnerObject = new_obj;
+  }
+
+  handleImageError(event: any) {
+    const tdElement = event.target.parentElement;
+    tdElement.innerHTML = 'N/A';
+  }
+
+  private partnerReset() {
+    this.resetForm();
+  }
+
+  resetForm() {
+    // Reset form values
+    this.newPartnerObject = {
+      name: '',
+      description: '',
+      web_hook_url: '',
+      outlet_web_hook_url: '',
+      other_web_hook_url: '',
+      icon: '',
+      keys: {}
+    };
+
+    // Reset fileSelected flag
+    this.fileSelected = false;
+
+    // Reset the form validation state
+    if (this.partnerForm) {
+      this.partnerForm.resetForm();
+    }
   }
 }

@@ -9,6 +9,8 @@ import { IntegrationComponent } from './integration/integration.component';
 import { YardConfigEditComponent } from './client-list/yard-config/yard-config-edit/yard-config-edit.component';
 import { YardConfigComponent } from './client-list/yard-config/yard-config.component';
 import { PartnerComponent } from './integration/partner/partner.component';
+import { AuthGuard } from '../services/auth-guard.service';
+import { AccountComponent } from './client-list/account/account.component';
 
 
 
@@ -27,9 +29,10 @@ const routes: Routes = [
         redirectTo: 'clientList',
         pathMatch: 'full',
       },
-      {
-        path: 'config/:id',
-        component: ConfigSettingComponent},
+      // {
+      //   path: 'config/:id',
+      //   component: AccountComponent
+      // },
       {
         path: 'new-integration/:id',
         component: AddIntegrationComponent
@@ -46,18 +49,24 @@ const routes: Routes = [
         path: 'listIntegration',
         component: IntegrationComponent
       },
-      {
-        path: 'config/add/:id',
-        component: YardConfigEditComponent
-      },
-      {
-        path: 'config/:id',
-        component: YardConfigComponent
-      },
+      // {
+      //   path: 'config/add/:id',
+      //   component: YardConfigEditComponent
+      // },
+      // {
+      //   path: 'config/:id',
+      //   component: YardConfigComponent
+      // },
       {
         path:'partner',
         component: PartnerComponent
-      }
+      },
+      {
+        path: 'account-settings',
+        loadChildren: () => import('./client-list/account/account.module')
+          .then(m => m.AccountModule),
+        canActivate: [AuthGuard],
+      },
     ],
   },
 

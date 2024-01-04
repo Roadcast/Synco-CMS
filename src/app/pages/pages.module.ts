@@ -38,6 +38,13 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { PartnerComponent } from './integration/partner/partner.component';
 import { DialogModule } from 'primeng/dialog';
+import { AccountComponent } from './client-list/account/account.component';
+import { AttendanceComponent } from './client-list/attendance/attendance.component';
+import { OrderComponent } from './client-list/order/order.component';
+import { AttendanceHolidaysListComponent } from './client-list/attendance/attendance-holidays-list/attendance-holidays-list.component';
+import { TypeAheadComponent } from './client-list/type-ahead/type-ahead.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { AttendanceSettingsComponent } from './client-list/attendance/attendance-settings/attendance-settings.component';
 // import { RouterModule } from '@angular/router';
 // import { routes } from '../auth/auth-routing.module';
 
@@ -49,6 +56,12 @@ import { DialogModule } from 'primeng/dialog';
     YardConfigEditComponent,
     FileuploadComponent,
     PartnerComponent,
+    AttendanceComponent,
+    OrderComponent,
+    AttendanceHolidaysListComponent,
+    TypeAheadComponent,
+    AttendanceSettingsComponent,
+    // AccountComponent,
   ],
   imports: [
     CommonModule,
@@ -79,7 +92,8 @@ import { DialogModule } from 'primeng/dialog';
     AngularFireStorageModule,
     NbIconModule,
     NbButtonModule,
-    DialogModule
+    DialogModule,
+    NgSelectModule
     // RouterModule.forRoot(routes)
   ],
   providers: [ToastService],

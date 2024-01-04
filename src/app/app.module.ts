@@ -39,9 +39,6 @@ import { AuthModule } from './auth/auth.module';
 import { TableModule } from 'primeng/table';
 import {
   NbThemeModule,
-  NbLayoutModule,
-  NbTooltipModule,
-  NbBadgeModule,
   NbMenuModule,
   NbSidebarModule,
   NbTabsetModule,
@@ -52,7 +49,7 @@ import {
   NbToastrModule,
   NbCheckboxModule,
   NbCardModule,
-  NbSpinnerModule, NbAccordionModule, NbInputModule
+  NbSpinnerModule, NbAccordionModule, NbInputModule, NbDialogModule
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -63,9 +60,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { DocVerificationComponent } from './pages/client-list/config-setting/doc-verification/doc-verification.component';
 import { TriggerPointComponent } from './pages/client-list/trigger-point/trigger-point.component';
 import { YardConfigComponent } from './pages/client-list/yard-config/yard-config.component';
-import { FileuploadComponent } from './pages/client-list/fileupload/fileupload.component';
 import { AngularFireModule } from "@angular/fire/compat";
-import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from 'src/environments/environment';
@@ -121,10 +116,7 @@ import { CommonModule } from '@angular/common';
     NgSelectModule,
     AccordionModule,
     NbThemeModule.forRoot({ name: 'corporate' }),
-    NbLayoutModule,
     NbEvaIconsModule,
-    NbTooltipModule,
-    NbBadgeModule,
     NbMenuModule.forRoot(),
     NbSidebarModule.forRoot(),
     NgbModule,
@@ -138,13 +130,13 @@ import { CommonModule } from '@angular/common';
     NbCheckboxModule,
     TranslateModule.forRoot(),
     NbCardModule,
-    Ng2SmartTableModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireStorageModule,
     NbSpinnerModule,
     NbAccordionModule,
     NbInputModule,
+    NbDialogModule.forRoot(),
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true }, ToastService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

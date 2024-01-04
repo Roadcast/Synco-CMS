@@ -1,1 +1,222 @@
-<p>attendance-settings works!</p>
+<div class="row mb-30">
+    <div class="col-md-6">
+        <nb-card>
+            <nb-card-body>
+                <div class="row">
+                    <div class="col-12 font18 bold pt-10 pb-15">Attendance Configuration</div>
+                </div>
+                <table class="w-100 table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th scope="col" colspan="2" class="radio-inline">
+                            <nb-radio-group [(ngModel)]="attendanceConfig.multi_attendance">
+                                <nb-radio [value]="false">General Settings</nb-radio>
+                                <nb-radio [value]="true">Multi Attendance</nb-radio>
+                            </nb-radio-group>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="valignM w-60">
+                            <span class="font14 bold pr-5">Total Work Shift (in minutes)</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" [nbTooltip]="this.translateText('Test')"></nb-icon></td>
+                        <td class="valignM">
+                            <input nbInput fullWidth class="form-control w160px" type="number" min="60" max="1440" [(ngModel)]="attendanceConfig.working_minutes">
+                        </td>
+                    </tr>
+                    <ng-container *ngIf="!attendanceConfig.multi_attendance">
+                        <tr>
+                            <td class="valignM"><span class="font14 bold pr-5">Shift Start Time</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" [nbTooltip]="this.translateText('test')"></nb-icon></td>
+                            <td class="valignM"><input nbInput fullWidth class="form-control w160px" type="time" [(ngModel)]="attendanceConfig.shift_start_time"></td>
+                        </tr>
+                        <tr>
+                            <td class="valignM"><span class="font14 bold pr-5">Consider Attendance Late After</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" [nbTooltip]="this.translateText('Test')"></nb-icon></td>
+                            <td class="valignM"><div class="d-flex align-items-center"><input nbInput fullWidth class="form-control w160px mr-10" type="number" min="0" max="1440" [(ngModel)]="attendanceConfig.late_mark_minutes">{{"min" | translate}}</div></td>
+                        </tr>
+                        <tr>
+                            <td class="valignM"><span class="font14 bold pr-5">Consider Half Day After</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" [nbTooltip]="this.translateText('Test')"></nb-icon></td>
+                            <td class="valignM"><div class="d-flex align-items-center"><input nbInput fullWidth class="form-control w160px mr-10" type="number" min="0" max="1440" [(ngModel)]="attendanceConfig.half_day_minutes">{{"min" | translate}}</div></td>
+                        </tr>
+                        <tr>
+                            <td class="valignM"><span class="font14 bold pr-5">Over-time Duration</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" [nbTooltip]="this.translateText('test')"></nb-icon></td>
+                            <td class="valignM"><div class="d-flex align-items-center"><input nbInput fullWidth class="form-control w160px mr-10" type="number" min="0" max="1440" [(ngModel)]="attendanceConfig.late_out_minutes">{{"min" | translate}}</div></td>
+                        </tr>
+                        <tr>
+                            <td class="valignM"><span class="font14 bold pr-5">Skip Half Day on Total Work Shift Duration Completion</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" [nbTooltip]="this.translateText('Test')"></nb-icon></td>
+                            <td class="valignM"><nb-toggle [(ngModel)]="attendanceConfig.skip_late_if_hours_completed"></nb-toggle></td>
+                        </tr>
+                        <tr>
+                            <td class="valignM"><span class="font14 bold pr-5">Early Out Half Day Before</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" [nbTooltip]="this.translateText('test')"></nb-icon></td>
+                            <td class="valignM"><nb-toggle [(ngModel)]="attendanceConfig.mark_half_if_shift_not_ended"></nb-toggle></td>
+                        </tr>
+                        <tr>
+                            <td class="valignM"><span class="font14 bold pr-5">Number of Late Marks that Equal 1 Half Day</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" [nbTooltip]="this.translateText('test')"></nb-icon></td>
+                            <td class="valignM"><input nbInput fullWidth class="form-control w160px" type="number" min="1" max="10" [(ngModel)]="attendanceConfig.no_of_late_to_half"></td>
+                        </tr>
+                        <tr>
+                            <td class="valignM"><span class="font14 bold pr-5">Push Attendance For</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" [nbTooltip]="this.translateText('test')"></nb-icon></td>
+                            <td class="valignM"><input nbInput fullWidth class="form-control w160px" type="text" [(ngModel)]="attendanceConfig.push_attendance_for"></td>
+                        </tr>
+                    </ng-container>
+                    </tbody>
+                </table>
+
+                <div class="row m-0">
+                    <div class="col-12 cal-cont">
+                        <p class="mb-10 font14 bold" style="color: #fff;">Calendar Settings</p>
+                        <div>
+                            <nb-select [(ngModel)]="attendanceConfig.calendar_type" fullWidth>
+                                <nb-option [value]="'CALENDAR'">Follow Calendar Year (January - December)</nb-option>
+                                <nb-option [value]="'FINANCIAL'">Follow Financial (April - March)</nb-option>
+                            </nb-select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-0">
+                    <div class="col-12 multi-rad">
+                        <div>
+                            <div class="mb-5"><nb-toggle disabled [(ngModel)]="attendanceConfig.face_recognition" labelPosition="right">Face recognition</nb-toggle></div>
+                            <div class="mb-5"><nb-toggle [(ngModel)]="attendanceConfig.show_odometer_attendance" labelPosition="right">Capture odometer along with attendance</nb-toggle></div>
+                            <div class="mb-5"><nb-toggle [(ngModel)]="attendanceConfig.attendance_image" labelPosition="right">Capture Image along with attendance</nb-toggle></div>
+                            <div class="mb-5"><nb-toggle [(ngModel)]="attendanceConfig.only_allowed_in_geofence" labelPosition="right">Attendance allowed only inside Geofence</nb-toggle></div>
+                            <div class="mb-5"><nb-toggle [(ngModel)]="attendanceConfig.store_selection_for_attendance_mark_in" labelPosition="right">Store selection for Attendance Mark in App</nb-toggle></div>
+                            <div class="mb-5"><nb-toggle [(ngModel)]="attendanceConfig.vehicle_recognition" labelPosition="right">Vehicle Recognition by QR</nb-toggle></div>
+                            <div class="mb-5"><nb-toggle [(ngModel)]="attendanceConfig.disable_duty_button" labelPosition="right">Disable Duty Button</nb-toggle></div>
+                            <div class="mb-5"><nb-toggle [(checked)]="!!attendanceConfig.restrict_geotag_form_id_for_attendance" labelPosition="right" (checkedChange)="openGeotags($event)">Restrict Geotag Form for Attendance Out1</nb-toggle></div>
+                            <div class="mb-5"><nb-select *ngIf="attendanceConfig.restrict_geotag_form_id_for_attendance"
+                                       [placeholder]="geotag?.name? geotag?.name : 'Select Geotag'"
+                                       (selectedChange)="setGeotag($event)" fullWidth><nb-option *ngFor="let geo of geotags" [value]="geo">{{geo.name}}</nb-option>
+                            </nb-select></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-0">
+                    <div class="col-12 multi-rad">
+                        <div>
+                            <nb-accordion>
+                                <nb-accordion-item [expanded]="attendanceConfig.is_auto_attendance" disabled>
+                                    <nb-accordion-item-header class="border-0 p-0">
+                                        <nb-toggle [(ngModel)]="attendanceConfig.is_auto_attendance" labelPosition="right">Automated Attendance Enable? <nb-icon icon="info-outline" class="font16 basecolor d-cursor" [nbTooltip]="this.translateText('test')"></nb-icon>
+                                        </nb-toggle>
+                                    </nb-accordion-item-header>
+
+                                    <nb-accordion-item-body class="aae-cont">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                    <label>Mark In</label>
+                                                    <nb-select [(ngModel)]="attendanceConfig.auto_attendance_in" fullWidth>
+                                                        <nb-option [value]="'IN'">First Zone Entered</nb-option>
+                                                        <nb-option [value]="'OUT'">Last Zone Entered</nb-option>
+                                                    </nb-select>
+                                                </div>
+                                            <div class="col-sm-6 m-mt-10">
+                                                    <label>Mark Out</label>
+                                                    <nb-select [(ngModel)]="attendanceConfig.auto_attendance_out" fullWidth>
+                                                        <nb-option [value]="'IN'">First Zone Exit</nb-option>
+                                                        <nb-option [value]="'OUT'">Last Zone Exit</nb-option>
+                                                    </nb-select>
+                                                </div>
+                                        </div>
+                                    </nb-accordion-item-body>
+                                </nb-accordion-item>
+                            </nb-accordion>
+                        </div>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+    <div class="col-md-6">
+        <nb-card>
+            <nb-card-body>
+                <div class="row">
+                    <div class="col-12 font18 bold pt-10 pb-15">Leave Settings</div>
+                </div>
+                <table class="w-100 table table-striped table-bordered">
+                    <tr>
+                        <td class="valignM w-60"><span class="font14 bold pr-5">Casual Leaves</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" [nbTooltip]="this.translateText('test')"></nb-icon>
+                        </td>
+                        <td class="valignM">
+                            <div class="d-flex align-items-center">
+                            <button nbPrefix nbButton ghost (click)="attendanceConfig.casual_leaves = attendanceConfig.casual_leaves -( attendanceConfig.casual_leaves > 0 ? 1 : 0)">
+                                <nb-icon [icon]=" 'minus-outline'" pack="eva"></nb-icon>
+                            </button>
+                            <input nbInput type="number" min="10" max="100" class="form-control w160px" [(ngModel)]="attendanceConfig.casual_leaves">
+                            <button nbSuffix nbButton ghost (click)="attendanceConfig.casual_leaves = attendanceConfig.casual_leaves + 1">
+                                <nb-icon [icon]=" 'plus-outline'" pack="eva"></nb-icon>
+                            </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="valignM"><span class="font14 bold pr-5">Paid Leaves</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" [nbTooltip]="this.translateText('test')"></nb-icon></td>
+                        <td class="valignM">
+                            <div class="d-flex align-items-center">
+                            <button nbPrefix nbButton ghost (click)="attendanceConfig.paid_leaves = attendanceConfig.paid_leaves -( attendanceConfig.paid_leaves > 0 ? 1 : 0)">
+                                <nb-icon [icon]=" 'minus-outline'" pack="eva"></nb-icon>
+                            </button>
+                            <input nbInput type="number" min="10" max="100" class="form-control w160px" [(ngModel)]="attendanceConfig.paid_leaves">
+                            <button nbSuffix nbButton ghost (click)="attendanceConfig.paid_leaves = attendanceConfig.paid_leaves + 1">
+                                <nb-icon [icon]=" 'plus-outline'" pack="eva"></nb-icon>
+                            </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="valignM"><span class="font14 bold pr-5">Sick Leaves</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" [nbTooltip]="this.translateText('test')"></nb-icon></td>
+                        <td class="valignM">
+                            <div class="d-flex align-items-center">
+                            <button nbPrefix nbButton ghost (click)="attendanceConfig.sick_leaves = attendanceConfig.sick_leaves -( attendanceConfig.sick_leaves > 0 ? 1 : 0)">
+                                <nb-icon [icon]=" 'minus-outline'" pack="eva"></nb-icon>
+                            </button>
+                            <input nbInput type="number" min="10" max="100" class="form-control w160px" [(ngModel)]="attendanceConfig.sick_leaves">
+                            <button nbSuffix nbButton ghost (click)="attendanceConfig.sick_leaves = attendanceConfig.sick_leaves + 1">
+                                <nb-icon [icon]=" 'plus-outline'" pack="eva"></nb-icon>
+                            </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="valignM"><span class="font14 bold pr-5">Other Leaves</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" [nbTooltip]="this.translateText('test')"></nb-icon></td>
+                        <td class="valignM">
+                            <div class="d-flex align-items-center">
+                            <button nbPrefix nbButton ghost (click)="attendanceConfig.other_leaves = attendanceConfig.other_leaves -( attendanceConfig.other_leaves > 0 ? 1 : 0)">
+                                <nb-icon [icon]=" 'minus-outline'" pack="eva"></nb-icon>
+                            </button>
+                            <input nbInput type="number" min="10" max="100" class="form-control w160px" [(ngModel)]="attendanceConfig.other_leaves">
+                            <button nbSuffix nbButton ghost (click)="attendanceConfig.other_leaves = attendanceConfig.other_leaves + 1">
+                                <nb-icon [icon]=" 'plus-outline'" pack="eva"></nb-icon>
+                            </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="valignM"><span class="font14 bold pr-5">Days before Leaves can be planned for Approval</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" [nbTooltip]="this.translateText('test')"></nb-icon></td>
+                        <td class="valignM">
+                            <div class="d-flex align-items-center">
+                            <button nbPrefix nbButton ghost (click)="attendanceConfig.min_days_leave_apply = attendanceConfig.min_days_leave_apply -( attendanceConfig.min_days_leave_apply > 0 ? 1 : 0)">
+                                <nb-icon [icon]=" 'minus-outline'" pack="eva"></nb-icon>
+                            </button>
+                            <input nbInput type="number" min="10" max="100" class="form-control w160px" [(ngModel)]="attendanceConfig.min_days_leave_apply">
+                            <button nbSuffix nbButton ghost (click)="attendanceConfig.min_days_leave_apply = attendanceConfig.min_days_leave_apply + 1">
+                                <nb-icon [icon]=" 'plus-outline'" pack="eva"></nb-icon>
+                            </button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="row m-0">
+                    <div class="col-12 multi-rad">
+                        <div><nb-toggle [(ngModel)]="attendanceConfig.is_approval_required">Leave Approval Required?</nb-toggle></div>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+    <div class="col-12 pl-30">
+        <button nbButton status="primary" class="btn-w-12" (click)="save()">{{"Save" | translate}}</button>
+    </div>
+</div>

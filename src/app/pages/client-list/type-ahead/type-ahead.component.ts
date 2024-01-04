@@ -25,15 +25,16 @@ export class TypeAheadComponent implements OnInit {
   @Input() required = true;
   @Input() basePath: any = "auth";
   @Input() placeholder: string = "Search Here";
-  @Input() url: string='';
+  @Input() url: string = '';
   @Input() text: string = "name";
   @Input() dataValue: any;
-  @Input() value: string='';
-  @Input() searchField: string='';
+  @Input() value: string = '';
+  @Input() searchField: string = '';
   @Input() notifySearchFail: boolean = false;
   @Input() displayNames: string[] = [];
   @Input() selectedItems = [];
-  @Input() autoRouteFc: ((id: any) => void) | undefined;
+  @Input()
+  autoRouteFc!: ((id: any) => void);
   @Input() autoType = false;
   @Input() failedEmit: boolean = false;
   @Output() searchTerm: EventEmitter<string> = new EventEmitter();
@@ -44,7 +45,7 @@ export class TypeAheadComponent implements OnInit {
   @Output() onRemove: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild("selectContent") selectContent: any;
   constructor(private translate: TranslateService
-,    private http: DataService, private cd: ChangeDetectorRef) {}
+    , private http: DataService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     // const riderFilter = document.querySelector('.ng-select .ng-select-container');
@@ -56,12 +57,12 @@ export class TypeAheadComponent implements OnInit {
     // }
   }
   translateText(key: string): string {
-		let translation: string='';
-		this.translate.get(key).subscribe((res: string) => {
-			translation = res;
-		});
-		return translation;
-	}
+    let translation: string = '';
+    this.translate.get(key).subscribe((res: string) => {
+      translation = res;
+    });
+    return translation;
+  }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.['failedEmit']) {
       if (changes?.['failedEmit'].currentValue === true) {
@@ -74,8 +75,8 @@ export class TypeAheadComponent implements OnInit {
     this.cd.detectChanges();
   }
 
-  async searchApi(event:any): Promise<any[]> {
-    const query:any = {};
+  async searchApi(event: any): Promise<any[]> {
+    const query: any = {};
     query["__limit"] = 80;
     if (this.searchField) {
       query[this.searchField] = event;
@@ -112,23 +113,23 @@ export class TypeAheadComponent implements OnInit {
     }
   }
 
-  // emitSelected(event:any) {
-  //   console.log(event);
-  //   this.failedEmit = false;
-  //   if (typeof event === typeof "str" || !event) {
-  //     this.failed.emit(event);
-  //     return;
-  //   }
-  //   if (this.autoType) {
-  //     this.autoRouteFc(event.id);
-  //   }
+  emitSelected(event: any) {
+    console.log(event);
+    this.failedEmit = false;
+    if (typeof event === typeof "str" || !event) {
+      this.failed.emit(event);
+      return;
+    }
+    if (this.autoType) {
+      this.autoRouteFc(event.id);
+    }
 
-  //   this.send.emit(event);
-  //   this.searchFailed = true;
-  //   this.onChange.emit(event);
-  //   if (this.clearAfterSelection) this.selectContent.clearItem(event);
-  //   this.cd.detectChanges();
-  // }
+    this.send.emit(event);
+    this.searchFailed = true;
+    this.onChange.emit(event);
+    if (this.clearAfterSelection) this.selectContent.clearItem(event);
+    this.cd.detectChanges();
+  }
 
   selectAll() {
     this.spinner = true;
@@ -169,14 +170,14 @@ export class TypeAheadComponent implements OnInit {
         return x.financial_year_start;
       }
       return x.name ? x.name : x.registration_number;
-    } catch (error) {}
+    } catch (error) { }
     return;
   }
 
   async loadPeople() {
     try {
       this.data$ = this.searchApi(undefined);
-    } catch (e) {}
+    } catch (e) { }
     this.dataInput$
       .pipe(
         distinctUntilChanged(),
@@ -203,12 +204,12 @@ export class TypeAheadComponent implements OnInit {
       );
   }
 
-  inputInit(event:any) {
+  inputInit(event: any) {
     // init api call for blank input
     if (event.term === "") {
       try {
         this.data$ = this.searchApi(undefined);
-      } catch (e) {}
+      } catch (e) { }
     }
   }
 }

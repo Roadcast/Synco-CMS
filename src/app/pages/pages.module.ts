@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PagesRoutingModule } from './pages-routing.module';
 import { PagesComponent } from './pages.component';
@@ -36,8 +36,21 @@ import { TypeAheadComponent } from './client-list/type-ahead/type-ahead.componen
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AttendanceSettingsComponent } from './client-list/attendance/attendance-settings/attendance-settings.component';
 import { NewAttendanceSettingsComponent } from './client-list/attendance/new-attendance-settings/new-attendance-settings.component';
-import { MbscButtonModule, MbscCheckboxModule, MbscDatepickerModule, MbscEventcalendarModule, MbscInputModule, MbscSegmentedModule } from '@mobiscroll/angular';
+
 import { NewSettingsComponent } from './client-list/attendance/new-settings/new-settings.component';
+import { AttendanceLeavetypeComponent } from './client-list/attendance/attendance-leavetype/attendance-leavetype.component';
+import { AttendanceLeavetypeEditComponent } from './client-list/attendance/attendance-leavetype/attendance-leavetype-edit/attendance-leavetype-edit.component';
+import { PrimeDataTableComponent } from './client-list/prime-data-table/prime-data-table.component';
+import {
+  MbscButtonModule,
+  MbscCheckboxModule,
+  MbscDatepickerModule,
+  MbscEventcalendarModule,
+  MbscInputModule,
+  MbscModule,
+  MbscPopupModule,
+  MbscSegmentedModule,
+} from '@mobiscroll/angular';
 
 @NgModule({
   declarations: [
@@ -54,6 +67,9 @@ import { NewSettingsComponent } from './client-list/attendance/new-settings/new-
     AttendanceSettingsComponent,
     NewAttendanceSettingsComponent,
     NewSettingsComponent,
+    AttendanceLeavetypeComponent,
+    AttendanceLeavetypeEditComponent,
+    PrimeDataTableComponent,
   ],
   imports: [
     CommonModule,
@@ -83,13 +99,12 @@ import { NewSettingsComponent } from './client-list/attendance/new-settings/new-
     NbToggleModule,
     NbAccordionModule,
     NbInputModule,
-    MbscEventcalendarModule,
-    MbscInputModule,
     MbscDatepickerModule,
-    MbscButtonModule,
-    MbscCheckboxModule,
-    MbscSegmentedModule
+    MbscInputModule,
+    MbscEventcalendarModule,
+    MbscModule
   ],
   providers: [ToastService],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class PagesModule { }

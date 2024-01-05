@@ -85,18 +85,18 @@ export class NewSettingsComponent implements OnInit {
         type: 'day',
       },
     },
-    onEventCreated: (event, inst) => {
-      console.log(event, inst);
-    },
-    onEventDoubleClick(args, inst) { },
-    onEventClick: (args, inst) => {
+    // onEventCreated: (event:an, inst) => {
+    //   console.log(event, inst);
+    // },
+    onEventDoubleClick(args:any, inst:any) { },
+    onEventClick: (args:any, inst:any) => {
       // const existingEvent = this.args.find((e) => e.start === args.date);
       // return false;
       this.editHolidaySchedule(args.event).then();
     },
-    onLabelClick: (event, inst) => {
-      console.log(event);
-    },
+    // onLabelClick: (event:any, inst:any) => {
+    //   console.log(event);
+    // },
   };
 
   editHoliDayObject:any = {
@@ -370,7 +370,6 @@ export class NewSettingsComponent implements OnInit {
       );
     }
   }
-
 
   ClearDateRange(event:any) {
     console.log(event);

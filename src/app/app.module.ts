@@ -65,6 +65,7 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from 'src/environments/environment';
 import { CommonModule } from '@angular/common';
+import { CeleryTaskStatusDialogComponent } from './@theme/components/celery-task-status-dialog/celery-task-status-dialog.component';
 
 // import { RouterModule } from '@angular/router';
 // import { routes } from './auth/auth-routing.module';
@@ -83,6 +84,7 @@ import { CommonModule } from '@angular/common';
     DocVerificationComponent,
     TriggerPointComponent,
     YardConfigComponent,
+    CeleryTaskStatusDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -145,3 +147,4 @@ import { CommonModule } from '@angular/common';
 })
 export class AppModule {
 }
+

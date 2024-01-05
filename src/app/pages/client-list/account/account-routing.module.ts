@@ -5,6 +5,7 @@ import { ConfigSettingComponent } from '../config-setting/config-setting.compone
 import { YardConfigEditComponent } from '../yard-config/yard-config-edit/yard-config-edit.component';
 import { AttendanceComponent } from '../attendance/attendance.component';
 import { OrderComponent } from '../order/order.component';
+import { AttendanceLeavetypeEditComponent } from '../attendance/attendance-leavetype/attendance-leavetype-edit/attendance-leavetype-edit.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
       {
         path: 'order',
         component: OrderComponent,
+      },
+      {
+        path: 'leave_type/:id',
+        component: AttendanceLeavetypeEditComponent,
       },
      ],
   },

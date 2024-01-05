@@ -7,7 +7,7 @@
             <app-type-ahead (send)="setCalenderYear($event)" (cleared)="resetCalenderYear()"
                 [displayNames]="['financial_year_start', 'financial_year_end']" [filters]="{}" [model]="{}"
                 [placeholder]="'Search Calender year'" [(ngModel)]="placeholder" [selectedItems]="placeholder"
-                [required]="true" [basePath]="'attendance'" [url]="'attendance/calender_year'">
+                [required]="true" [basePath]="'attendance'" [url]="'attencalender_year'">
             </app-type-ahead>
 
         </div>
@@ -18,13 +18,13 @@
 </div>
 <div class="md-switching-view-cont">
     <mbsc-eventcalendar #eventCalender [data]="myEvents1" [view]="calView" [min]="minDateCalender"
-        [max]="maxDateCalender" [invalid]="myEvents1" [headerTemplate]="customTemplate" [options]="calendarOptions">
+    [max]="maxDateCalender" [invalid]="myEvents1" [headerTemplate]="customTemplate" [options]="calendarOptions">
         <ng-template #customTemplate>
             <mbsc-calendar-nav class="cal-header-nav"></mbsc-calendar-nav>
             <div class="cal-header-picker">
-                <!--<mbsc-segmented-group [(ngModel)]="view" (change)="changeView()">
+                <!-- <mbsc-segmented-group [(ngModel)]="view" (change)="changeView()">
                     <mbsc-segmented value="month">Month</mbsc-segmented>
-                </mbsc-segmented-group>-->
+                </mbsc-segmented-group> -->
             </div>
             <mbsc-calendar-prev class="cal-header-prev"></mbsc-calendar-prev>
             <mbsc-calendar-today class="cal-header-today"></mbsc-calendar-today>

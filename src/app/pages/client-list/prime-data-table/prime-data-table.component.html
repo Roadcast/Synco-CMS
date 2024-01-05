@@ -1,0 +1,142 @@
+<div>
+    <p-table #dt1 [value]="data" [columns]="columns" dataKey="id"
+         [rows]="10" [showCurrentPageReport]="false" [rowsPerPageOptions]="[10,20,50,100]" styleClass="p-datatable-customers p-datatable-gridlines"
+         [paginator]="!!(data && data.length)" selectionMode="multiple" [(selection)]="selectedProducts"
+             [globalFilterFields]= globalFilterFields [loading]="loading">
+    <ng-template pTemplate="caption">
+        <div class="row align-items-center posit">
+            <div class="col-md-8 font20 bold m-mb-10 ult">
+                {{reportName}}  ({{data ? data.length : 0 }})
+            </div>
+            <div class="col-md-4 d-flex align-items-center justify-content-end ulf pr-15">
+                <span class="mr-10 w-select w-250p">
+                <mbsc-datepicker
+                        (onChange)="selectedDateRange($event)"
+                        [controls]="['calendar']"
+                        [placeholder]="'Pick Date Range'"
+                        [touchUi]="true"
+                        [max]="max"
+                        display="anchored"
+                        inputStyle="outline"
+                        [options]="myOptions"
+                        [dateFormat]="dateFormat"
+                        [(ngModel)]="formatStartEndDate"
+                        (onCancel)="ClearDateRange()"
+                        select="range">
+                </mbsc-datepicker>
+                </span>
+                <span class="p-input-icon-left m-wid-h pr-15" *ngIf="searchAll">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" class="search-pl" (input)="searchFilter($event, dt1)"
+                           placeholder="Search Keyword" />
+                </span>
+                <span class="ml-10" *ngIf="configBulkUpload">
+                    <button nbButton (click)="bulkUpload.emit('button')" status="primary">{{"Bulk Upload" | translate}}</button>
+                </span>
+                <span *ngIf="addNew" class="ml-10">
+                    <button (click)="edit()" nbButton status="primary">{{"Create New" | translate}}</button>
+                    <button *ngIf="excelUpload" (click)="dialogRef = nbDialogService.open(addRider)" nbButton status="success" class="ml-10">{{"Upload as Excel" |translate}}</button>
+                </span>
+<!--                    <button type="button" pButton pRipple icon="pi pi-filter" (click)="dt1.exportCSV({ selectionOnly: true })" class="p-button-info ml-auto" pTooltip="Selection Only" tooltipPosition="bottom"></button>-->
+                <button *ngIf="addNew!=true" type="button" pButton pRipple icon="pi pi-file"
+                        (click)="dt1.exportCSV({ selectionOnly: true })" class="p-button-info ml-auto wid-h"
+                        pTooltip="CSV" tooltipPosition="bottom">
+                </button>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th>{{"S.No" | translate}}.</th>
+            <th *ngFor="let col of columns" scope="col"
+                pSortableColumn="{{col.field}}" [hidden]="!col.visible">
+                <div class="d-flex align-items-center justify-content-between">{{col.header}}
+                    <p-columnFilter *ngIf="col.filter" type="{{col.type}}" field="{{col.field}}" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th *ngIf="editIcon" >
+                {{"Edit" | translate}}
+            </th>
+            <th *ngIf="disableIcon" scope="col">{{"Status" | translate}}</th>
+            <th *ngIf="infoIcon" scope="col" class="white_space text-center" style="width: 80px;">{{"Info" | translate}}</th>
+            <th *ngIf="bulkuploadtd" scope="col" class="white_space text-center" style="width: 80px;">{{"BulkUpload" | translate}}</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-i="rowIndex" let-columns="columns">
+        <tr  [pSelectableRow]="rowData">
+            <td>{{i+1}}.</td>
+            <ng-container *ngFor="let col of columns">
+                <td [hidden]="!col.visible" [innerHTML]="col.displayFn ? col.displayFn(rowData, col.field) :
+                    (col.field === 'distance' ? (rowData[col.field]/1).toFixed(2) : rowData[col.field])"></td>
+            </ng-container>
+            <td *ngIf="editIcon">
+                <img (click)="edit(rowData)" src="/assets/images/icon-edit.svg" alt="" class="table-icon d-cursor" [nbTooltip]="this.translateText('Edit')">
+            </td>
+            <td *ngIf="infoIcon" class="text-center">
+                <img (click)="view.emit(rowData)" src="/assets/images/icon-info.svg" alt="" class="table-icon d-cursor" [nbTooltip]="this.translateText('View Info')">
+            </td>
+            <td *ngIf="disableIcon">
+                <div (click)="disable(rowData, disableColumn, rowData.rider_on_boarding_detail ? riderConfirmDialog : confirmDialog)" class="text-center">
+                    <img *ngIf="rowData[disableColumn]" src="/assets/images/icon-toggle-on.svg" alt="" class="table-icon d-cursor" [nbTooltip]="this.translateText('Disable')">
+                    <img *ngIf="!rowData[disableColumn]" src="/assets/images/icon-toggle-off.svg" alt="" class="table-icon d-cursor" [nbTooltip]="this.translateText('Enable')">
+                </div>
+            </td>
+            <td *ngIf="bulkuploadtd" scope="col" class="white_space text-center" style="width: 80px;"><button nbButton (click)="bulkUpload.emit({type : 'td', name: rowData.name})" status="primary">{{"BulkUpload" | translate}}</button></td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <div class="no-result">
+                <div class="font14 text-center color-grey">{{"No Result(s) found" | translate}}.</div>
+            </div>
+    </ng-template>
+</p-table>
+<div class="mt-10" *ngIf="data?.length && showDownload else customDownload">
+    <button pButton pRipple type="button" label='{{"Download" | translate}}' icon="pi pi-file-excel" iconPos="left" (click)="exportExcel()"></button>
+</div>
+<ng-template #customDownload>
+    <div class="mt-20" *ngIf="data?.length">
+        <button (click)="getAllDataFn()" nbButton status="primary">{{"Download" | translate}}</button>
+    </div>
+</ng-template>
+</div>
+
+
+<ng-template #riderConfirmDialog let-ref=dialogRef let-data>
+<nb-card *ngIf="!data.is_active" style="height: 20vh;width: 20vw;overflow: auto">
+    <nb-card-body class="d-flex align-items-center" style="overflow: hidden">
+        <Strong>{{"Are you sure you want to" | translate}} {{data.toggle ? 'enable' : 'disable'}} {{"rider" | translate}}?</Strong>
+    </nb-card-body>
+    <nb-card-footer class="d-flex justify-content-between">
+        <button (click)="ref.close(false)" class="m3" nbButton size="small" status="danger">{{"Cancel" | translate}}</button>
+        <button nbButton size="small" status="primary" class="m3" (click)="ref.close(true)">{{"Confirm" | translate}}</button>
+    </nb-card-footer>
+</nb-card>
+<nb-card *ngIf="data.is_active" style="height: 38vh;width: 25vw;overflow: auto">
+    <nb-card-body class="d-flex align-items-center">
+        <div class="form-group flex">
+            <strong>{{"Reason" | translate}}</strong>
+            <ngx-type-ahead (send)="riderDisable($event)" [filters]="{__type__equal: 'R'}" [basePath]="'order'" [placeholder]="'Reason'" [displayNames]="['name']"
+                            [required]="true" [url]="'reason'">
+            </ngx-type-ahead>
+            <strong class="required">{{"Description" | translate}}</strong>
+            <textarea [(ngModel)]="riderDisableInfo.description" class="mt-2" nbInput fullWidth placeholder="Description"></textarea>
+        </div>
+    </nb-card-body>
+    <nb-card-footer class="d-flex justify-content-between">
+        <button (click)="ref.close(false)" class="m3" nbButton size="small" status="danger">{{"Cancel" | translate}}</button>
+        <button nbButton size="small" status="primary" class="m3" (click)="closeRiderDialog(ref)">{{"Confirm" | translate}}</button>
+    </nb-card-footer>
+</nb-card>
+</ng-template>
+
+<ng-template #confirmDialog let-ref=dialogRef let-data>
+<nb-card>
+    <nb-card-body class="d-flex align-items-center">
+        <Strong>{{"Are you sure you want to" | translate}} {{data.toggle ? 'enable' : 'disable'}}?</Strong>
+    </nb-card-body>
+    <nb-card-footer class="d-flex justify-content-end">
+        <button (click)="ref.close(false)" class="mr-15 smb" nbButton size="small" status="danger">{{"No" | translate}}</button>
+        <button (click)="ref.close(true)" class="smb" nbButton size="small" status="primary">{{"Yes" | translate}}</button>
+    </nb-card-footer>
+</nb-card>
+</ng-template>

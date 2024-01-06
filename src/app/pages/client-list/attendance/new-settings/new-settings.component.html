@@ -1,0 +1,98 @@
+<div class="att-cont">
+    <div class="row align-items-center border-bottom mb-30">
+        <div class="col-12 col-md-3 font20 bold">
+            Attendance settings
+        </div>
+        <div class="col-12 col-md-3 m-mt-12">
+            <app-type-ahead (send)="setCalenderYear($event)" (cleared)="resetCalenderYear()"
+                [displayNames]="['financial_year_start', 'financial_year_end']" [filters]="{}" [model]="{}"
+                [placeholder]="'Search Calender year'" [(ngModel)]="placeholder" [selectedItems]="placeholder"
+                [required]="true" [basePath]="'attendance'" [url]="'attencalender_year'">
+            </app-type-ahead>
+
+        </div>
+        <div class="col-12 col-md-3 m-mt-12">
+            <button (click)="createFinancialYear()" nbButton status="primary">{{"Create New" | translate}}</button>
+        </div>
+    </div>
+</div>
+<div class="md-switching-view-cont">
+    <mbsc-eventcalendar #eventCalender [data]="myEvents1" [view]="calView" [min]="minDateCalender"
+    [max]="maxDateCalender" [invalid]="myEvents1" [headerTemplate]="customTemplate" [options]="calendarOptions">
+        <ng-template #customTemplate>
+            <mbsc-calendar-nav class="cal-header-nav"></mbsc-calendar-nav>
+            <div class="cal-header-picker">
+                <!-- <mbsc-segmented-group [(ngModel)]="view" (change)="changeView()">
+                    <mbsc-segmented value="month">Month</mbsc-segmented>
+                </mbsc-segmented-group> -->
+            </div>
+            <mbsc-calendar-prev class="cal-header-prev"></mbsc-calendar-prev>
+            <mbsc-calendar-today class="cal-header-today"></mbsc-calendar-today>
+            <mbsc-calendar-next class="cal-header-next"></mbsc-calendar-next>
+        </ng-template>
+        <ng-template #editHolidayScheduleDialog let-data let-ref=dialogRef>
+            <nb-card class="cardresp">
+                <nb-card-header>
+                    <div>Update Holiday</div>
+                </nb-card-header>
+                <nb-card-body>
+                    <div class="row mt-15">
+                        <div class="col-12">
+                            <p class="font16 medium mb-10">Holiday Name</p>
+                            <input fullWidth minlength="2" name="holiday_name"
+                                [(ngModel)]="editHoliDayObject.holiday_name" nbInput type="text">
+                        </div>
+                        <div class="w-100 mt-10"></div>
+                    </div>
+                </nb-card-body>
+                <nb-card-footer class="d-flex justify-content-center">
+                    <button (click)="ref.close(false)" class="mr-15" nbButton status="primary">Close</button>
+                    <button [disabled]="editHoliDayObject.holiday_name==''"
+                        (click)="updateDutySchedule(data.id);ref.close(false)" class="mr-15" nbButton
+                        status="primary">Update</button>
+                </nb-card-footer>
+            </nb-card>
+        </ng-template>
+
+        <ng-template #createFinancialYearDialog let-data let-ref=dialogRef>
+            <nb-card class="cardresp">
+                <nb-card-header>
+                    <div>Create Financial year</div>
+                </nb-card-header>
+                <nb-card-body>
+                    <div class="row mt-15">
+                        <div class="col-12">
+                            <p class="font16 medium mb-10">Select Financial year range</p>
+                            <div>
+                                <nb-radio-group [(ngModel)]="dateFinancialYear">
+                                    <nb-radio value="1">
+                                        1st January {{currentYear}} - 31st December {{currentYear}}
+                                    </nb-radio>
+                                    <nb-radio value="2">
+                                        1st April {{currentYear}} - 31st March {{nextYear}}
+                                    </nb-radio>
+                                </nb-radio-group>
+
+                            </div>
+                        </div>
+                        <div class="w-100 mt-10"></div>
+                    </div>
+                </nb-card-body>
+                <nb-card-footer class="d-flex justify-content-center">
+                    <button (click)="ref.close(false)" class="mr-15" nbButton status="primary">Close</button>
+                    <button [disabled]="dateFinancialYear===''"
+                        (click)="updateFinancialYear(dateFinancialYear);ref.close(false)" class="mr-15" nbButton
+                        status="primary">Create</button>
+                </nb-card-footer>
+            </nb-card>
+        </ng-template>
+    </mbsc-eventcalendar>
+</div>
+<div class="row mt-40">
+    <div class="col-12">
+        <div class="table-responsive">
+            <ng2-smart-table [settings]="tableSettings" [source]="holidayList">
+            </ng2-smart-table>
+        </div>
+    </div>
+</div>

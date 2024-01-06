@@ -1,0 +1,31 @@
+export interface AttendanceConfig {
+  disable_duty_button: boolean;
+  vehicle_recognition: boolean;
+  store_selection_for_attendance_mark_in: boolean;
+  restrict_geotag_form_id_for_attendance: string | null;
+  only_allowed_in_geofence: boolean;
+  attendance_image: boolean;
+  show_odometer_attendance: boolean;
+  face_recognition: boolean;
+  multi_attendance: boolean;
+  auto_attendance_out: string;
+  auto_attendance_in: string;
+  is_auto_attendance: boolean;
+  other_leaves: number;
+  sick_leaves: number;
+  paid_leaves: number;
+  casual_leaves: number;
+  is_approval_required: boolean;
+  min_days_leave_apply: number;
+  calendar_type: string;
+  no_of_late_to_half: number;
+  mark_half_if_shift_not_ended: boolean;
+  skip_late_if_hours_completed: boolean;
+  half_day_minutes: number;
+  late_mark_minutes: number;
+  shift_start_time: string;
+  id?: null;
+  working_minutes: number;
+  late_out_minutes: number;
+  push_attendance_for: string;
+}

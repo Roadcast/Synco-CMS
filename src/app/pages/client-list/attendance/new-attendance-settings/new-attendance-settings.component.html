@@ -1,0 +1,332 @@
+<div class="row mb-30">
+    <div class="col-md-12">
+        <nb-card>
+            <nb-card-header>Leave Settings</nb-card-header>
+            <nb-card-body>
+                <div class="row">
+                    <div class="col font18 bold pt-10 pb-15">
+                        <table class="w-100 table table-striped table-bordered">
+                            <!-- <tr>
+                            <td class="valignM w-60"><span class="font14 bold pr-5">Casual Leaves</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="Set Casual Leaves"></nb-icon>
+                            </td>
+                            <td class="valignM">
+                                <div class="d-flex align-items-center">
+                                    <input nbInput type="number" min="1" max="240" class="form-control w160px" [(ngModel)]="newAttendanceConfigObj.casual_leaves" (keyup)="keyPressNumbers($event,'casual_leaves')" >
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="valignM"><span class="font14 bold pr-5">Paid Leaves</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="Set Paid Leaves"></nb-icon></td>
+                            <td class="valignM">
+                                <div class="d-flex align-items-center">
+                                    <input nbInput type="number" min="1" max="240" class="form-control w160px" [(ngModel)]="newAttendanceConfigObj.paid_leaves" (keyup)="keyPressNumbers($event,'paid_leaves')" >
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="valignM"><span class="font14 bold pr-5">Sick Leaves</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="Set Sick Leaves"></nb-icon></td>
+                            <td class="valignM">
+                                <div class="d-flex align-items-center">
+                                    <input nbInput type="number" min="1" max="240" class="form-control w160px" [(ngModel)]="newAttendanceConfigObj.sick_leaves" (keyup)="keyPressNumbers($event,'sick_leaves')" >
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="valignM"><span class="font14 bold pr-5">Other Leaves</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="Set Other Leaves"></nb-icon></td>
+                            <td class="valignM">
+                                <div class="d-flex align-items-center">
+                                    <input nbInput type="number" min="1" max="240" class="form-control w160px" [(ngModel)]="newAttendanceConfigObj.other_leaves" (keyup)="keyPressNumbers($event,'other_leaves')" >
+                                </div>
+                            </td>
+                        </tr> -->
+                            <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">Mark In allowed before
+                                        minutes</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor"
+                                        [nbTooltip]="this.translateText('Set Mark In Allowed Before Minutes')"></nb-icon>
+                                </td>
+                                <td class="valignM">
+                                    <div class="d-flex align-items-center">
+                                        <input nbInput type="number" min="1" max="240" class="form-control w160px"
+                                            [(ngModel)]="newAttendanceConfigObj.mark_in_allowed_before_minutes"
+                                            (keyup)="keyPressNumbers($event,'mark_in_allowed_before_minutes')">
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">Mark In allowed after
+                                        minutes</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor"
+                                        [nbTooltip]="this.translateText('Set Mark In Allowed After Minutes')"></nb-icon></td>
+                                <td class="valignM">
+                                    <div class="d-flex align-items-center">
+                                        <input nbInput type="number" min="1" max="240" class="form-control w160px"
+                                            [(ngModel)]="newAttendanceConfigObj.mark_in_allowed_after_minutes"
+                                            (keyup)="keyPressNumbers($event,'mark_in_allowed_after_minutes')"> 
+                                     </div>
+                                </td>
+                            </tr> -->
+                            <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">Mark Out allowed before
+                                        minutes</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor"
+                                        [nbTooltip]="this.translateText('Set Mark Out Allowed Before Minutes')"></nb-icon>
+                                </td>
+                                <td class="valignM">
+                                    <div class="d-flex align-items-center">
+                                        <input nbInput type="number" min="1" max="240" class="form-control w160px"
+                                            [(ngModel)]="newAttendanceConfigObj.mark_out_allowed_before_minutes"
+                                            (keyup)="keyPressNumbers($event,'mark_out_allowed_before_minutes')">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">Mark Out allowed after
+                                        minutes</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor"
+                                        [nbTooltip]="this.translateText('Set Mark Out Allowed After Minutes')"></nb-icon>
+                                </td>
+                                <td class="valignM">
+                                    <div class="d-flex align-items-center">
+                                        <input nbInput type="number" min="1" max="240" class="form-control w160px"
+                                            [(ngModel)]="newAttendanceConfigObj.mark_out_allowed_after_minutes"
+                                            (keyup)="keyPressNumbers($event,'mark_out_allowed_after_minutes')">
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">Mark in allowed after/before
+                                        minutes</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor"
+                                        nbTooltip="this.translateText('Set Mark In Allowed Minutes')"></nb-icon></td>
+                                <td class="valignM">
+                                    <div class="d-flex align-items-center">
+                                        <input nbInput type="number" min="1" max="240" class="form-control w160px"
+                                            [(ngModel)]="newAttendanceConfigObj.mark_in_allowed_minutes"
+                                            (keyup)="keyPressNumbers($event,'mark_in_allowed_minutes')">
+                                    </div>
+                                </td>
+                            </tr> -->
+                            <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">Max allowed overtime
+                                        minutes</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor"
+                                        [nbTooltip]="this.translateText('Set Max Allowed Overtime Minutes')"></nb-icon>
+                                </td>
+                                <td class="valignM">
+                                    <div class="d-flex align-items-center">
+                                        <input nbInput type="number" min="1" max="240" class="form-control w160px"
+                                            [(ngModel)]="newAttendanceConfigObj.max_allowed_overtime_minutes"
+                                            (keyup)="keyPressNumbers($event,'max_allowed_overtime_minutes')">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">Consider overtime after
+                                        minutes</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor"
+                                        [nbTooltip]="this.translateText('Set Consider Overtime After Minutes')"></nb-icon>
+                                </td>
+                                <td class="valignM">
+                                    <div class="d-flex align-items-center">
+                                        <input nbInput type="number" min="1" max="240" class="form-control w160px"
+                                            [(ngModel)]="newAttendanceConfigObj.consider_overtime_after_minute"
+                                            (keyup)="keyPressNumbers($event,'consider_overtime_after_minute')">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">Only Allowed In
+                                        Geofence</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor"
+                                        [nbTooltip]="this.translateText('Set Only Allowed In Geofence')"></nb-icon></td>
+                                <td class="valignM"><nb-toggle
+                                        [(ngModel)]="newAttendanceConfigObj.only_allowed_in_geofence"></nb-toggle></td>
+                            </tr>
+                            <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">Store Selection For Attendance Mark
+                                        In</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor"
+                                        [nbTooltip]="this.translateText('Set Only Allowed In Geofence')"></nb-icon></td>
+                                <td class="valignM"><nb-toggle
+                                        [(ngModel)]="newAttendanceConfigObj.store_selection_for_attendance_mark_in"></nb-toggle>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">Disable Duty button</span><nb-icon
+                                        icon="info-outline" class="font16 basecolor d-cursor"
+                                        [nbTooltip]="this.translateText('Set Only Allowed In Geofence')"></nb-icon></td>
+                                <td class="valignM"><nb-toggle
+                                        [(ngModel)]="newAttendanceConfigObj.disable_duty_button"></nb-toggle></td>
+                            </tr>
+                            <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">Leave Status Update
+                                        Notification</span><nb-icon icon="info-outline"
+                                        class="font16 basecolor d-cursor"
+                                        [nbTooltip]="this.translateText('Set Only Allowed In Geofence')"></nb-icon></td>
+                                <td class="valignM"><nb-toggle
+                                        [(ngModel)]="newAttendanceConfigObj.leave_status_update_notification"></nb-toggle>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                    <div class="col font18 bold pt-10 pb-15">
+                        <table class="w-100 table table-striped table-bordered">
+                            <!-- <tr>
+                            <td class="valignM"><span class="font14 bold pr-5">
+                                {{underscoreConvert('half_day_minutes') | titlecase}}</span>
+                            </td>
+                            <td class="valignM">
+                                <div class="d-flex align-items-center">
+                                    <input nbInput type="number" min="1" max="240" class="form-control w160px"
+                                           [(ngModel)]="newAttendanceConfigObj.half_day_minutes"
+                                           (keyup)="keyPressNumbers($event,'half_day_minutes')">
+                                </div>
+                            </td>
+                        </tr> -->
+                            <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">
+                                        {{underscoreConvert('late_mark_minutes') | titlecase}}</span>
+                                </td>
+                                <td class="valignM">
+                                    <div class="d-flex align-items-center">
+                                        <input nbInput type="number" min="1" max="240" class="form-control w160px"
+                                            [(ngModel)]="newAttendanceConfigObj.late_mark_minutes"
+                                            (keyup)="keyPressNumbers($event,'late_mark_minutes')">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">
+                                        {{underscoreConvert('late_out_minutes') | titlecase}}</span>
+                                </td>
+                                <td class="valignM">
+                                    <div class="d-flex align-items-center">
+                                        <input nbInput type="number" min="1" max="240" class="form-control w160px"
+                                            [(ngModel)]="newAttendanceConfigObj.late_out_minutes"
+                                            (keyup)="keyPressNumbers($event,'late_out_minutes')">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">
+                                        {{underscoreConvert('mark_half_if_shift_not_ended') | titlecase}}</span>
+                                </td>
+                                <td class="valignM">
+                                    <div class="d-flex align-items-center">
+                                        <nb-toggle
+                                            [(ngModel)]="newAttendanceConfigObj.mark_half_if_shift_not_ended"></nb-toggle>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">
+                                        {{underscoreConvert('show_odometer_attendance') | titlecase}}</span>
+                                </td>
+                                <td class="valignM">
+                                    <div class="d-flex align-items-center">
+                                        <nb-toggle
+                                            [(ngModel)]="newAttendanceConfigObj.show_odometer_attendance"></nb-toggle>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">
+                                        {{underscoreConvert('face_recognition') | titlecase}}</span>
+                                </td>
+                                <td class="valignM">
+                                    <div class="d-flex align-items-center">
+                                        <nb-toggle [(ngModel)]="newAttendanceConfigObj.face_recognition"></nb-toggle>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">
+                                        {{underscoreConvert('vehicle_recognition') | titlecase}}</span>
+                                </td>
+                                <td class="valignM">
+                                    <div class="d-flex align-items-center">
+                                        <nb-toggle [(ngModel)]="newAttendanceConfigObj.vehicle_recognition"></nb-toggle>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">
+                                        {{underscoreConvert('attendance_image') | titlecase}}</span>
+                                </td>
+                                <td class="valignM">
+                                    <div class="d-flex align-items-center">
+                                        <nb-toggle [(ngModel)]="newAttendanceConfigObj.attendance_image"></nb-toggle>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">
+                                        {{underscoreConvert('notification_in_minutes') | titlecase}}</span>
+                                </td>
+                                <td class="valignM">
+                                    <div class="d-flex align-items-center">
+                                        <input nbInput type="number" min="1" max="240" class="form-control w160px"
+                                            [(ngModel)]="newAttendanceConfigObj.notification_in_minutes"
+                                            (keyup)="keyPressNumbers($event,'notification_in_minutes')">
+                                    </div>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">
+                                        {{underscoreConvert('restrict_geotag_form_id_for_attendance') |
+                                        titlecase}}</span>
+                                </td>
+                                <td class="valignM">
+                                    <div class="d-flex align-items-center">
+                                        <nb-toggle
+                                            [(checked)]="!!newAttendanceConfigObj.restrict_geotag_form_id_for_attendance"
+                                            labelPosition="right" (checkedChange)="openGeotags($event)"></nb-toggle>
+                                        <nb-select *ngIf="newAttendanceConfigObj.restrict_geotag_form_id_for_attendance"
+                                            [placeholder]="geotag?.name? geotag?.name : 'Select Geotag'"
+                                            (selectedChange)="setGeotag($event)" fullWidth><nb-option
+                                                *ngFor="let geo of geotags" [value]="geo">{{geo.name}}</nb-option>
+                                        </nb-select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">Is Roaster Required</span><nb-icon
+                                        icon="info-outline" class="font16 basecolor d-cursor"
+                                        [nbTooltip]="this.translateText('Is Roaster Required')"></nb-icon></td>
+                                <td class="valignM"><nb-toggle
+                                        [(ngModel)]="newAttendanceConfigObj.is_roster_required"></nb-toggle></td>
+                            </tr>
+                            <!-- <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">Is Half Day Allowed</span><nb-icon icon="info-outline"
+                                        class="font16 basecolor d-cursor" [nbTooltip]="this.translateText('Is Half Day Allowed')"></nb-icon></td>
+                                <td class="valignM"><nb-toggle [(ngModel)]="newAttendanceConfigObj.is_half_day_allowed"></nb-toggle></td>
+                            </tr>
+                            <tr *ngIf="newAttendanceConfigObj.is_half_day_allowed">
+                                    <div class="d-flex align-items-center">
+                                        <input nbInput type="number" min="1" max="240" class="form-control w160px"
+                                            [(ngModel)]="newAttendanceConfigObj.is_half_day_allowed"
+                                            (keyup)="keyPressNumbers($event,'half_day_minutes')">
+                                    </div>
+                            </tr> -->
+                            <tr>
+                                <td class="valignM"><span class="font14 bold pr-5">Is Half Day Allowed</span>
+                                    <nb-icon icon="info-outline" class="font16 basecolor d-cursor"
+                                        [nbTooltip]="this.translateText('Is Half Day Allowed')"></nb-icon>
+                                </td>
+                                <td class="valignM">
+                                    <div class="d-flex align-items-center">
+                                        <nb-toggle [(ngModel)]="newAttendanceConfigObj.is_half_day_allowed"
+                                            labelPosition="right"></nb-toggle>
+                                        <input *ngIf="newAttendanceConfigObj.is_half_day_allowed" nbInput type="number"
+                                            min="1" max="300" class="form-control w160px"
+                                            [(ngModel)]="newAttendanceConfigObj.half_day_minutes"
+                                            (keyup)="keyPressNumbers($event,'half_day_minutes')">
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+    <div class="col-12 pl-30">
+        <button nbButton status="primary" class="btn-w-12 float-right" (click)="save()">{{"Save" | translate}}</button>
+    </div>
+</div>

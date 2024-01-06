@@ -1,5 +1,5 @@
 <div [nbSpinnerMessage]="'Please wait!!'" [nbSpinnerSize]="'large'" [nbSpinner]="spinner" class="w-100"><!--[disabled]="disabled"-->
-	<ng-select  [clearSearchOnAdd]="true" [closeOnSelect]="true" [items]="data$ | async"
+	<ng-select (change)="emitSelected($event)" [clearSearchOnAdd]="true" [closeOnSelect]="true" [items]="data$ | async"
 		(open)="loadPeople()" [loading]="dataLoading" (search)="failed.emit($event.term);inputInit($event)"
 		 [minTermLength]="1" [selectableGroup]="true" #selectContent [multiple]="multiple"
 		(clear)="cleared.emit('all')" (remove)="onRemove.emit($event)" [typeahead]="dataInput$"

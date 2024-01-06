@@ -1,0 +1,66 @@
+<div class="row">
+    <div class="col-sm-12 col-12">
+        <section class="forms-section">
+            <div class="row">
+                <div class="col-12 mt-20">
+                    <nb-card >
+                        <nb-card-header>
+                            {{id ? 'Update' : 'Add'}} Leave Type
+                        </nb-card-header>
+                        <nb-card-body>
+                            <form #leaveTypeForm=ngForm class="form form-horizontal was-validated">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="required">Leaves Type Name</label>
+                                            <input #leaveTypeName=ngModel [(ngModel)]="leaveType.name" fullWidth  name="leaveTypeName" nbInput
+                                                   required="true"
+                                                   shape="rectangle" class="form-control" type="text">
+                                                    <div *ngIf="leaveTypeName.invalid && (leaveTypeName.dirty || leaveTypeName.touched)" class="alert alert-danger mt-3">
+                                                        <div *ngIf="leaveTypeName.errors.required">Leave Type is required.</div>
+                                                    </div>       
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="required">Apply Before Days</label>
+                                            <input #apply_before_days=ngModel [(ngModel)]="leaveType.apply_before_days" fullWidth
+                                                   name="desc" oninput="this.value = 
+                                                   !!this.value && Math.abs(this.value) >=0 ? Math.abs(this.value) : null"
+                                                   nbInput required="true"
+                                                   shape="rectangle" class="form-control" type="number">
+                                                    <div *ngIf="apply_before_days.invalid && (apply_before_days.dirty || apply_before_days.touched)" class="alert alert-danger mt-3">
+                                                        <div *ngIf="apply_before_days.errors.required">Apply Before Days is required.</div>
+                                                    </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="required">Leaves Allowed</label>
+                                            <input  #leaves_allowed=ngModel [(ngModel)]="leaveType.leaves_allowed" fullWidth  name="leaves_allowed" nbInput
+                                                   required="true" oninput="this.value = 
+                                                   !!this.value && Math.abs(this.value) >0 ? Math.abs(this.value) : null"
+                                                    shape="rectangle" class="form-control" type="number"     [disabled]="id ? true : false"
+                                                    >
+                                                   <div *ngIf="leaves_allowed.invalid && (leaves_allowed.dirty || leaves_allowed.touched)" class="alert alert-danger mt-3">
+                                                    <div *ngIf="leaves_allowed.errors.required">Leaves Allowed is required.</div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </nb-card-body>
+
+                        <nb-card-footer>
+                            <div class="d-flex justify-content-end">
+                                <button (click)="clearForm()" class="mr-15 btn-w-12" nbButton status="primary">Clear</button>
+                                <button (click)="saveLeavestype(leaveTypeForm)" [disabled]="leaveTypeForm.form.invalid"  class="btn-w-12"  nbButton
+                                        status="primary">{{id ? 'Update' : 'ADD'}}</button>
+                            </div>
+                        </nb-card-footer>
+                    </nb-card>
+                </div>
+            </div>
+        </section>
+    </div>
+
+</div>
+

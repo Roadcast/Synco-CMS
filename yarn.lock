@@ -250,7 +250,7 @@
   dependencies:
     tslib "^2.0.0"
 
-"@angular/forms@^10.0.0", "@angular/forms@^14.0.0", "@angular/forms@^14.1.0", "@angular/forms@>= 6.0.0", "@angular/forms@>=11.0.0 <12.0.0", "@angular/forms@>=16.0.0 <18.0.0":
+"@angular/forms@^10.0.0", "@angular/forms@^14.0.0", "@angular/forms@^14.1.0", "@angular/forms@>= 6.0.0", "@angular/forms@>=11.0.0 <12.0.0", "@angular/forms@>=13.0.0", "@angular/forms@>=16.0.0 <18.0.0":
   version "14.2.4"
   resolved "https://registry.npmjs.org/@angular/forms/-/forms-14.2.4.tgz"
   integrity sha512-m1asD8SazzMPzcli054zwLYz7hiXiaCXfqmQOFdQQd3OnPNKeCGDS8GFX7Yd/+3fz4REGeSon9YRhq7/W0TDlA==
@@ -1938,6 +1938,11 @@
   version "2.0.4"
   resolved "https://registry.npmjs.org/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz"
   integrity sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==
+
+"@mobiscroll/angular@npm:@mobiscroll/angular-ivy-trial@^5.28.1":
+  version "5.28.1"
+  resolved "https://npm.mobiscroll.com/@mobiscroll%2fangular-ivy-trial/-/angular-ivy-trial-5.28.1.tgz"
+  integrity sha512-+yODtAs53dnk5WRcOjHIp4Jl1PiiMm+kxNFTqU22CnjA+l3beHjRUVi2UbITxZ+9GIt+FSkTca/JDDE488R+Xw==
 
 "@nebular/eva-icons@^10.0.0":
   version "10.0.0"

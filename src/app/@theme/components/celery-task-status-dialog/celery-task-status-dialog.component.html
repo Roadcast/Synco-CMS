@@ -1,0 +1,81 @@
+<nb-card>
+    <div class="p-4 pop-w">
+        <nb-spinner *ngIf="status === 'PENDING' && count !== 20"></nb-spinner>
+        <h4 [innerText]="title" class="mb-20 font18 bold"></h4>
+        <div class="mb-20">Status: <strong [innerText]="status"></strong></div>
+        <div class="mb-20" *ngIf="url?.error" >Message: <strong [innerText]="url?.message"></strong></div>
+        <div class="mb-20" *ngIf="count === 20" >Message: <strong>{{message}}</strong></div>
+
+        <div *ngIf="status !== 'PENDING' && (dataList?.length > 0 && errorData?.length === 0)">
+            <label>Missed External Ids - ({{dataList[0].length}})</label>
+            <nb-list class="cont-h">
+                <nb-list-item *ngFor="let data of dataList[0]; let i = index">
+                        {{data}}
+                </nb-list-item>
+            </nb-list>
+        </div>
+        <div *ngIf="status !== 'PENDING' && errorData?.length > 0 && componentName != 'bulk-upload'">
+            <label>Errors - ({{errorData?.length}})</label>
+            <nb-list class="cont-h">
+                <nb-list-item *ngFor="let data of errorData; let i = index">
+                        <p>Error: {{data.error}} in row {{data.row}}</p>
+                </nb-list-item>
+            </nb-list>
+        </div>
+        <div *ngIf="status !== 'PENDING' && errorData?.length > 0 && componentName === 'bulk-upload'">
+            <label>Errors - ({{errorData?.length}})</label>
+            <nb-list class="cont-h">
+                <nb-list-item *ngFor="let data of errorData; let i = index">
+                    <p>Error: {{data[0]}} in row {{i+1}}</p>
+                </nb-list-item>
+            </nb-list>
+        </div>
+
+        <div class="d-flex align-items-end justify-content-between">
+            <div *ngIf="status !== 'PENDING' && url && !disableDownload">
+                <div class="mb-15 font16 bold">Download Report</div>
+                <a href="{{url}}" download style="text-decoration: none;">
+                    <button status="primary" nbButton>{{"Download" | translate}}</button>
+                </a>
+                <button status="primary" class="ml-10" (click)="closeDialogref(ref)" nbButton>{{"Close" | translate}}</button>
+            </div>
+            <div class="row">
+                <div class="col-12" *ngIf="componentName=='roaster-bulk-upload'">
+                    <nb-card>
+                        <nb-card-body class="p-0" *ngIf="status !== 'PENDING' || downloadData.length!=0">
+                            <ng2-smart-table
+                                        *ngIf="autoRouteTableSettings && downloadData.length!=0"
+                                        [settings]="autoRouteTableSettings"
+                                        [source]="taskResultData?.data?.failed">
+                                </ng2-smart-table>
+                        </nb-card-body>
+                    </nb-card>
+                    <!--<nb-card>
+                        <nb-card-body>
+                            <ng2-smart-table
+                                        *ngIf="autoRouteTableSettings"
+                                        [settings]="autoRouteTableSettings"
+                                        [source]="taskResultData.data.success">
+                                </ng2-smart-table>
+                        </nb-card-body>
+                    </nb-card>-->
+\                    <div><button class="mr-15" status="primary" (click)="downloadToExcel()" *ngIf="componentName=='roaster-bulk-upload'" nbButton>{{"Download" | translate}}</button>
+                    <button nbButton status="primary" *ngIf="componentName==='order-optimization' && (status !== 'PENDING' || allowClose)" (click)="closeDialog(ref)">{{"Close" | translate}}</button>
+                    <div><button class="mr-15" status="primary" (click)="downloadToExcel()" *ngIf="componentName=='roaster-bulk-upload' && status === 'SUCCESS'" nbButton>Download</button>
+                    <button nbButton status="primary" *ngIf="(componentName==='order-optimization' || componentName=='roaster-bulk-upload') && (status !== 'PENDING' || allowClose)" (click)="closeDialog(ref)">{{"Close" | translate}}</button>
+                    </div>
+                </div>
+
+                <div><button nbButton status="primary" *ngIf="this.count === 20" (click)="closeDialogref(ref)">{{"Close" | translate}}</button>
+                </div>
+                
+            </div>
+            <div><button nbButton status="primary" *ngIf="this.componentName === 'order-optimization'" (click)="closeDialog(ref)">{{"Close" | translate}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="cls-cover" *ngIf="componentName!='order-optimization' "  (click)="closeDialogref(ref)">{{"X" | translate}}</div>
+    <div class="cls-cover" *ngIf="componentName==='order-optimization' && (status !== 'PENDING' || allowClose)" (click)="closeDialog(ref)"> {{"X" | translate}}
+    </div>
+    </div>
+</nb-card>

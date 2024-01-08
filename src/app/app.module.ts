@@ -37,6 +37,7 @@ import { AccordionModule } from "primeng/accordion";
 import { GeneralConfigComponent } from './pages/client-list/config-setting/general-config/general-config.component';
 import { AuthModule } from './auth/auth.module';
 import { TableModule } from 'primeng/table';
+import { Ng2CompleterModule } from "ng2-completer";
 import {
   NbThemeModule,
   NbMenuModule,
@@ -123,7 +124,8 @@ import { CeleryTaskStatusDialogComponent } from './@theme/components/celery-task
     NbSidebarModule.forRoot(),
     NgbModule,
     NbTabsetModule,
-    Ng2SmartTableModule,
+    // Ng2SmartTableModule,
+    Ng2CompleterModule,
     NbSelectModule,
     NbToggleModule,
     NbIconModule,

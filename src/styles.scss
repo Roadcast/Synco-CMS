@@ -163,6 +163,11 @@ label.required::after {
 .table-bordered td {
   border: 1px solid #cdd2d5;
 }
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
 .pophead {background:var(--main-color); color:#fff; font-size:18px; font-weight: 400; line-height: 1.2; border-radius: 10px; padding:13px; margin-bottom:10px}
 .pophead svg{float:left; margin: -8px 5px 0 0;}
 .pophead .material-icons {color: #fff;

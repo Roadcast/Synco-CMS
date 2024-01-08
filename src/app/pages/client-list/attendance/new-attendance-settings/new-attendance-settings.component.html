@@ -1,8 +1,10 @@
 <div class="row mb-30">
     <div class="col-md-12">
         <nb-card>
-            <nb-card-header>Leave Settings</nb-card-header>
             <nb-card-body>
+              <div class="row">
+                <div class="col-12 font18 bold pt-10 pb-10">{{ "Leave Settings" | translate }}</div>
+              </div>
                 <div class="row">
                     <div class="col font18 bold pt-10 pb-15">
                         <table class="w-100 table table-striped table-bordered">
@@ -60,7 +62,7 @@
                                     <div class="d-flex align-items-center">
                                         <input nbInput type="number" min="1" max="240" class="form-control w160px"
                                             [(ngModel)]="newAttendanceConfigObj.mark_in_allowed_after_minutes"
-                                            (keyup)="keyPressNumbers($event,'mark_in_allowed_after_minutes')"> 
+                                            (keyup)="keyPressNumbers($event,'mark_in_allowed_after_minutes')">
                                      </div>
                                 </td>
                             </tr> -->

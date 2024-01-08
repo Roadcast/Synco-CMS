@@ -1,1 +1,18 @@
-<p>order works!</p>
+<nb-card>
+    <nb-tabset>
+        <!-- General Config start here -->
+        <nb-tab [tabTitle]="translateText('General Config')">
+        <app-general-config-order></app-general-config-order>
+        </nb-tab>
+
+        <!-- Single Order Config start here -->
+        <nb-tab [tabTitle]="translateText('Single Order Config')">
+        <app-single-order-config></app-single-order-config>
+        </nb-tab>
+
+        <!-- Auto Route Config start here -->
+        <nb-tab [tabTitle]="translateText('Auto Route Config')">
+        </nb-tab>
+
+    </nb-tabset>
+</nb-card>

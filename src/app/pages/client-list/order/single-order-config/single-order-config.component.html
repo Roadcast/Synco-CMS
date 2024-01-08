@@ -1,0 +1,60 @@
+<nb-tabset>
+    <nb-tab tabTitle="Order Fields Configuration">
+        <div style="max-width: 90vw;min-height: 60vh;" [nbSpinner]="loader"
+             nbSpinnerSize="giant" nbSpinnerStatus="primary">
+            <nb-card-body>
+                <table style="width:100%" >
+                    <thead>
+                    <tr>
+                        <th>
+                            {{"Sequence no." | translate}}
+                        </th>
+                        <th>
+                            {{" Actual column name" | translate}}
+                        </th>
+                        <th>
+                            {{"Show column name" | translate}}
+                        </th>
+                        <th>
+                            {{"Set placeholder" | translate}}
+                        </th>
+                        <th>
+                            {{" Is required" | translate}}
+                        </th>
+                        <th>
+                            {{"Visibility" | translate}}
+                        </th>
+                        <th>
+                            {{"Action" | translate}}
+                        </th>
+                    </tr>
+                    </thead>
+                    <tr *ngFor="let data of dataSource" class="rows">
+                        <td style="width: 9%">
+                            <input nbInput [(ngModel)]="data.show_sequence" type="text" >
+                        </td>
+                        <td>{{data.actual_field_name}}</td>
+                        <td>
+                            <input nbInput [(ngModel)]="data.show_field_name" type="text">
+                        </td>
+                        <td>
+                            <input nbInput type="text" [(ngModel)]="data.show_field_placeholder">
+                        </td>
+                        <td>
+                            <nb-toggle [(checked)]="data.is_required"></nb-toggle>
+                        </td>
+                        <td>
+                            <nb-toggle [(checked)]="data.is_visible"></nb-toggle>
+                        </td>
+                        <td>
+                            <button (click)="save(data)" nbButton status="primary">
+                                {{"Save" | translate}}
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+                
+            </nb-card-body>
+        </div>
+    </nb-tab>
+</nb-tabset>

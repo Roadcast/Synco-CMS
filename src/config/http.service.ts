@@ -158,6 +158,17 @@ export abstract class HttpService<T> {
 		}));
 	}
 
+	public createDirect(obj: T, query?: IRestQuery, url?: string, base?: string): Promise<T> {
+		const request: Observable<any> = this.http.post(this.buildUrl(undefined, url, base), obj,
+			HttpService.buildRequestOptions(query));
+		return new Promise((resolve, reject) => request.subscribe(res => {
+			return resolve(res);
+		}, (err) => {
+			HttpService.catchError(err);
+			return reject(err);
+		}));
+	}
+
 	public update(id: string | number, obj: T, query?: IRestQuery, url?: string): Promise<T> {
 		const request: Observable<any> = this.http.patch(this.buildUrl(id, url), obj, HttpService.buildRequestOptions(query));
 		return new Promise((resolve, reject) => request.subscribe(res => {

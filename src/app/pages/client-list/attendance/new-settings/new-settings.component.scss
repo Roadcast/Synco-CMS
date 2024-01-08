@@ -62,8 +62,21 @@
     order: 5;
 }
 
+::ng-deep .mbsc-ios.mbsc-calendar {border: 1px solid #e1e2e4 !important;border-radius: 16px !important;}
+::ng-deep .mbsc-ios.mbsc-calendar-controls {padding-top: 10px !important;}
+
 .att-cont {background: #fff; border-radius: 0.8rem; padding: 16px;}
 
+
+::ng-deep .att-cont .ng-select .ng-select-container:after {
+  border-bottom: 0 solid rgba(255,255,255,0.42) !important;
+}
+::ng-deep .att-cont .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+  margin-left: 5px !important;
+}
+::ng-deep .att-cont .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-placeholder {
+  display: none !important;
+}
 
 @media (max-width:767px) {
 

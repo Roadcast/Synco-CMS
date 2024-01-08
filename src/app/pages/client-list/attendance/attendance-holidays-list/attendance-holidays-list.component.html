@@ -1,7 +1,7 @@
-<nb-card>
+<nb-card class="holiday-list">
     <nb-card-body>
         <div class="row">
-            <div class="col-12 font18 bold pt-10 pb-10">Add Holiday</div>
+            <div class="col-12 font18 bold pt-10 pb-10">{{ "Add Holiday" | translate }}</div>
         </div>
 
         <div class="row">
@@ -36,8 +36,8 @@
                     <div class="col-md-8">
                         <app-type-ahead (send)="holiday.zone = $event"
                                         [filters]="{__active__bool: true, __only:['id', 'name']}"
-                                        [placeholder]="'Select Zone'"
                                         [multiple]="true"
+                                        [placeholder]="'Select Zones'"
                                         [selectedItems]="holiday.zone"
                                         [url]="'auth/zone'" required>
                         </app-type-ahead>

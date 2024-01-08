@@ -1,12 +1,21 @@
 input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator {
     margin-right: 0 !important;
   }
-  
+
+::ng-deep .holiday-list .ng-select .ng-select-container:after {
+  border-bottom: 0 solid rgba(255,255,255,0.42) !important;
+}
+::ng-deep .holiday-list .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+  margin-left: 5px !important;
+}
+::ng-deep .holiday-list .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-placeholder {
+  display: none !important;
+}
+
   @media (max-width:1023px) {
     .fullw {
       justify-content: start !important;
     }
-  
+
     ::ng-deep .table-responsive table {width: 900px !important; max-width: inherit !important;}
   }
-  

@@ -33,12 +33,16 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/@nebular/theme/styles/prebuilt/corporate.scss",
               "src/styles.scss",
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
-              "node_modules/primeng/resources/primeng.min.css"
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/@mobiscroll/angular/dist/css/mobiscroll.angular.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/@mobiscroll/angular/dist/js/mobiscroll.angular.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -104,7 +108,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/@nebular/theme/styles/prebuilt/corporate.scss"
             ],
             "scripts": []
           }

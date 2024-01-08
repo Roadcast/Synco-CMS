@@ -1,37 +1,37 @@
 <nb-tabset>
     <nb-tab tabTitle="Order Fields Configuration">
-        <div style="max-width: 90vw;min-height: 60vh;" [nbSpinner]="loader"
-             nbSpinnerSize="giant" nbSpinnerStatus="primary">
+        <div style="max-width: 90vw;min-height: 60vh;" [nbSpinner]="loader" nbSpinnerSize="giant"
+            nbSpinnerStatus="primary">
             <nb-card-body>
-                <table style="width:100%" >
+                <table style="width:100%">
                     <thead>
-                    <tr>
-                        <th>
-                            {{"Sequence no." | translate}}
-                        </th>
-                        <th>
-                            {{" Actual column name" | translate}}
-                        </th>
-                        <th>
-                            {{"Show column name" | translate}}
-                        </th>
-                        <th>
-                            {{"Set placeholder" | translate}}
-                        </th>
-                        <th>
-                            {{" Is required" | translate}}
-                        </th>
-                        <th>
-                            {{"Visibility" | translate}}
-                        </th>
-                        <th>
-                            {{"Action" | translate}}
-                        </th>
-                    </tr>
+                        <tr>
+                            <th>
+                                {{"Sequence no." | translate}}
+                            </th>
+                            <th>
+                                {{" Actual column name" | translate}}
+                            </th>
+                            <th>
+                                {{"Show column name" | translate}}
+                            </th>
+                            <th>
+                                {{"Set placeholder" | translate}}
+                            </th>
+                            <th>
+                                {{" Is required" | translate}}
+                            </th>
+                            <th>
+                                {{"Visibility" | translate}}
+                            </th>
+                            <th>
+                                {{"Action" | translate}}
+                            </th>
+                        </tr>
                     </thead>
                     <tr *ngFor="let data of dataSource" class="rows">
                         <td style="width: 9%">
-                            <input nbInput [(ngModel)]="data.show_sequence" type="text" >
+                            <input nbInput [(ngModel)]="data.show_sequence" type="text">
                         </td>
                         <td>{{data.actual_field_name}}</td>
                         <td>
@@ -53,7 +53,98 @@
                         </td>
                     </tr>
                 </table>
-                
+                <br>
+                <br>
+                <div class="custom-fields">
+                    <div class="w3-left">
+                        <span class="h6">{{"Custom Fields" | translate}}
+                            <nb-icon icon="info-outline" style="size: 18px; color: dodgerblue; cursor: pointer"
+                                [nbPopover]="infoPopup" [nbPopoverTrigger]="'hint'" *ngIf="customFields.length > 0">
+                            </nb-icon>
+                        </span>
+                    </div>
+                    <br>
+                    <div *ngIf="customFields.length > 0">
+                        <div *ngFor="let field of customFields; let i = index;">
+                            {{i+1}}&nbsp;&nbsp;
+                            <label>Field name: </label>&nbsp;
+                            <strong>{{field.actual_field_name}}</strong>
+                            &nbsp;&nbsp;
+                            <label>{{"Type" | translate}}</label>&nbsp;
+                            <nb-select placeholder="select" [(selected)]="field.custom_type">
+                                <nb-option [value]="'text'">{{"Text" | translate}}</nb-option>
+                                <nb-option [value]="'number'">{{"Number" | translate}}</nb-option>
+                                <nb-option [value]="'dropdown'">{{"Dropdown" | translate}}</nb-option>
+                                <nb-option [value]="'date'">{{"Date-Time" | translate}}</nb-option>
+                                <nb-option [value]="'boolean'">{{"Toggle" | translate}}</nb-option>
+                                <nb-option [value]="'address'">{{"Address" | translate}}</nb-option>
+                            </nb-select>
+                            &nbsp;&nbsp;
+                            <button nbButton status="danger" (click)="removeField(field.id)"
+                                *ngIf="field.actual_field_name === 'field' + customFields.length">
+                                {{"Remove field" | translate}}
+                            </button>&nbsp;
+                            <button nbButton status="primary" (click)="SaveField(field)">
+                                Save
+                            </button>
+                            <div *ngIf="field.custom_type === 'dropdown'" style="width:30%">
+                                <nb-accordion>
+                                    <nb-accordion-item>
+                                        <nb-accordion-item-header>{{"Dropdown(click to edit)" |
+                                            translate}}</nb-accordion-item-header>
+                                        <nb-accordion-item-body>
+                                            <div *ngIf="field.custom_dropdown && field.custom_dropdown.length > 0">
+                                                <div *ngFor="let value of field.custom_dropdown">
+                                                    <span>{{value}}</span>&nbsp;&nbsp;
+                                                    <span nbButton
+                                                        (click)="deleteDropDown(field.actual_field_name, value)">
+                                                        X
+                                                    </span>
+                                                    <br>
+                                                </div>
+                                            </div>
+                                            <label>Add dropdown value: </label>
+                                            <input nbInput #dropdown type="text">&nbsp;&nbsp;
+                                            <button nbButton status="primary"
+                                                (click)="addDropDown(field.actual_field_name, dropdown.value)">
+                                                Add
+                                            </button>
+                                        </nb-accordion-item-body>
+                                    </nb-accordion-item>
+                                </nb-accordion>
+                            </div>
+
+                            <br>
+                            <hr>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="add-field">
+                        <div class="w3-left">
+                            <span class="h6">{{"Add new field" | translate}}</span>
+                        </div>
+                        <br>
+                        <label>{{"Field name:" | translate}} </label>&nbsp;
+                        <strong>{{"field" | translate}}{{customFields.length+1}}</strong>
+                        <!--                        <input nbInput [(ngModel)]="actualName" type="text">-->
+                        &nbsp;&nbsp;
+                        <label>{{"Type" | translate}}</label>&nbsp;
+                        <nb-select placeholder="select type" [(selected)]="customType">
+                            <nb-option [value]="'text'">{{"Text" | translate}}</nb-option>
+                            <nb-option [value]="'number'">{{"Number" | translate}}</nb-option>
+                            <nb-option [value]="'dropdown'">{{"Dropdown" | translate}}</nb-option>
+                            <nb-option [value]="'date'">{{"Date-Time" | translate}}</nb-option>
+                            <nb-option [value]="'boolean'">{{"Toggle" | translate}}</nb-option>
+                            <nb-option [value]="'address'">{{"Address" | translate}}</nb-option>
+                        </nb-select>
+                        <br><br>
+                        &nbsp;&nbsp;
+                        <button nbButton status="primary" (click)="addNewField()">
+                            {{"Add field" | translate}}
+                        </button>
+                    </div>
+                </div>
             </nb-card-body>
         </div>
     </nb-tab>

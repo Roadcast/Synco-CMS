@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Subject} from 'rxjs';
+import {BehaviorSubject, Subject} from 'rxjs';
 import {StorageService} from './storage.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {Router} from '@angular/router';
@@ -14,6 +14,18 @@ export class UserService extends HttpService<any>{
   user: User = {} as User;
   user$: Subject<User> = new Subject() as Subject<User>;
   company_Id: Subject<any> = new Subject() as Subject<any>;
+  orderTabsSubject = new BehaviorSubject<any>(null);
+  orderTabs$ = this.orderTabsSubject.asObservable();
+  idSubject = new BehaviorSubject<string | null>(null);
+  id$ = this.idSubject.asObservable();
+
+  updateOrderTabs(orderTabs: any) {
+    this.orderTabsSubject.next(orderTabs);
+  }
+
+  updateId(id: string) {
+    this.idSubject.next(id);
+  }
 
   constructor(private httpClient: HttpClient, private storage: StorageService, spinner: NgxSpinnerService,
               private router: Router) {

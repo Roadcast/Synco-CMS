@@ -3,6 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DataService } from 'src/app/pages/data.service';
 import { PagesService } from 'src/app/pages/pages.service';
 import { ToastService } from 'src/app/pages/toast.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-general-config-order',
@@ -86,7 +87,8 @@ export class GeneralConfigOrderComponent implements OnInit {
   updatedValue: any = {};
 
   constructor(private http: DataService, private toast: ToastService,
-    private translate: TranslateService, private pagesService: PagesService) {
+    private translate: TranslateService, private pagesService: PagesService,
+    private user: UserService) {
     this.getGeneralConfig().then();
   }
 
@@ -106,6 +108,11 @@ export class GeneralConfigOrderComponent implements OnInit {
       this.generalConfig = (await this.http.query({}, 'order/order_config', 'order')).data[0];
       this.generalConfigObj = Object.assign({}, this.generalConfig);
       this.orderTabs = this.generalConfig['order_tabs'];
+      const id = this.generalConfig['id'];
+
+      this.user.updateOrderTabs(this.orderTabs);
+      this.user.updateId(id);
+
     } catch (err) { }
   }
 

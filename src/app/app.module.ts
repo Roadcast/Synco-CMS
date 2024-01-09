@@ -124,7 +124,7 @@ import { CeleryTaskStatusDialogComponent } from './@theme/components/celery-task
     NbSidebarModule.forRoot(),
     NgbModule,
     NbTabsetModule,
-    // Ng2SmartTableModule,
+    Ng2SmartTableModule,
     Ng2CompleterModule,
     NbSelectModule,
     NbToggleModule,

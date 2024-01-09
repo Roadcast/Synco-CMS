@@ -1,0 +1,82 @@
+<div [nbSpinner]="loading" nbSpinnerStatus="success">
+    <div class="row">
+        <div class="col-md-6">
+            <table class="w-100 table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>{{"Defaults" | translate}}</th>
+                    <th>{{"Custom Upload Title" | translate}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of this.formatConfig.value | keyvalue">
+                    <td class="valignM"><span class="font14 bold">{{item.key}}</span></td>
+                    <td class="valignM"><input type="text" nbInput class="form-control" fullWidth
+                                               [(ngModel)]="this.formatConfig.value[item.key]"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><button (click)="saveUploadFormatConfig()" fullWidth nbButton status="primary">Save Upload Settings</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <table class="w-100 table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th colspan="2">Default Auto Routing Parameters</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="valignM"><span class="font14 bold">Number of Vehicles</span></td>
+                    <td class="valignM w110px">
+                        <input [(ngModel)]="routing.riders" [required]="true" name="riders" placeholder="0"
+                               class="form-control w110px" nbInput min="1" type="number">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="valignM"><span class="font14 bold">Average Speed of Vehicle</span></td>
+                    <td class="valignM">
+                        <input [(ngModel)]="routing.avg_speed" name="speed" placeholder="0" class="form-control w110px"
+                               nbInput type="number" min="1">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="valignM"><span class="font14 bold">Capacity of Vehicle</span></td>
+                    <td class="valignM">
+                        <input [(ngModel)]="routing.vehicle_capacity" name="capacity" placeholder="0"
+                               class="form-control w110px" nbInput type="number" min="1">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="valignM"><span class="font14 bold">Max KMs per Vehicle</span></td>
+                    <td class="valignM">
+                        <input [(ngModel)]="routing.max_travel_km" name="max_travel_km" placeholder="0"
+                               class="form-control w110px" nbInput step="1" type="number" min="1">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="valignM"><span class="font14 bold">Max Time (min) per Vehicle</span></td>
+                    <td class="valignM">
+                        <input [(ngModel)]="routing.max_time_minute" name="max_time_minute" placeholder="0"
+                               class="form-control w110px" nbInput step="1" type="number" min="1">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button (click)="saveDefaultParametersConfig()"nbButton fullWidth status="primary">Save Default Parameters</button>
+                   </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="text-center mt-50">
+                <a href="/assets/Auto Route Generic Format Sample.xlsx" target="_blank" nbButton status="warning">
+                    <nb-icon [icon]="'download'"></nb-icon>
+                    Default Upload XLS</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -51,6 +51,8 @@ import {
   MbscPopupModule,
   MbscSegmentedModule,
 } from '@mobiscroll/angular';
+import { GeneralConfigOrderComponent } from './client-list/order/general-config-order/general-config-order.component';
+import { SingleOrderConfigComponent } from './client-list/order/single-order-config/single-order-config.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +72,8 @@ import {
     AttendanceLeavetypeComponent,
     AttendanceLeavetypeEditComponent,
     PrimeDataTableComponent,
+    GeneralConfigOrderComponent,
+    SingleOrderConfigComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,471 @@
+<div class="row">
+    <div class="col-md-6">
+        <table class="w-100 table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>{{"Name" | translate}}</th>
+                    <th class="action-wid">{{"Action" | translate}}</th>
+                </tr>
+            </thead>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Default Order Form" | translate}}</span>
+                    <nb-icon icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="test"></nb-icon>
+                </td>
+                <td class="valignM"><nb-toggle [(ngModel)]="generalConfigObj['is_default_form']"></nb-toggle></td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Multiple Order Assign" |
+                        translate}}</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor"
+                        nbTooltip="test"></nb-icon>
+                </td>
+                <td class="valignM"><nb-toggle [(ngModel)]="generalConfigObj['multiple_order_assign']"></nb-toggle></td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Show Duty Order" | translate}}</span><nb-icon
+                        icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="test"></nb-icon>
+                </td>
+                <td class="valignM"><nb-toggle [(ngModel)]="generalConfigObj['show_duty_order']"></nb-toggle></td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Show Free Riders only" |
+                        translate}}</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor"
+                        nbTooltip="test"></nb-icon>
+                </td>
+                <td class="valignM"><nb-toggle [(ngModel)]="generalConfigObj['show_free_riders_only']"></nb-toggle></td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold">{{"Show Lat Lng" | translate}}</span></td>
+                <td class="valignM"><nb-toggle [(ngModel)]="generalConfigObj['show_lat_lng']"></nb-toggle></td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Show Mark in Riders only" | translate}}</span>
+                    <nb-icon icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="test"></nb-icon>
+                </td>
+                <td class="valignM"><nb-toggle [(ngModel)]="generalConfigObj['show_mark_in_riders_only']"></nb-toggle>
+                </td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Show Schedule Order" | translate}}</span><nb-icon
+                        icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="test"></nb-icon>
+                </td>
+                <td class="valignM"><nb-toggle [(ngModel)]="generalConfigObj['show_schedule_order']"></nb-toggle></td>
+            </tr>
+
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Use Google" | translate}}</span><nb-icon
+                        icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="test"></nb-icon>
+                </td>
+                <td class="valignM"><nb-toggle [(ngModel)]="generalConfigObj['use_google']"></nb-toggle></td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Auto Dispatch" | translate}}</span><nb-icon
+                        icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="test"></nb-icon>
+                </td>
+                <td class="valignM"><nb-toggle [(ngModel)]="generalConfigObj['auto_dispatch']"></nb-toggle></td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Auto Reached Pick up" | translate}}</span><nb-icon
+                        icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="test"></nb-icon>
+                </td>
+                <td class="valignM"><nb-toggle [(ngModel)]="generalConfigObj['auto_reached_pick_up']"></nb-toggle></td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Auto Reached Destination" |
+                        translate}}</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor"
+                        nbTooltip="test"></nb-icon>
+                </td>
+                <td class="valignM"><nb-toggle [(ngModel)]="generalConfigObj['auto_reached_destination']"></nb-toggle>
+                </td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Auto Delivered" | translate}}</span><nb-icon
+                        icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="test"></nb-icon>
+                </td>
+                <td class="valignM"><nb-toggle [(ngModel)]="generalConfigObj['auto_delivered']"></nb-toggle></td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Order Rejection Option" |
+                        translate}}</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor"
+                        nbTooltip="test"></nb-icon>
+                </td>
+                <td class="valignM"><nb-toggle [(ngModel)]="generalConfigObj['show_order_cancel_option']"></nb-toggle>
+                </td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Order Location Confirmation Screen" |
+                        translate}}</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor"
+                        nbTooltip="test"></nb-icon>
+                </td>
+                <td class="valignM"><nb-toggle
+                        [(ngModel)]="generalConfigObj['order_location_confirmation_screen']"></nb-toggle></td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Create Single Order By Rider" |
+                        translate}}</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor"
+                        nbTooltip="test"></nb-icon>
+                </td>
+                <td class="valignM"><nb-toggle [(ngModel)]="generalConfigObj['create_single_order']"></nb-toggle></td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Create Multi Order By Rider" |
+                        translate}}</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor"
+                        nbTooltip="test"></nb-icon></td>
+                <td class="valignM"><nb-toggle [(ngModel)]="generalConfigObj['create_multi_order']"></nb-toggle></td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Multi Order Deliver Option" |
+                        translate}}</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor"
+                        nbTooltip="test"></nb-icon></td>
+                <td class="valignM"><nb-toggle [(ngModel)]="generalConfigObj['multi_order_deliver_option']"></nb-toggle>
+                </td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold">{{"Calculate Distance With Filter" | translate}}</span>
+                </td>
+                <td class="valignM"><nb-toggle
+                        [(ngModel)]="generalConfigObj['calculate_distance_with_filter']"></nb-toggle></td>
+            </tr>
+
+            <tr>
+                <td class="valignM"><span class="font14 bold">{{"Proof Of Delivery Picture" | translate}}</span></td>
+                <td class="valignM">
+                    <nb-toggle [(ngModel)]="generalConfigObj['proof_of_delivery_picture']"
+                        (checkedChange)="changePod('pod_picture')"></nb-toggle>
+                </td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold">{{"Proof Of Delivery Signature" | translate}}</span></td>
+                <td class="valignM">
+                    <nb-toggle [(ngModel)]="generalConfigObj['proof_of_delivery_signature']"
+                        (checkedChange)="changePod('pod_signature')"></nb-toggle>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="valignM"><span class="font14 bold">{{"Proof Of Pick Up Picture" | translate}}</span></td>
+                <td class="valignM">
+                    <nb-toggle [(ngModel)]="generalConfigObj['proof_of_pick_up_picture']"
+                        (checkedChange)="changePoP('pop_picture')"></nb-toggle>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="valignM"><span class="font14 bold">{{"Proof Of Pick Up Signature" | translate}}</span></td>
+                <td class="valignM">
+                    <nb-toggle [(ngModel)]="generalConfigObj['proof_of_pick_up_signature']"
+                        (checkedChange)="changePoP('pop_signature')"></nb-toggle>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="valignM"><span class="font14 bold">{{"Proof Of Pick Up Scanner" | translate}}</span></td>
+                <td class="valignM">
+                    <nb-toggle [(ngModel)]="generalConfigObj['proof_of_pick_up_scanner']"
+                        (checkedChange)="changePoP('pop_scanner')"></nb-toggle>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="valignM"><span class="font14 bold">{{"QR Code Scan for Order Delivered" | translate}}</span>
+                </td>
+                <td class="valignM">
+                    <nb-toggle [(ngModel)]="generalConfigObj['qr_code_scan_for_order_delivered']"></nb-toggle>
+                </td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold">{{"QR Code Scan for Order Reach Pick up" |
+                        translate}}</span></td>
+                <td class="valignM">
+                    <nb-toggle [(ngModel)]="generalConfigObj['qr_code_scan_for_order_reach_pick_up']"></nb-toggle>
+                </td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold">{{"Stop Auto Assign without Delivery Geom" |
+                        translate}}</span></td>
+                <td class="valignM">
+                    <nb-toggle [(ngModel)]="generalConfigObj['stop_auto_assign_without_delivery_geom']"></nb-toggle>
+                </td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold">{{"Cancel Order by Rider" | translate}}</span></td>
+                <td class="valignM">
+                    <nb-toggle [(ngModel)]="generalConfigObj['cancel_order_by_rider']"></nb-toggle>
+                </td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Cash Management" | translate}}</span><nb-icon
+                        icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="test"></nb-icon></td>
+                <td class="valignM"><nb-toggle [(ngModel)]="generalConfigObj['cash_management_config']"></nb-toggle>
+                </td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Enable Order Live Temperature" |
+                        translate}}</span><nb-icon icon="info-outline" class="font16 basecolor d-cursor"
+                        nbTooltip="test"></nb-icon></td>
+                <td class="valignM"><nb-toggle
+                        [(ngModel)]="generalConfigObj['enable_order_live_temperature']"></nb-toggle></td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold">{{"Auto Cancel Order" | translate}}</span></td>
+                <td class="valignM"><nb-toggle [(ngModel)]="generalConfigObj['auto_cancel_order']"></nb-toggle></td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold">{{"Check Geofence For Order Update" | translate}}</span>
+                </td>
+                <td class="valignM"><nb-toggle
+                        [(ngModel)]="generalConfigObj['check_geofence_for_order_update']"></nb-toggle></td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <table class="w-100 table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>{{"Name" | translate}}</th>
+                    <th class="action-wid">{{"Action" | translate}}</th>
+                </tr>
+            </thead>
+            <tr>
+                <td class="valignM"><span class="font14 bold">{{"Estimated Distance Payout" | translate}}</span></td>
+                <td class="valignM">
+                    <nb-toggle [(ngModel)]="generalConfigObj['estimated_distance_payout']"></nb-toggle>
+                </td>
+            </tr>
+            <tr *ngIf="generalConfigObj['estimated_distance_payout']">
+                <td colspan="2">
+                    <div class="ct-cont">
+                        <div class="w-100" *ngFor="let json of generalConfigObj['estimated_distance_payout_value']
+                         | keyvalue">
+                            <div class="row mt-5 mb-5 align-items-center">
+                                <div class="col-5 pr-0"><input type="text" class="form-control" fullWidth nbInput
+                                        placeholder="Key" [value]="json.key"></div>
+                                <div class="col-5"><input type="text" nbInput class="form-control" fullWidth
+                                        placeholder="Value" [value]="json.value"></div>
+                                <div class="col-2 pl-0 text-center"><nb-icon icon="trash" status="primary"
+                                        class="d-cursor" nbTooltip="Delete" (click)="deleteJSONValue('estimated_distance_payout_value',
+                                    json.key)">
+                                    </nb-icon></div>
+                            </div>
+                        </div>
+                        <div class="w-100">
+                            <div class="row mt-5 mb-5 align-items-center">
+                                <div class="col-5 pr-0"><input #key type="text" class="form-control" fullWidth nbInput
+                                        placeholder="Km"></div>
+                                <div class="col-5"><input #value type="text" class="form-control" fullWidth nbInput
+                                        placeholder="Amount"></div>
+                                <div class="col-2 pl-0 text-center"><button nbButton fullWidth status="primary" (click)="addJSONValue('estimated_distance_payout_value',
+                                    key.value, value.value)">{{"Add" | translate}}</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="generalConfigObj['cash_management_config']">
+                <td class="valignM"><span class="font14 bold pr-5">{{"Rider Cash in Hand Limit" | translate}}
+                    </span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="test">
+                    </nb-icon></td>
+                <td class="valignM">
+                    <input [(ngModel)]="generalConfigObj['rider_cash_in_hand_limit']" nbInput
+                        class="form-control w-110px" type="number" min="0" max="999999"
+                        (keypress)="keyPressNumbers($event)">
+                </td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Schedule Order Before Time Min" | translate}}
+                    </span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="test">
+                    </nb-icon></td>
+                <td class="valignM">
+                    <input [(ngModel)]="generalConfigObj['schedule_order_before_time_min']" nbInput
+                        class="form-control w-110px" type="number" min="0" max="999999"
+                        (keypress)="keyPressNumbers($event)">
+                </td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Order Location Confirmation Radius (metres)" |
+                        translate}}
+                    </span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="test"></nb-icon>
+                </td>
+                <td class="valignM">
+                    <input [(ngModel)]="generalConfigObj['order_location_confirmation_radius']" nbInput
+                        class="form-control w-110px" type="number" min="0" max="999999"
+                        (keypress)="keyPressNumbers($event)">
+                </td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold">{{"Auto Geofence Radius" | translate}}</span>
+                    <nb-icon icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="test"></nb-icon>
+                </td>
+                <td class="valignM">
+                    <input [(ngModel)]="generalConfigObj['auto_geo_fence_radius']" nbInput class="form-control w-110px"
+                        type="number" min="0" max="999999" (keypress)="keyPressNumbers($event)">
+                </td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Auto Switch Rider No Accept(mins)"| translate}}
+                    </span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="test">
+                    </nb-icon>
+                </td>
+                <td class="valignM">
+                    <input [(ngModel)]="generalConfigObj['auto_switch_rider_no_accept_mins']"
+                        class="form-control w-110px" max="999999" min="0" nbInput shape="rectangle" type="number"
+                        (keypress)="keyPressNumbers($event)">
+                </td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Batch Search Distance(meters)"| translate}}
+                    </span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="test">
+                    </nb-icon>
+                </td>
+                <td class="valignM">
+                    <input [(ngModel)]="generalConfigObj['batch_search_distance']" nbInput class="form-control w-110px"
+                        type="number" min="0" (keypress)="keyPressNumbers($event)">
+                </td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Max Batch Count" | translate}}
+                    </span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="test"></nb-icon>
+                </td>
+                <td class="valignM">
+                    <input [(ngModel)]="generalConfigObj['max_batch_count']" nbInput class="form-control w-110px"
+                        type="number" min="0" (keypress)="keyPressNumbers($event)">
+                </td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold">{{"Rider Search Distance(kms)" | translate}}</span></td>
+                <td class="valignM">
+                    <input [(ngModel)]="generalConfigObj['rider_search_distance']" nbInput class="form-control w-110px"
+                        type="number" min="0" (keypress)="keyPressNumbers($event)">
+                </td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Manual Assign Rider Daily Limit" | translate}}
+                    </span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="test"></nb-icon>
+                </td>
+                <td class="valignM">
+                    <input [(ngModel)]="generalConfigObj['manual_assign_rider_daily_limit']" nbInput
+                        class="form-control w-110px" type="number" min="0" (keypress)="keyPressNumbers($event)">
+                </td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Order Auto Complete Time(Minutes)" | translate}}
+                    </span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="test"></nb-icon>
+                </td>
+                <td class="valignM">
+                    <input [(ngModel)]="generalConfigObj['auto_complete_mins']" nbInput class="form-control w-110px"
+                        type="number" min="0" (keypress)="keyPressNumbers($event)">
+                </td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold">{{"Running Auto Assign Algorithm Min" | translate}}</span>
+                </td>
+                <td class="valignM">
+                    <input [(ngModel)]="generalConfigObj['running_auto_assign_algorithm_min']" nbInput
+                        class="form-control w-110px" type="number" min="0" (keypress)="keyPressNumbers($event)">
+                </td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Should At Pick Up Location" | translate}}</span>
+                </td>
+                <td class="valignM">
+                    <nb-toggle [(ngModel)]="generalConfigObj['should_at_pick_up_location']"></nb-toggle>
+                </td>
+            </tr>
+            <tr *ngIf="generalConfigObj['should_at_pick_up_location']">
+                <td class="valignM"><span class="font14 bold pr-5">{{"Should At Pick Up Location Radius" | translate}}
+                    </span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="test">
+                    </nb-icon></td>
+                <td class="valignM">
+                    <input [(ngModel)]="generalConfigObj['should_at_pick_up_location_radius']" nbInput
+                        class="form-control w-110px" type="number" min="0" max="999999"
+                        (keypress)="keyPressNumbers($event)">
+                </td>
+            </tr>
+
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Should At Dispatch Location" | translate}}</span>
+                </td>
+                <td class="valignM">
+                    <nb-toggle [(ngModel)]="generalConfigObj['should_at_dispatch_location']"></nb-toggle>
+                </td>
+            </tr>
+            <tr *ngIf="generalConfigObj['should_at_dispatch_location']">
+                <td class="valignM"><span class="font14 bold pr-5">{{"Should At Dispatch Location Radius" | translate}}
+                    </span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="test">
+                    </nb-icon></td>
+                <td class="valignM">
+                    <input [(ngModel)]="generalConfigObj['should_at_dispatch_location_radius']" nbInput
+                        class="form-control w-110px" type="number" min="0" max="999999"
+                        (keypress)="keyPressNumbers($event)">
+                </td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold pr-5">{{"Should At Delivery Location" | translate}}</span>
+                </td>
+                <td class="valignM">
+                    <nb-toggle [(ngModel)]="generalConfigObj['should_at_delivery_location']"></nb-toggle>
+                </td>
+            </tr>
+            <tr *ngIf="generalConfigObj['should_at_delivery_location']">
+                <td class="valignM"><span class="font14 bold pr-5">{{"Should At Delivery Location Radius" | translate}}
+                    </span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="test">
+                    </nb-icon></td>
+                <td class="valignM">
+                    <input [(ngModel)]="generalConfigObj['should_at_delivery_location_radius']" nbInput
+                        class="form-control w-110px" type="number" min="0" max="999999"
+                        (keypress)="keyPressNumbers($event)">
+                </td>
+            </tr>
+
+            <tr>
+                <td class="valignM"><span class="font14 bold">{{"Should At Customer Location" | translate}}</span></td>
+                <td class="valignM">
+                    <nb-toggle [(ngModel)]="generalConfigObj['should_at_customer_location']"></nb-toggle>
+                </td>
+            </tr>
+            <tr *ngIf="generalConfigObj['should_at_customer_location']">
+                <td class="valignM"><span class="font14 bold pr-5">{{"Should At Customer Location Radius" | translate}}
+                    </span><nb-icon icon="info-outline" class="font16 basecolor d-cursor" nbTooltip="test">
+                    </nb-icon></td>
+                <td class="valignM">
+                    <input [(ngModel)]="generalConfigObj['should_at_customer_location_radius']" nbInput
+                        class="form-control w-110px" type="number" min="0" max="999999"
+                        (keypress)="keyPressNumbers($event)">
+                </td>
+            </tr>
+
+            <tr>
+                <td class="valignM"><span class="font14 bold">{{"Auto Cancel Mins" | translate}}</span></td>
+                <td class="valignM">
+                    <input [(ngModel)]="generalConfigObj['auto_cancel_mins']" nbInput class="form-control w-110px"
+                        type="number" min="0" (keypress)="keyPressNumbers($event)">
+                </td>
+            </tr>
+
+            <tr>
+                <td class="valignM"><span class="font14 bold">{{"Delivery After All Picked Up" | translate}} </span>
+                </td>
+                <td class="valignM"><nb-toggle [(ngModel)]="generalConfigObj['delivery_after_all_picked_up']">
+                    </nb-toggle></td>
+            </tr>
+
+            <tr>
+                <td class="valignM"><span class="font14 bold">{{"Items Check Required" | translate}}</span></td>
+                <td class="valignM"><nb-toggle [(ngModel)]="generalConfigObj['items_check_required']">
+                    </nb-toggle></td>
+            </tr>
+            <tr>
+                <td class="valignM"><span class="font14 bold">{{"Use google api for calculate order distance" |
+                        translate}}</span></td>
+                <td class="valignM"><nb-toggle [disabled]="true"
+                        [(ngModel)]="generalConfigObj['google_api_for_distance_calculation']">
+                    </nb-toggle></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12"><button nbButton status="primary" class="btn-w-12" (click)="saveConfig()">{{"Save" |
+            translate}}</button>
+    </div>
+</div>

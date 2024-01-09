@@ -53,6 +53,11 @@ import {
 } from '@mobiscroll/angular';
 import { GeneralConfigOrderComponent } from './client-list/order/general-config-order/general-config-order.component';
 import { SingleOrderConfigComponent } from './client-list/order/single-order-config/single-order-config.component';
+import { ReportComponent } from './client-list/report/report.component';
+import { ConfigurationHeaderComponent } from './client-list/configuration-header/configuration-header.component';
+import { UploadFormatComponent } from './client-list/order/upload-format/upload-format.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { DataTableComponent } from '../@theme/components/data-table/data-table.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +79,9 @@ import { SingleOrderConfigComponent } from './client-list/order/single-order-con
     PrimeDataTableComponent,
     GeneralConfigOrderComponent,
     SingleOrderConfigComponent,
+    ReportComponent,
+    UploadFormatComponent,
+    DataTableComponent
   ],
   imports: [
     CommonModule,
@@ -106,7 +114,8 @@ import { SingleOrderConfigComponent } from './client-list/order/single-order-con
     MbscDatepickerModule,
     MbscInputModule,
     MbscEventcalendarModule,
-    MbscModule
+    MbscModule,
+    DragDropModule
   ],
   providers: [ToastService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

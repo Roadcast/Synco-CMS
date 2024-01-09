@@ -7,11 +7,12 @@
 
         <!-- Single Order Config start here -->
         <nb-tab [tabTitle]="translateText('Single Order Config')">
-        <app-single-order-config></app-single-order-config>
+        <app-single-order-config [orderTabs]="orderTabs" [configId]="generalConfigId"></app-single-order-config>
         </nb-tab>
 
         <!-- Auto Route Config start here -->
         <nb-tab [tabTitle]="translateText('Auto Route Config')">
+        <app-upload-format [formatConfig]="formatConfig"></app-upload-format>
         </nb-tab>
 
     </nb-tabset>

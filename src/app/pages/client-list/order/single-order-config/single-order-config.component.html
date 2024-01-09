@@ -31,7 +31,7 @@
                     </thead>
                     <tr *ngFor="let data of dataSource" class="rows">
                         <td style="width: 9%">
-                            <input nbInput [(ngModel)]="data.show_sequence" type="text">
+                            <input nbInput [(ngModel)]="data.show_sequence" type="text" style="width:57%">
                         </td>
                         <td>{{data.actual_field_name}}</td>
                         <td>
@@ -147,5 +147,30 @@
                 </div>
             </nb-card-body>
         </div>
+    </nb-tab>
+
+
+    <nb-tab tabTitle="Order Tabs Configuration">
+        <table style="width: 50%" cdkDropList (cdkDropListDropped)="drop2($event)">
+            <thead>
+                <tr>
+                    <th>{{"Sequence" | translate}}</th>
+                    <th>{{"Tab" | translate}}</th>
+                    <th>Display Name</th>
+                    <th>{{"Visibility" | translate}}</th>
+                </tr>
+            </thead>
+            <tr *ngFor="let tab of status; let i=index" class="rows" cdkDrag style="cursor: grabbing">
+                <th>{{i+1}}</th>
+                <th>{{tab.name}}</th>
+                <th>
+                    <input nbInput type="text" [(ngModel)]="tab.show_name">
+                </th>
+                <th><nb-toggle [(checked)]="tab.active"></nb-toggle></th>
+            </tr>
+        </table>
+        <button nbButton style="float: left" status="primary" (click)="saveTabs()">
+            {{"Save" | translate}}
+        </button>
     </nb-tab>
 </nb-tabset>

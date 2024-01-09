@@ -320,6 +320,7 @@ export class ClientListComponent implements OnInit {
 
   async config(product: any) {
     console.log(product);
+    localStorage.setItem('route', 'Configuration')
     localStorage.setItem('companyName', product.company);
     localStorage.setItem('company_Id', product.company_id
     );

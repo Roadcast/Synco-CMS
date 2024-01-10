@@ -1,1 +1,2 @@
-<nb-route-tabset [activeLinkOptions]="{exact: false}" [tabs]="accountTabs"></nb-route-tabset>
+<app-configuration-header [routePoint]="route"></app-configuration-header>
+<nb-route-tabset [activeLinkOptions]="{exact: false}" [tabs]="accountTabs" (changeTab)="gettingRoute($event)"></nb-route-tabset>

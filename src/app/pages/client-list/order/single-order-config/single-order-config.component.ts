@@ -11,8 +11,6 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   styleUrls: ['./single-order-config.component.scss']
 })
 export class SingleOrderConfigComponent implements OnInit {
-
- 
   dataSource: any;
   customFields: any;
   newField = {
@@ -181,11 +179,14 @@ export class SingleOrderConfigComponent implements OnInit {
   }
 
   async getStatus() {
+    console.log(this.orderTabs);
     try {
       this.status = (await this.http.query({
         __order_by: 'code',
       }, 'order/status', 'order')).data;
+      console.log(this.status);
       this.status = this.status.filter((stats:any) => stats.code);
+      console.log(this.status);
       this.status.forEach((stats:any) => {
         this.orderTabs.find((tab:any) => {
           if (tab.status_id === stats.id) {
@@ -194,20 +195,21 @@ export class SingleOrderConfigComponent implements OnInit {
             tab.name = stats.name;
           }
         });
+      console.log(this.status);
       });
       this.orderTabs = [];
     } catch (e) {
     }
   }
 
-  // drop2(event: CdkDragDrop<string[]>) {
-  //   moveItemInArray(this.status, event.previousIndex, event.currentIndex);
-  // }
+  drop2(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.status, event.previousIndex, event.currentIndex);
+  }
 
-  // drop1(event: CdkDragDrop<string[]>) {
-  //   moveItemInArray(this.dataSource, event.previousIndex, event.currentIndex);
-  //   this.dataSource.forEach((data:any, index:any) => {
-  //     data.show_sequence = index + 1;
-  //   });
-  // }
+  drop1(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.dataSource, event.previousIndex, event.currentIndex);
+    this.dataSource.forEach((data:any, index:any) => {
+      data.show_sequence = index + 1;
+    });
+  }
 }

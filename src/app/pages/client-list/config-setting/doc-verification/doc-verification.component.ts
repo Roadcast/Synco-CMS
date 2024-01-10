@@ -183,7 +183,7 @@ export class DocVerificationComponent implements OnInit {
 
         console.log(payloadObject['docs']);
 
-        payloadObject['company_id'] = this.id;
+        payloadObject['company_id'] = this.companyId;
         try {
             if (payloadObject['id']) {
                 await this.http.update(payloadObject['id'], payloadObject, {}, 'auth/doc_verification_config');

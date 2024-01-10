@@ -75,7 +75,6 @@ export class AttendanceHolidaysListComponent implements OnInit {
     } catch (e:any) {
       this.toaster.showToast(this.translateText('Error Saving Holiday ') + e.toString(), 'Error', true, e);
     }
-
   }
 
 

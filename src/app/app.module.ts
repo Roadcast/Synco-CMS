@@ -50,7 +50,7 @@ import {
   NbToastrModule,
   NbCheckboxModule,
   NbCardModule,
-  NbSpinnerModule, NbAccordionModule, NbInputModule, NbDialogModule
+  NbSpinnerModule, NbAccordionModule, NbInputModule, NbDialogModule, NbLayoutModule
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -67,6 +67,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from 'src/environments/environment';
 import { CommonModule } from '@angular/common';
 import { CeleryTaskStatusDialogComponent } from './@theme/components/celery-task-status-dialog/celery-task-status-dialog.component';
+
 
 // import { RouterModule } from '@angular/router';
 // import { routes } from './auth/auth-routing.module';
@@ -139,6 +140,7 @@ import { CeleryTaskStatusDialogComponent } from './@theme/components/celery-task
     AngularFireStorageModule,
     NbSpinnerModule,
     NbAccordionModule,
+    NbLayoutModule,
     NbInputModule,
     NbDialogModule.forRoot(),
   ],

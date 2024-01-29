@@ -1,1 +1,4 @@
-<app-data-table [reportName]="translateText('Reports To Mail')"></app-data-table>
+<app-data-table  [baseUrl]="'auth'" [columns]="columns"
+[isManage]="true" [reportName]="translateText('Reports To Mail')"
+[disableColumn]="'active'" [disableIcon]="true" [editIcon]="true" [canDownload]="false"
+[editPath]="'/pages/account-settings/report/'" [infoIcon]="false" [path]="'auth/reports_schedule'"></app-data-table>

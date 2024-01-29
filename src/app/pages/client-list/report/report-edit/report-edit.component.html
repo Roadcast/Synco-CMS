@@ -1,0 +1,151 @@
+<div class="row">
+    <div class="col-12">
+        <nb-card class="w-100" nbSpinnerMessage="Saving" nbSpinnerStatus="primary">
+            <nb-card-header>{{type}} Mail Configuration</nb-card-header>
+            <nb-card-body>
+                <div *ngIf="newUSer" class="form-group">
+                    <nb-radio-group [(ngModel)]="option">
+                        <nb-radio
+                                *ngFor="let option of options"
+                                [value]="option.value"
+                                [checked]="option.checked" style="display: inline-block;">
+                            {{ option.label }}
+                        </nb-radio>
+                    </nb-radio-group>
+                    <div *ngIf="option === 'user'">
+                        <app-type-ahead (send)="sendUser($event)" [filters]="{__only: ['name', 'id', 'mobile_number', 'email']}" [basePath]="'auth'"[placeholder]="userReport.email_to" [displayNames]="['name']"
+                                        [required]="true" [url]="'auth/user'" [(ngModel)]="userReport.email_to">
+                        </app-type-ahead>
+                    </div>
+                    <div *ngIf="option === 'merchant'">
+                        <app-type-ahead (send)="sendMerchant($event)" [filters]="{__only: ['name', 'id', 'mobile_number', 'email']}" [basePath]="'auth'"[placeholder]="userReport.email_to" [displayNames]="['name']"
+                                        [required]="true" [url]="'auth/merchant'" [(ngModel)]="userReport.email_to">
+                        </app-type-ahead>
+                    </div>
+                </div>
+
+                <form #userMailform=ngForm class="form form-horizontal was-validated w-100">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div *ngIf="id" class="form-group">
+                            <label>{{type}} Name</label>
+                            <div>
+                                <input [disabled]="true" [placeholder]="details.user ? details.user : details.merchant" fullWidth name="name" nbInput type="text">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <form [formGroup]="userEmails">
+                                <label>Email To</label>
+                                <div>
+                                    <input [(ngModel)]="userReport.email_to" fullWidth name="name" nbInput
+                                           required="true" formControlName="email_to" class="form-control" type="email">
+                                    <div *ngIf="email_to?.errors && (email_to?.dirty || email_to?.touched)"
+                                         class="alert alert-danger mt-3">
+                                        <div *ngIf="email_to.errors?.required" class="text-danger">
+                                            {{"Email is required" | translate}}.
+                                        </div>
+                                        <div *ngIf="email_to.errors?.pattern" class="text-danger">
+                                            {{"Please provide a valid Email address" | translate}}.
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email Title</label>
+                            <input #email_subject=ngModel [(ngModel)]="userReport.email_subject" fullWidth minlength="2" name="email_subject" nbInput
+                                   required="true" class="form-control" type="text">
+
+                            <div *ngIf="email_subject.invalid && (email_subject.dirty || email_subject.touched)"
+                                 class="alert alert-danger mt-3">
+                                <div *ngIf="email_subject.errors.required">
+                                    Subject is required.
+                                </div>
+                                <div *ngIf="email_subject.errors.minlength">
+                                    Title must be at least 2 characters long.
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email Body</label>
+                            <input #email_body=ngModel [(ngModel)]="userReport.email_body" fullWidth minlength="4" name="email_body" nbInput
+                                   required="true" class="form-control" type="text">
+
+                            <div *ngIf="email_body.invalid && (email_body.dirty || email_body.touched)"
+                                 class="alert alert-danger mt-3">
+                                <div *ngIf="email_body.errors.required">
+                                    Email Body is required.
+                                </div>
+                                <div *ngIf="email_body.errors.minlength">
+                                    Email Body must be at least 4 characters long.
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label>{{"Schedule" | translate}}</label>
+                            <nb-select #recurring_repeat=ngModel [(ngModel)]="userReport.recurring_repeat" fullWidth
+                                       name="agreement_template" [placeholder]="userReport.recurring_repeat" status="primary">
+                                <nb-option [value]="'daily'">{{"Daily" | translate}}</nb-option>
+                                <nb-option [value]="'weekly'">{{"Weekly" | translate}}</nb-option>
+                                <nb-option [value]="'monthly'">{{"Monthly" | translate}}</nb-option>
+                                <nb-option [value]="'yearly'">{{"Yearly" | translate}}</nb-option>
+                            </nb-select>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="required">Email Start Date</label>
+                            <input #email_date=ngModel [(ngModel)]="userReport.email_date" class="form-control lineh46" fullWidth name="email_date" nbInput required type="date">
+                            <div *ngIf="email_date.invalid && (email_date.dirty || email_date.touched)" class="alert alert-danger mt-10">
+                                <div *ngIf="email_date.errors.required">Date is required.</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="required">Reccuring Until</label>
+                            <input #recurring_until=ngModel [(ngModel)]="userReport.recurring_until" class="form-control lineh46" fullWidth name="recurring_until" nbInput required type="date">
+                            <div *ngIf="recurring_until.invalid && (recurring_until.dirty || recurring_until.touched)" class="alert alert-danger mt-10">
+                                <div *ngIf="recurring_until.errors.required">Date is required.</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email Time</label>
+                            <input #start_timing_on_Weekend=ngModel [(ngModel)]="userReport.email_time" fullWidth name="start_timing_on_Weekend" required nbInput class="form-control lineh46" type="time">
+                        </div>
+
+                        <div class="form-group mt-45">
+                            <nb-checkbox class="mr-3" #csv=ngModel [(ngModel)]="userReport.csv" name="csv">{{"CSV" | translate}}</nb-checkbox>
+                            <div *ngIf="noFileSelected" class="alert alert-danger mt-3">Select atleast One File Type.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <nb-checkbox class="mr-3" #attendance=ngModel [(ngModel)]="userReport.reports_detail[0].status" name="attendance">Attendance Report</nb-checkbox>
+                            <nb-checkbox class="mr-3" #order=ngModel [(ngModel)]="userReport.reports_detail[1].status" name="order">Order Report</nb-checkbox>
+                            <div *ngIf="noReportSelected" class="alert alert-danger mt-3">Select atleast One Report Type.</div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </form>
+            </nb-card-body>
+
+            <nb-card-footer>
+                <div class="d-flex justify-content-end">
+                    <button (click)="cancel()" class="mr-15 btn-w-12" nbButton status="primary">{{"Cancel" | translate}}</button>
+                    <button (click)="save()" [disabled]="userMailform.form.invalid || email_to?.errors != null" class="btn-w-12" nbButton status="primary">{{"Save" | translate}}</button>
+                </div>
+            </nb-card-footer>
+        </nb-card>
+    </div>
+</div>

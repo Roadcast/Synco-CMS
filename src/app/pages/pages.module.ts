@@ -59,6 +59,7 @@ import { UploadFormatComponent } from './client-list/order/upload-format/upload-
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DataTableComponent } from '../@theme/components/data-table/data-table.component';
 
+
 @NgModule({
   declarations: [
     PagesComponent,
@@ -81,7 +82,7 @@ import { DataTableComponent } from '../@theme/components/data-table/data-table.c
     SingleOrderConfigComponent,
     ReportComponent,
     UploadFormatComponent,
-    DataTableComponent
+    DataTableComponent,
   ],
   imports: [
     CommonModule,

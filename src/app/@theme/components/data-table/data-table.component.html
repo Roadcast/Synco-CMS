@@ -1,14 +1,338 @@
 <div class="row align-items-center justify-content-center mb-20 tab-fil-cont">
 
-    <div class="col-md-6 m-mb-10 ult">
-        <h3 class="font20 mb-0">{{reportName}} <span class="bolder"></span></h3>
-    </div>
-    <div class="col-md-6 d-flex align-items-center justify-content-end w-select ulf">
-        <!-- Choose Dates Range -->
-        <span class="ml-10">
-            <nb-checkbox  >
-                <p class="font12 bold m-0 mr-10">{{"Check to see New Onboarded Rider" | translate}}</p>
-            </nb-checkbox>
-        </span>
-    </div>
+	<div class="col-md-6 m-mb-10 ult">
+		<h3 class="font20 mb-0">{{reportName}} <span class="bolder">{{count ? '('+count+')' : ''}}</span></h3>
+	</div>
+	<div class="col-md-6 d-flex align-items-center justify-content-end w-select ulf">
+		<!-- Choose Dates Range -->
+		<span class="ml-10">
+			<nb-checkbox *ngIf="newOnBoardedRiders" (checkedChange)="seeNewOnboardedRider($event)">
+				<p class="font12 bold m-0 mr-10">{{"Check to see New Onboarded Rider" | translate}}</p>
+			</nb-checkbox>
+		</span>
+		<span class="m-w-90p" *ngIf="dateFilter">
+			<ng-container *ngIf="isInvoice; else defaultBlock">
+				<ng-container *ngIf="singleDay; else multi">
+					<mbsc-datepicker [controls]="['calender']" select="range" inputStyle="outline" display="anchored"
+						[placeholder]="translateText('Pick Date Range')" (onChange)="invoiceDateChange($event)"
+						[options]="myOptions" [touchUi]="true">
+					</mbsc-datepicker>
+				</ng-container>
+				<ng-template #multi>
+					<mbsc-datepicker (onChange)="changeInvoiceRange($event)" [controls]="['calendar']"
+						[placeholder]="translateText('Pick Date Range')" [touchUi]="true" display="anchored"
+						inputStyle="outline" [options]="myOptions" select="range">
+					</mbsc-datepicker>
+				</ng-template>
+			</ng-container>
+			<ng-template #defaultBlock>
+				<ng-container *ngIf="singleDay; else multi">
+					<mbsc-datepicker [controls]="['calender']" select="range" inputStyle="outline" display="anchored"
+						[placeholder]="translateText('Pick Date Range')" (onChange)="dateChange($event)"
+						[options]="myOptions" [touchUi]="true">
+					</mbsc-datepicker>
+				</ng-container>
+				<ng-template #multi>
+					<!-- Rider date filter-->
+					<!-- Touchpoint date range-->
+					<mbsc-datepicker #datepicker *ngIf="!timeFilter" (onChange)="changeRange($event)"
+						[controls]="['calendar']" [placeholder]="translateText('Pick Date Range')" [touchUi]="true"
+						display="anchored" inputStyle="outline" [min]="calendarStartDate" [max]="calendarEndDate"
+						(onCancel)="cancel($event)" [(ngModel)]="startEndDate" select="range">
+					</mbsc-datepicker>
+
+					<mbsc-datepicker *ngIf="timeFilter" (onChange)="setDateTime($event)"
+						[controls]="['calendar', 'time']" [placeholder]="translateText('Pick Date Range')"
+						[touchUi]="true" display="anchored" inputStyle="outline" [options]="myOptions" select="range">
+					</mbsc-datepicker>
+					<owl-date-time #dt1></owl-date-time>
+				</ng-template>
+			</ng-template>
+		</span>
+
+		<!-- Choose Month -->
+		<span class="ml-10 m-w-90p" *ngIf="monthFilter">
+			<mbsc-datepicker select="range" inputStyle="outline" [controls]="['calendar']"
+				[placeholder]="translateText('Pick Month')" (onChange)="selectMonth($event)" display="anchored"
+				dateFormat="MM/YYYY" [touchUi]="true">
+			</mbsc-datepicker>
+		</span>
+
+		<!-- Select Multiple Zone  -->
+		<span class="ml-10 m-w-90p" *ngIf="multipleZone">
+			<ngx-type-ahead (cleared)="multiZoneFilter($event)" (send)="multiZoneFilter($event)"
+				[filters]="{__active__bool: 'true'}" basePath="auth" [multiple]="true"
+				placeholder="Select Multiple Zone" url="zone">
+			</ngx-type-ahead>
+		</span>
+		<span class="ml-10" *ngFor="let filter of filters">
+			<ng-container>
+				<nb-checkbox #checked (change)="applyFilter(filter, checked?.checked)" class="mr-2">
+					{{filter.name}}
+				</nb-checkbox>
+			</ng-container>
+		</span>
+		<span class="ml-10" *ngIf="configBulkUpload">
+			<button nbButton (click)="bulkUpload.emit(bulkUpload)" status="primary">{{"Bulk Upload" |
+				translate}}</button>
+		</span>
+		<span class="ml-10" *ngIf="route_company_config">
+			<nb-toggle  [checked]="manual_touch_point_status?.manual_update_touch_point_status" (checkedChange)="toggleRouteConfig($event)">
+				{{"Manually touchpoint update" | translate}}</nb-toggle>
+		</span>
+			
+		<span *ngIf="addNew" class="ml-10">
+			<button (click)="edit()" nbButton status="primary">{{"Create New" | translate}}</button>
+			<button *ngIf="excelUpload" (click)="dialogRef = nbDialogService.open(addRider)" nbButton status="success"
+				class="ml-10">{{"Upload as Excel" | translate}}</button>
+		</span>
+
+		<!-- Filters Button -->
+		<span class="ml-10">
+			<ng-container *ngIf="searchFields.length">
+				<button #pop1="ngbPopover" [autoClose]="false" [ngbPopover]="filterTemp" [disablePopover]="closePopup"
+					[placement]="'bottom-right'" [popoverClass]="'pop'" nbButton (click)="closePopup=!closePopup"
+					status="primary" class="filter-btn" [nbTooltip]="this.translateText('Filters')" nbTooltipPlacement="top">
+					<nb-icon icon="options-2-outline"></nb-icon>
+				</button>
+
+				<!-- Filters Pop Up -->
+				<ng-template #filterTemp>
+					<div class="p-3 row d-flex align-items-center flex-column">
+						<ng-container *ngFor="let field of searchFields">
+							<ng-container *ngIf="field?.type === 'typeahead';else noTypeAhead">
+								<div class="col-12 mb-10">
+									<ngx-type-ahead (send)="getEvent($event, field);" [filters]="field.filters"
+										[placeholder]="field.name===''? field.placeholder:field.name"
+										(cleared)="fieldName='';field.name=''" [text]="field.text" [url]="field?.path"
+										[basePath]="field.base ? field.base : 'auth'">
+									</ngx-type-ahead>
+								</div>
+							</ng-container>
+							<ng-template #noTypeAhead>
+								<div class="col-12 mb-10" *ngIf="field.type !== 'date' && field.type !== 'date-range-start' &&
+							field.type !== 'date-range-end'">
+									<input [(ngModel)]="field.term" [placeholder]="field.name" nbInput type="text"
+										(keypress)="getValue($event)" (paste)="onPaste($event)">
+								</div>
+								<div class="col-12 mb-10" *ngIf="field.type === 'date'">
+									<input [(ngModel)]="field.term" [placeholder]="field.name" nbInput type="date">
+								</div>
+								<div class="col-12 mb-10" *ngIf="field.type === 'date-range-start'">
+									<mbsc-datepicker (onChange)="filterDateRange($event)" [controls]="['calendar']"
+										[placeholder]="field.name" [(ngModel)]="dateFilterRange" [touchUi]="true"
+										display="anchored" inputStyle="outline" select="range">
+									</mbsc-datepicker>
+								</div>
+								<div class="col-12 mb-10" *ngIf="field.type === 'toggle'">
+									<nb-checkbox [(checked)]="field.term">{{field.name}}</nb-checkbox>
+								</div>
+							</ng-template>
+						</ng-container>
+						<div class="col-12 w-100 mt-15 text-center">
+							<button (click)="search(true);" nbButton size="small" status="primary"
+								class="mr-3">{{"Clear" | translate}}</button>
+							<button (click)="search()" nbButton size="small" status="primary">{{"Apply" |
+								translate}}</button>
+						</div>
+					</div>
+				</ng-template>
+			</ng-container>
+		</span>
+	</div>
 </div>
+
+<!-- Table Data -->
+<div [nbSpinnerMessage]="'Fetching data. Please Wait...'" [nbSpinnerStatus]="'danger'" [nbSpinner]="loading"
+	class="table-responsive" nbSpinnerSize="large">
+	<table #table class="table table-bordered table-striped">
+		<thead>
+			<tr class="font-weight-bold">
+				<th scope="col" class="white_space" style="width: 70px;">{{"S.No." | translate}}</th>
+				<th *ngFor="let column of columns" scope="col" class="white_space">{{ column?.displayName }}</th>
+				<th *ngIf="editIcon" scope="col" class="white_space text-center" style="width: 80px;">{{"Edit" |
+					translate}}</th>
+				<th *ngIf="infoIcon" scope="col" class="white_space text-center" style="width: 80px;">{{"Info" |
+					translate}}</th>
+				<th *ngIf="disableIcon" scope="col" class="white_space text-center" style="width: 80px;">{{"Status" |
+					translate}}</th>
+				<th *ngIf="deleteIcon" scope="col" class="white_space text-center" style="width: 80px;">{{"Delete" |
+					translate}}</th>
+				<th *ngIf="deleteRowIcon" scope="col" class="white_space text-center" style="width: 80px;">{{"Delete" |
+					translate}}</th>
+				<th *ngIf="folderIcon" scope="col" class="white_space text-center" style="width: 80px;">{{"Download" |
+					translate}}</th>
+				<th *ngIf="configBulkUploadforTD" scope="col" class="white_space text-center" style="width: 80px;">
+					{{"Bulk upload" | translate}}</th>
+			</tr>
+		</thead>
+		<tbody class="fixed-height">
+			<ng-container *ngFor="let row of data  let i =index">
+				<tr>
+					<td>{{((page - 1) * 10) + i + 1}}.</td>
+					<ng-container *ngFor="let column of columns">
+						<td [innerHTML]="column.displayFn ? column.displayFn(row, column.name) :
+                        (column.name === 'distance' ? (row[column.name]/1).toFixed(2) :
+                        row[column.name])"></td>
+					</ng-container>
+					<td *ngIf="editIcon" class="text-center">
+						<img (click)="edit(row.id)" src="/assets/images/icon-edit.svg" alt=""
+							class="table-icon d-cursor" [nbTooltip]="this.translateText('Edit')" nbTooltipPlacement="top">
+					</td>
+
+					<td *ngIf="infoIcon" class="text-center">
+						<img (click)="view.emit(row)" src="/assets/images/icon-info.svg" alt=""
+							class="table-icon d-cursor" [nbTooltip]="this.translateText('View Info')" nbTooltipPlacement="top">
+					</td>
+					<td *ngIf="folderIcon" class="text-center">
+						<img (click)="download_pdf.emit(row)" src="/assets/images/icon-download.svg" alt=""
+							class="table-icon d-cursor" [nbTooltip]="this.translateText('Download')" nbTooltipPlacement="top">
+					</td>
+					<td *ngIf="disableIcon" class="text-center">
+						<div (click)="disable(row, disableColumn, row.rider_on_boarding_detail !== null ? riderConfirmDialog : confirmDialog)"
+							class="text-center">
+
+							<img *ngIf="row[disableColumn]" src="/assets/images/icon-toggle-on.svg" alt=""
+								class="table-icon d-cursor" [nbTooltip]="this.translateText('Disable')" nbTooltipPlacement="top">
+							<img *ngIf="!row[disableColumn]" src="/assets/images/icon-toggle-off.svg" alt=""
+								class="table-icon d-cursor" [nbTooltip]="this.translateText('Enable')" nbTooltipPlacement="top">
+						</div>
+					</td>
+					<td *ngIf="deleteIcon" class="text-center">
+						<button style="border: none;background: transparent;" class="brdr-none"
+							(click)="delete(row,disableColumn,confirmDeleteDialog)" [disabled]="row[disableColumn]">
+							<img *ngIf="row[disableColumn]" src="/assets/images/icon-remove.svg" alt="" height="22"
+								[nbTooltip]="this.translateText('Please disable the rider first')" nbTooltipPlacement="top">
+							<img *ngIf="!row[disableColumn]" src="/assets/images/icon-remove.svg" alt="" height="22"
+								[nbTooltip]="this.translateText('Remove')" nbTooltipPlacement="top">
+						</button>
+					</td>
+
+					<td *ngIf="deleteRowIcon" class="text-center">
+						<button style="border: none;background: transparent;" class="brdr-none"
+							(click)="deleteRow(row, i)">
+							<img src="/assets/images/icon-remove.svg" alt="" height="22" [nbTooltip]="this.translateText('Remove')"
+								nbTooltipPlacement="top">
+						</button>
+					</td>
+					<td *ngIf="configBulkUploadforTD" class="text-center">
+						<button (click)="bulkUpload.emit(row)" *ngIf="configBulkUploadforTD" status="primary"
+							nbButton>{{"Bulk Upload" | translate}}</button>
+					</td>
+				</tr>
+			</ng-container>
+		</tbody>
+	</table>
+</div>
+
+<!-- Pagination -->
+<div class="paging" *ngIf="footer">
+	<div class="row">
+		<div class="col-12 text-center">
+			<div *ngIf="totalPages > 1" class="d-flex justify-content-center align-items-center font16 nbgbor">
+				<div [ngClass]="page === 1? 'disabled':''" class="nicon mr-2">
+					<i (click)="previousPage()" class="eva-icon-container previous-page">
+						<nb-icon icon="arrow-left-outline"></nb-icon>
+					</i>
+				</div>
+				<div class="font14">
+					{{"Page(s)" | translate}}: <span class="bold">{{totalPages}}</span>
+					<input [(ngModel)]="currPage" [max]="totalPages" [value]="page" class="ml-2 w70px sminp" min="1"
+						nbInput type="number">
+					<button (click)="setPage()" class="ml-2 smb1" nbButton status="primary">{{"Go" | translate}}</button>
+				</div>
+				<div [ngClass]="page === totalPages? 'disabled':''" class="nicon ml-2">
+					<i (click)="nextPage()" class="eva-icon-container next-page">
+						<nb-icon icon="arrow-right-outline"></nb-icon>
+					</i>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12 text-left">
+		<button (click)="saveAs()" *ngIf="canDownload && data?.length!=0" status="primary" nbButton>{{"Download" |
+			translate}}</button>
+		<button (click)="orderReportDownload()" *ngIf="orderDownload && data?.length!=0" status="primary" nbButton>{{"Download" |
+			translate}}</button>
+		<button status="primary" nbButton *ngIf="exportExcel && data?.length!=0" type="button"  (click)="downloadToExcel(data)">{{"Download" |
+			translate}}</button>
+	</div>
+</div>
+
+<ng-template #addRider>
+	<div style="padding: 10px;min-height: 150px;background: whitesmoke">
+		<label>{{"Upload your Excel File" | translate}}</label><br>
+		<a style="color: blue" href="/assets/rider_upload_format.xlsx">{{"Download excel sample format for uploading
+			riders" | translate}}</a> &nbsp; &nbsp;
+		<input #target (change)="fileUpload(target)" type="file">
+		<div class="w3-border w3-margin-top">
+			<ng2-smart-table [settings]="tableSettings" [source]="tableDataSource">
+			</ng2-smart-table>
+		</div>
+		<div class="w3-margin-top w3-right">
+			<button nbButton size="tiny" status="primary" class="w3-right" (click)="uploadFile()">{{"Upload" |
+				translate}}</button>
+			<button (click)="closeDialog()" class="w3-right" nbButton size="tiny" status="danger" style="float: right">
+				{{"Cancel" | translate}}</button>&nbsp;
+		</div>
+	</div>
+</ng-template>
+<ng-template #confirmDialog let-ref=dialogRef let-data>
+	<nb-card>
+		<nb-card-body class="d-flex align-items-center">
+			<Strong>{{"Are you sure you want to" | translate}} {{data.toggle ? 'enable' : 'disable'}}?</Strong>
+		</nb-card-body>
+		<nb-card-footer class="d-flex justify-content-end">
+			<button (click)="ref.close(false)" nbButton status="primary" class="mr-15">{{"No" | translate}}</button>
+			<button (click)="ref.close(true)" nbButton status="primary">{{"Yes" | translate}}</button>
+		</nb-card-footer>
+	</nb-card>
+</ng-template>
+
+<ng-template #confirmDeleteDialog let-ref=dialogRef let-data>
+	<nb-card>
+		<nb-card-body class="d-flex align-items-center">
+			<Strong>{{"Are you sure you want to delete the rider ?" | translate}}</Strong>
+		</nb-card-body>
+		<nb-card-footer class="d-flex justify-content-end">
+			<button (click)="ref.close(false)" nbButton status="primary" class="mr-15">{{"No" | translate}}</button>
+			<button (click)="ref.close(true)" nbButton status="primary">{{"Yes" | translate}}</button>
+		</nb-card-footer>
+	</nb-card>
+</ng-template>
+<ng-template #riderConfirmDialog let-ref=dialogRef let-data>
+	<nb-card *ngIf="!data.is_active" style="height: 20vh;width: 20vw;overflow: auto">
+		<nb-card-body class="d-flex align-items-center" style="overflow: hidden">
+			<Strong>{{"Are you sure you want to" | translate}} {{data.toggle ? 'enable' : 'disable'}}?</Strong>
+		</nb-card-body>
+		<nb-card-footer class="d-flex justify-content-between">
+			<button (click)="ref.close(false)" class="m3" nbButton size="small" status="danger">{{"Cancel" |
+				translate}}</button>
+			<button nbButton size="small" status="primary" class="m3" (click)="ref.close(true)">{{"Confirm" |
+				translate}}</button>
+		</nb-card-footer>
+	</nb-card>
+	<nb-card *ngIf="data.is_active" style="width: 25vw;">
+		<nb-card-header>
+			<div>{{"Status" | translate}}</div>
+		</nb-card-header>
+		<nb-card-body>
+
+			<div class="mb-10"><strong>{{"Reason" | translate}}</strong></div>
+			<div class="mb-10"><ngx-type-ahead (send)="riderDisable($event)" [filters]="{__type__equal: 'R'}"
+					[basePath]="'order'" [placeholder]="'Reason'" [displayNames]="['name']" [required]="true"
+					[url]="'reason'" class="w-100">
+				</ngx-type-ahead></div>
+			<div class="mb-10"><strong class="required">{{"Description" | translate}}</strong></div>
+			<div class="line-h"><textarea [(ngModel)]="riderDisableInfo.description" rows="4" class="w-100 text-area"
+					nbInput fullWidth placeholder="Description"></textarea></div>
+		</nb-card-body>
+		<nb-card-footer class="d-flex justify-content-center">
+			<button (click)="ref.close(false)" class="mr-15" nbButton status="primary">{{"Cancel" | translate}}</button>
+			<button nbButton status="primary" (click)="closeRiderDialog(ref)">{{"Confirm" | translate}}</button>
+		</nb-card-footer>
+	</nb-card>
+</ng-template>

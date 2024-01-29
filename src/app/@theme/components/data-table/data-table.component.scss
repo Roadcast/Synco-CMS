@@ -1,0 +1,134 @@
+.my-custom-scrollbar {
+    position: relative;
+    //height: calc(100vh - 250px);
+    overflow: auto;
+}
+
+.table-wrapper-scroll-y {
+    display: block;
+
+}
+
+.brdr-none:focus {
+    outline: 0 !important;
+    border: 0 !important;
+}
+
+.line-h {
+    textarea {
+        padding: 1rem 1rem !important;
+        line-height: 1rem !important;
+    }
+}
+
+.smb1 {
+    margin-top: -1px !important;
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+}
+
+.sminp {
+    background: #fff !important;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+.filter-btn {
+    line-height: 50px !important;
+    width: 50px !important;
+    padding: 0 0.6rem !important;
+    height: 50px !important;
+    border-radius: .75rem !important;
+}
+
+
+.nicon nb-icon {
+    width: 1.3em;
+    height: 1.3em;
+}
+
+.w70px {
+    width: 70px !important;
+}
+
+// ::ng-deep {
+
+// .type-ahead-dropdown:first-child  {
+// width: 25%;
+// margin: 20px 0px 0px;
+// }
+
+// }
+
+.next-page,
+.previous-page {
+    cursor: pointer;
+}
+
+.disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+::ng-deep {
+    .ng-dropdown-panel {
+        z-index: 9999 !important;
+    }
+
+    .popover {
+        max-width: unset !important;
+    }
+
+
+}
+
+nb-icon {
+    cursor: pointer;
+}
+
+i :hover {
+    color: #007bff;
+}
+
+@media (max-width:1023px) {
+
+    .tab-fil-cont .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+
+@media (max-width:767px) {
+
+    .tab-fil-cont .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .tab-fil-cont .ult {
+        margin-bottom: 5px;
+    }
+
+    .tab-fil-cont .ulf {
+        justify-content: space-between !important;
+    }
+
+    .m-w-90p {
+        width: 90%;
+        margin-left: 8px !important;
+    }
+
+    .ulf {
+        margin-left: -18px !important;
+    }
+}
+
+.table th,
+.table td {
+    padding: 14px 10px !important;
+    color: #212a32 !important;
+    font-size: 0.813rem !important;
+}

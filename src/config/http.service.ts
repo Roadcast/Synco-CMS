@@ -135,6 +135,16 @@ export abstract class HttpService<T> {
 	// 		return reject(err);
 	// 	}));
 	// }
+	public downloadFile(query?: IRestQuery, url?: string, base?: string): Promise<Blob> {
+		const request: Observable<any> = this.http.get(this.buildUrl(undefined, url, base),
+			HttpService.buildRequestOptions(query, 'blob'));
+		return new Promise((resolve, reject) => request.subscribe(res => {
+			return resolve(res);
+		}, (err) => {
+			HttpService.catchError(err);
+			return reject(err);
+		}));
+	}
 
 	public get(id: string | number, query?: IRestQuery, url?: string): Promise<T> {
 		const request: Observable<any> = this.http.get(this.buildUrl(id, url), HttpService.buildRequestOptions(query));
@@ -169,8 +179,8 @@ export abstract class HttpService<T> {
 		}));
 	}
 
-	public update(id: string | number, obj: T, query?: IRestQuery, url?: string): Promise<T> {
-		const request: Observable<any> = this.http.patch(this.buildUrl(id, url), obj, HttpService.buildRequestOptions(query));
+	public update(id: string | number, obj: T, query?: IRestQuery, url?: string, base?: string): Promise<T> {
+		const request: Observable<any> = this.http.patch(this.buildUrl(id, url, base), obj, HttpService.buildRequestOptions(query));
 		return new Promise((resolve, reject) => request.subscribe(res => {
 			return resolve(res);
 		}, (err) => {
@@ -189,8 +199,8 @@ export abstract class HttpService<T> {
 		}));
 	}
 
-	public delete(id: any, query?: IRestQuery, url?: string): Promise<T> {
-		const request: Observable<any> = this.http.delete(this.buildUrl(id, url), HttpService.buildRequestOptions(query));
+	public delete(id: any, query?: IRestQuery, url?: string, base?: string): Promise<T> {
+		const request: Observable<any> = this.http.delete(this.buildUrl(id, url, base), HttpService.buildRequestOptions(query));
 		return new Promise((resolve, reject) => request.subscribe(res => {
 			return resolve(res);
 		}, (err) => {

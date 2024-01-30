@@ -2,19 +2,19 @@ import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ApiService} from "../../../services/api.service";
 import {MessageService} from "primeng/api";
-import { TranslateService } from '@ngx-translate/core'; 
-import { DataService } from '../../data.service';
-import { ToastService } from '../../toast.service';
-import { ConfigService } from '../../config.service';
-import { UserService } from 'src/app/services/user.service';
+import {TranslateService} from '@ngx-translate/core';
+import {DataService} from '../../data.service';
+import {ToastService} from '../../toast.service';
+import {ConfigService} from '../../config.service';
+import {UserService} from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-config-setting',
   templateUrl: './config-setting.component.html',
   styleUrls: ['./config-setting.component.scss']
 })
-export class ConfigSettingComponent  {
- 
+export class ConfigSettingComponent {
+
   loading: boolean = false;
   setActiveTab = "General";
   activeTabId = "yardConfig";
@@ -22,8 +22,8 @@ export class ConfigSettingComponent  {
 
   loader = false;
   Object = Object;
-  company_id:any;
-  companyName:any;
+  company_id: any;
+  companyName: any;
 
   constructor(
     private http: DataService,
@@ -32,17 +32,17 @@ export class ConfigSettingComponent  {
     private translate: TranslateService,
     private activeRoute: ActivatedRoute,
     private ref: ChangeDetectorRef,
-    private user : UserService
+    private user: UserService
   ) {
     this.loader = true;
     this.activeRoute.queryParams.subscribe((params) => {
       this.setActiveTab = params["page"];
     });
     this.activeRoute.paramMap.subscribe(params => {
-        this.company_id = params.get('id');
-      });
-      // localStorage.setItem('company_Id', this.company_id);
-      this.company_id = localStorage.getItem('company_Id');
+      this.company_id = params.get('id');
+    });
+    // localStorage.setItem('company_Id', this.company_id);
+    this.company_id = localStorage.getItem('company_Id');
   }
 
   translateText(key: string): string {
@@ -55,13 +55,12 @@ export class ConfigSettingComponent  {
 
   ngOnInit() {
     this.http.query({__company_id__equal: this.company_id}, "auth/company_config", "auth").then((data) => {
-      console.log(data);
-      this.companyId = data?.data.find((el:any) => el.company_id).company_id;
+      this.companyId = data?.data.find((el: any) => el.company_id).company_id;
       // this.user.getCompanyConfig();
     });
     this.companyName = localStorage.getItem('companyName');
   }
-  
+
   validateInput(event: any) {
     if (event.target.value.length >= 1) {
       return false;
@@ -85,16 +84,12 @@ export class ConfigSettingComponent  {
     this.ref.detectChanges();
   }
 
-  loadingStatus(event:any) {
+  loadingStatus(event: any) {
     this.loading = event;
   }
-  
-  onChangeOfTabset(event:any) {
-    console.log(event);
-    console.log(this.setActiveTab);
-    
+
+  onChangeOfTabset(event: any) {
     this.setActiveTab = event.tabTitle;
-    console.log(this.setActiveTab);
   }
 
   // loading: boolean = false;
@@ -219,7 +214,7 @@ export class ConfigSettingComponent  {
   //   } catch (e) {
   //     console.error(e);
   //   }
-  // }
+  // }console.log(Object.keys(this.configRef).length, this.configRef);
 
   // setVerificationDocs() {
   //   this.selectedVerificationDocsRef = [];

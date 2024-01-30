@@ -1,120 +1,133 @@
-<div class="flex">
-    <button (click)="addPartner()" pButton pRipple>Add New Partner</button>
+<div class="row">
+  <div class="col-md-6"><h2 class="pageheader">Add Partner</h2></div>
+  <div class="col-md-6 d-flex justify-content-end">
+    <button (click)="addPartner()" nbButton pButton>Add New Partner</button>
+  </div>
 </div>
 
-<div class="content-section implementation p-fluid">
-    <div class="card p-p-3">
-        <p-table #dt2 [paginator]="true" [rowsPerPageOptions]="[10,25,50]" [rows]="10"
-            [globalFilterFields]="['name', 'web_hook_url', 'outlet_web_hook_url', 'other_web_hook_url', 'description']"
-            [value]="partners" dataKey="id" styleClass="p-datatable-striped p-datatable-gridlines p-datatable-sm">
+<div class="content-section implementation p-fluid mt-10">
+  <div class="card p-p-3">
+    <p-table #dt2 [paginator]="true" [rowsPerPageOptions]="[10,25,50]" [rows]="10"
+             [globalFilterFields]="['name', 'web_hook_url', 'outlet_web_hook_url', 'other_web_hook_url', 'description']"
+             [value]="partners" dataKey="id" styleClass="p-datatable-striped p-datatable-gridlines p-datatable-sm">
 
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>Icon</th>
-                    <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-                    <th>Description</th>
-                    <!-- <th>Action</th> -->
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Icon</th>
+          <th pSortableColumn="name">Name
+            <p-sortIcon field="name"></p-sortIcon>
+          </th>
+          <th>Description</th>
+          <!-- <th>Action</th> -->
 
-                </tr>
-                <tr>
-                    <th></th>
-                    <th>
-                        <p-columnFilter field="name" type="text"></p-columnFilter>
-                    </th>
-                    <th>
-                        <p-columnFilter field="description" type="text"></p-columnFilter>
-                    </th>
-                    <!-- <th></th> -->
-                </tr>
-            </ng-template>
-            <ng-template let-expanded="expanded" let-i=index let-partner pTemplate="body">
-                <tr [pEditableRow]="partner">
-                    <td>
-                        <div [title]="partner.icon ? 'click to open' : ''">
-                            <img *ngIf="partner.icon" height="50" width="50" [src]="partner.icon" alt=""
-                                style="cursor:pointer" (error)="handleImageError($event)">
-                        </div>
-                        {{partner.icon ? '' : 'N/A'}}
-                    </td>
-                    <td>
-                        {{partner.name}}
-                    </td>
-                    <td>
-                        {{partner.description}}
-                    </td>
-                    <!-- <td class="d-flex justify-content-between flex-nowrap">
-                        <button pButton pRipple type="button" pSaveEditableRow icon="pi pi-plus"
-                            (click)="addNewIntegration(partner.id)" [pTooltip]="'Add new integration'"
-                            class=" p-button-success mr-2">
-                        </button>
-                    </td> -->
-                </tr>
-            </ng-template>
+        </tr>
+        <tr>
+          <th></th>
+          <th>
+            <p-columnFilter field="name" type="text"></p-columnFilter>
+          </th>
+          <th>
+            <p-columnFilter field="description" type="text"></p-columnFilter>
+          </th>
+          <!-- <th></th> -->
+        </tr>
+      </ng-template>
+      <ng-template let-expanded="expanded" let-i=index let-partner pTemplate="body">
+        <tr [pEditableRow]="partner">
+          <td>
+            <div [title]="partner.icon ? 'click to open' : ''">
+              <img *ngIf="partner.icon" height="50" width="50" [src]="partner.icon" alt=""
+                   style="cursor:pointer" (error)="handleImageError($event)">
+            </div>
+            {{ partner.icon ? '' : 'N/A' }}
+          </td>
+          <td>
+            {{ partner.name }}
+          </td>
+          <td>
+            {{ partner.description }}
+          </td>
+          <!-- <td class="d-flex justify-content-between flex-nowrap">
+              <button pButton pRipple type="button" pSaveEditableRow icon="pi pi-plus"
+                  (click)="addNewIntegration(partner.id)" [pTooltip]="'Add new integration'"
+                  class=" p-button-success mr-2">
+              </button>
+          </td> -->
+        </tr>
+      </ng-template>
 
-            <ng-template let-product pTemplate="rowexpansion">
-                <tr>
-                    <td colspan=11>
-                        <div class="py-3">
-                            <p-timeline [value]="product.logs" layout="vertical">
-                                <ng-template pTemplate="content" let-event>
-                                    <small class="text-black-alpha-90">{{event.action}}
-                                        <span class="text-black-alpha-90">({{event.status}})</span></small>
-                                    <p class="mt-0 mb-0">{{event.comment}}</p>
-                                </ng-template>
-                                <ng-template pTemplate="opposite" let-event>
-                                    <small class="text-black-alpha-60">{{event.date}}</small><br>
-                                    <small class="text-black-alpha-60">{{event.agent}}</small>
-                                </ng-template>
-                            </p-timeline>
-                        </div>
-                    </td>
-                </tr>
+      <ng-template let-product pTemplate="rowexpansion">
+        <tr>
+          <td colspan=11>
+            <div class="py-3">
+              <p-timeline [value]="product.logs" layout="vertical">
+                <ng-template pTemplate="content" let-event>
+                  <small class="text-black-alpha-90">{{ event.action }}
+                    <span class="text-black-alpha-90">({{ event.status }})</span></small>
+                  <p class="mt-0 mb-0">{{ event.comment }}</p>
+                </ng-template>
+                <ng-template pTemplate="opposite" let-event>
+                  <small class="text-black-alpha-60">{{ event.date }}</small><br>
+                  <small class="text-black-alpha-60">{{ event.agent }}</small>
+                </ng-template>
+              </p-timeline>
+            </div>
+          </td>
+        </tr>
 
-            </ng-template>
+      </ng-template>
 
-            <ng-template pTemplate="summary">
-                <div class="p-d-flex p-ai-center p-jc-between">
-                    In total there are {{this.partners ? this.partners.length : 0 }} outlets.
-                </div>
-            </ng-template>
-            
-        </p-table>
-    </div>
+      <ng-template pTemplate="summary">
+        <div class="p-d-flex p-ai-center p-jc-between">
+          In total there are {{ this.partners ? this.partners.length : 0 }} outlets.
+        </div>
+      </ng-template>
+
+    </p-table>
+  </div>
 </div>
 
 <p-dialog header="Create Partner" [(visible)]="openPartnerModel" [style]="{width: '50vh'}" [baseZIndex]="10000">
-    <div style="display: flex; flex-direction: column; margin-bottom: 30%">
-        <form class="form" #partnerForm="ngForm">
-            <div class="p-fluid p-mb-3">
-                <input [(ngModel)]="newPartnerObject.name" pInputText placeholder="Name" required type="text"
-                    name="name">
-                <p *ngIf="partnerForm.form.invalid && partnerForm.form.touched" style="color:red">Name is Required</p>
-            </div><br>
-            <div class="p-fluid p-mb-3">
-                <input [(ngModel)]="newPartnerObject.description" pInputText placeholder="Description" required type="text"
-                    name="description">
-                    <p *ngIf="partnerForm.form.invalid && partnerForm.form.touched" style="color:red">Description is Required</p>
-            </div><br>
-            <div class="p-fluid p-mb-3">
-                <input [(ngModel)]="newPartnerObject.web_hook_url" pInputText placeholder="Web Hook Url" type="text"
-                    name="web_hook_url">
-            </div><br>
-            <div class="p-fluid p-mb-3">
-                <input [(ngModel)]="newPartnerObject.outlet_web_hook_url" pInputText placeholder="Outlet Web Hook Url"
-                    type="text" name="outlet_web_hook_url">
-            </div><br>
-            <div class="p-fluid p-mb-3">
-                <input [(ngModel)]="newPartnerObject.other_web_hook_url" pInputText placeholder="Web Hook Url 2"
-                    type="text" name="other_web_hook_url">
-            </div><br>
-            <div class="p-fluid p-mb-3">
-                <app-fileupload (change)="fileSelected = true" (getUrl)="newPartnerObject.icon = $event; onchangeofInput($event,'icon')" [url]="newPartnerObject.icon"></app-fileupload>
-            </div>
-        </form>
+  <div style="display: flex; flex-direction: column; margin-bottom: 30%">
+    <form class="form" #partnerForm="ngForm">
+      <div class="p-fluid p-mb-3">
+        <input [(ngModel)]="newPartnerObject.name" pInputText placeholder="Name" required type="text"
+               name="name">
+        <p *ngIf="partnerForm.form.invalid && partnerForm.form.touched" style="color:red">Name is Required</p>
+      </div>
+      <br>
+      <div class="p-fluid p-mb-3">
+        <input [(ngModel)]="newPartnerObject.description" pInputText placeholder="Description" required type="text"
+               name="description">
+        <p *ngIf="partnerForm.form.invalid && partnerForm.form.touched" style="color:red">Description is Required</p>
+      </div>
+      <br>
+      <div class="p-fluid p-mb-3">
+        <input [(ngModel)]="newPartnerObject.web_hook_url" pInputText placeholder="Web Hook Url" type="text"
+               name="web_hook_url">
+      </div>
+      <br>
+      <div class="p-fluid p-mb-3">
+        <input [(ngModel)]="newPartnerObject.outlet_web_hook_url" pInputText placeholder="Outlet Web Hook Url"
+               type="text" name="outlet_web_hook_url">
+      </div>
+      <br>
+      <div class="p-fluid p-mb-3">
+        <input [(ngModel)]="newPartnerObject.other_web_hook_url" pInputText placeholder="Web Hook Url 2"
+               type="text" name="other_web_hook_url">
+      </div>
+      <br>
+      <div class="p-fluid p-mb-3">
+        <app-fileupload (change)="fileSelected = true"
+                        (getUrl)="newPartnerObject.icon = $event; onchangeofInput($event,'icon')"
+                        [url]="newPartnerObject.icon"></app-fileupload>
+      </div>
+    </form>
 
-    </div>
-    <ng-template pTemplate="footer">
-        <button (click)="openPartnerModel = false; createPartner()" 
-            style="width: 95px;" pButton pRipple [disabled]="partnerForm.form.invalid || !fileSelected">Submit</button>
-    </ng-template>
+  </div>
+  <ng-template pTemplate="footer">
+    <button (click)="openPartnerModel = false; createPartner()"
+            style="width: 95px;" pButton pRipple [disabled]="partnerForm.form.invalid || !fileSelected">Submit
+    </button>
+  </ng-template>
 </p-dialog>

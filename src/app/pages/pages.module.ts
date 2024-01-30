@@ -12,7 +12,7 @@ import {
   NbSelectModule,
   NbCardModule,
   NbSpinnerModule,
-  NbIconModule, NbButtonModule, NbRadioModule, NbToggleModule, NbAccordionModule, NbInputModule
+  NbIconModule, NbButtonModule, NbRadioModule, NbToggleModule, NbAccordionModule, NbInputModule, NbCheckboxModule
 } from "@nebular/theme";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ToastModule } from "primeng/toast";
@@ -58,6 +58,7 @@ import { ConfigurationHeaderComponent } from './client-list/configuration-header
 import { UploadFormatComponent } from './client-list/order/upload-format/upload-format.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DataTableComponent } from '../@theme/components/data-table/data-table.component';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 
 @NgModule({
@@ -116,7 +117,9 @@ import { DataTableComponent } from '../@theme/components/data-table/data-table.c
     MbscInputModule,
     MbscEventcalendarModule,
     MbscModule,
-    DragDropModule
+    DragDropModule,
+    NbCheckboxModule,
+    NgbModule
   ],
   providers: [ToastService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

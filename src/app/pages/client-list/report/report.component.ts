@@ -9,20 +9,20 @@ import { TranslateService } from '@ngx-translate/core';
 export class ReportComponent implements OnInit {
 
   columns =
-  [{
-    name: 'user',
-    displayName: this.translateText('User Name'),
-    displayFn: ((r:any) => r.user ? r.user.name : ''),
-  },
+    [{
+      name: 'user',
+      displayName: this.translateText('User Name'),
+      displayFn: ((r: any) => r.user ? r.user.name : ''),
+    },
     {
       name: 'merchant',
       displayName: this.translateText('Merchant Name'),
-      displayFn: ((r:any) => r.merchant ? r.merchant.name : ''),
+      displayFn: ((r: any) => r.merchant ? r.merchant.name : ''),
     },
     {
-    name: 'email_to',
-    displayName: this.translateText('Email'),
-  },
+      name: 'email_to',
+      displayName: this.translateText('Email'),
+    },
     {
       name: 'email_subject',
       displayName: this.translateText('Email Subject'),
@@ -41,14 +41,14 @@ export class ReportComponent implements OnInit {
     },
     ];
 
-constructor(private translate: TranslateService) { }
-translateText(key: string): string {
-let translation: string = '';
-this.translate.get(key).subscribe((res: string) => {
-  translation = res;
-});
-return translation;
-}
-ngOnInit(): void {
-}
+  constructor(private translate: TranslateService) { }
+  translateText(key: string): string {
+    let translation: string = '';
+    this.translate.get(key).subscribe((res: string) => {
+      translation = res;
+    });
+    return translation;
+  }
+  ngOnInit(): void {
+  }
 }

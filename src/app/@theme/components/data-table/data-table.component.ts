@@ -511,9 +511,6 @@ export class DataTableComponent implements OnInit {
   }
 
   disable(row: any, column: string, dialogBox:any) {
-    console.log(row);
-    console.log(column);
-    console.log(dialogBox);
     this.nbDialogService
       .open(dialogBox, {
         context: {

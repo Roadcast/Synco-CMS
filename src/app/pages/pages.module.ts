@@ -25,7 +25,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ToastService } from './toast.service';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { YardConfigEditComponent } from './client-list/yard-config/yard-config-edit/yard-config-edit.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FileuploadComponent } from './client-list/fileupload/fileupload.component';
 import { PartnerComponent } from './integration/partner/partner.component';
 import { DialogModule } from 'primeng/dialog';
@@ -59,6 +59,7 @@ import { UploadFormatComponent } from './client-list/order/upload-format/upload-
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DataTableComponent } from '../@theme/components/data-table/data-table.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import { ReportEditComponent } from './client-list/report/report-edit/report-edit.component';
 
 
 @NgModule({
@@ -84,6 +85,7 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
     ReportComponent,
     UploadFormatComponent,
     DataTableComponent,
+    ReportEditComponent,
   ],
   imports: [
     CommonModule,
@@ -120,6 +122,7 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
     DragDropModule,
     NbCheckboxModule,
     NgbModule
+    ReactiveFormsModule,
   ],
   providers: [ToastService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

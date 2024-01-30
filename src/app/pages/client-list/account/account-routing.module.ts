@@ -7,6 +7,7 @@ import { AttendanceComponent } from '../attendance/attendance.component';
 import { OrderComponent } from '../order/order.component';
 import { AttendanceLeavetypeEditComponent } from '../attendance/attendance-leavetype/attendance-leavetype-edit/attendance-leavetype-edit.component';
 import { ReportComponent } from '../report/report.component';
+import { ReportEditComponent } from '../report/report-edit/report-edit.component';
 
 const routes: Routes = [
   {
@@ -36,7 +37,11 @@ const routes: Routes = [
       {
         path: 'report',
         component: ReportComponent
-      }
+      },
+      {
+        path: 'report/:id',
+        component: ReportEditComponent,
+      },
      ],
   },
 ];

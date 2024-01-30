@@ -12,7 +12,7 @@ import {
   NbSelectModule,
   NbCardModule,
   NbSpinnerModule,
-  NbIconModule, NbButtonModule, NbRadioModule, NbToggleModule, NbAccordionModule, NbInputModule
+  NbIconModule, NbButtonModule, NbRadioModule, NbToggleModule, NbAccordionModule, NbInputModule, NbCheckboxModule
 } from "@nebular/theme";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ToastModule } from "primeng/toast";
@@ -25,7 +25,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ToastService } from './toast.service';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { YardConfigEditComponent } from './client-list/yard-config/yard-config-edit/yard-config-edit.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FileuploadComponent } from './client-list/fileupload/fileupload.component';
 import { PartnerComponent } from './integration/partner/partner.component';
 import { DialogModule } from 'primeng/dialog';
@@ -58,6 +58,7 @@ import { ConfigurationHeaderComponent } from './client-list/configuration-header
 import { UploadFormatComponent } from './client-list/order/upload-format/upload-format.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DataTableComponent } from '../@theme/components/data-table/data-table.component';
+import { ReportEditComponent } from './client-list/report/report-edit/report-edit.component';
 
 
 @NgModule({
@@ -83,6 +84,7 @@ import { DataTableComponent } from '../@theme/components/data-table/data-table.c
     ReportComponent,
     UploadFormatComponent,
     DataTableComponent,
+    ReportEditComponent,
   ],
   imports: [
     CommonModule,
@@ -116,7 +118,9 @@ import { DataTableComponent } from '../@theme/components/data-table/data-table.c
     MbscInputModule,
     MbscEventcalendarModule,
     MbscModule,
-    DragDropModule
+    DragDropModule,
+    ReactiveFormsModule,
+    NbCheckboxModule
   ],
   providers: [ToastService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

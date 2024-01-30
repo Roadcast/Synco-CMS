@@ -2,6 +2,13 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, Simp
 import { TranslateService } from '@ngx-translate/core';
 import { Subject, debounceTime, distinctUntilChanged, map, tap } from 'rxjs';
 import { DataService } from '../../data.service';
+interface MyObjectType {
+  name: string;
+  mobile_number: string;
+  registration_number?: string;
+  financial_year_start?: string;
+  [key: string]: string | undefined; // Index signature
+}
 
 @Component({
   selector: 'app-type-ahead',
@@ -9,7 +16,6 @@ import { DataService } from '../../data.service';
   styleUrls: ['./type-ahead.component.scss']
 })
 export class TypeAheadComponent implements OnInit {
-
   spinner: boolean = false;
   data$!: Promise<any[]>;
   dataInput$ = new Subject<string>();
@@ -25,16 +31,15 @@ export class TypeAheadComponent implements OnInit {
   @Input() required = true;
   @Input() basePath: any = "auth";
   @Input() placeholder: string = "Search Here";
-  @Input() url: string = '';
+  @Input() url!: string;
   @Input() text: string = "name";
   @Input() dataValue: any;
-  @Input() value: string = '';
-  @Input() searchField: string = '';
+  @Input() value!: string;
+  @Input() searchField!: string;
   @Input() notifySearchFail: boolean = false;
   @Input() displayNames: string[] = [];
   @Input() selectedItems = [];
-  @Input()
-  autoRouteFc!: ((id: any) => void);
+  @Input() autoRouteFc!: (id: any) => void;
   @Input() autoType = false;
   @Input() failedEmit: boolean = false;
   @Output() searchTerm: EventEmitter<string> = new EventEmitter();
@@ -45,7 +50,7 @@ export class TypeAheadComponent implements OnInit {
   @Output() onRemove: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild("selectContent") selectContent: any;
   constructor(private translate: TranslateService
-    , private http: DataService, private cd: ChangeDetectorRef) { }
+,    private http: DataService, private cd: ChangeDetectorRef) {}
 
   ngOnInit() {
     // const riderFilter = document.querySelector('.ng-select .ng-select-container');
@@ -57,12 +62,12 @@ export class TypeAheadComponent implements OnInit {
     // }
   }
   translateText(key: string): string {
-    let translation: string = '';
-    this.translate.get(key).subscribe((res: string) => {
-      translation = res;
-    });
-    return translation;
-  }
+        let translation: string = '';
+        this.translate.get(key).subscribe((res: string) => {
+            translation = res;
+        });
+        return translation;
+    }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.['failedEmit']) {
       if (changes?.['failedEmit'].currentValue === true) {
@@ -72,11 +77,11 @@ export class TypeAheadComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.cd.detectChanges();
+    this.cd.detectChanges(); 
   }
 
-  async searchApi(event: any): Promise<any[]> {
-    const query: any = {};
+  async searchApi(event:any): Promise<any[]> {
+    const query:any = {};
     query["__limit"] = 80;
     if (this.searchField) {
       query[this.searchField] = event;
@@ -113,7 +118,7 @@ export class TypeAheadComponent implements OnInit {
     }
   }
 
-  emitSelected(event: any) {
+  emitSelected(event:any) {
     console.log(event);
     this.failedEmit = false;
     if (typeof event === typeof "str" || !event) {
@@ -146,18 +151,13 @@ export class TypeAheadComponent implements OnInit {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  resultFormatter(x: {
-    name: string;
-    mobile_number: string;
-    registration_number?: string;
-    financial_year_start?: string;
-  }) {
+  resultFormatter(x: MyObjectType) {
     try {
       if (this.displayNames && this.displayNames.length) {
         if (this.basePath === "attendance") {
-          return this.displayNames.map((d) => (x as any)[d]).join("- ");
+          return this.displayNames.map((d) => (x[d] as any)).join("- ");
         } else {
-          return this.displayNames.map((d) => (x as any)[d]).join(", ");
+          return this.displayNames.map((d) => (x[d] as any)).join(", ");
         }
       }
       if (x.mobile_number) {
@@ -170,14 +170,15 @@ export class TypeAheadComponent implements OnInit {
         return x.financial_year_start;
       }
       return x.name ? x.name : x.registration_number;
-    } catch (error) { }
-    return;
+    } catch (error) {
+      return;
+    }
   }
 
   async loadPeople() {
     try {
       this.data$ = this.searchApi(undefined);
-    } catch (e) { }
+    } catch (e) {}
     this.dataInput$
       .pipe(
         distinctUntilChanged(),
@@ -204,12 +205,12 @@ export class TypeAheadComponent implements OnInit {
       );
   }
 
-  inputInit(event: any) {
+  inputInit(event:any) {
     // init api call for blank input
     if (event.term === "") {
       try {
         this.data$ = this.searchApi(undefined);
-      } catch (e) { }
+      } catch (e) {}
     }
   }
 }
